@@ -1,0 +1,189 @@
+tactic,surface,technique_count,avg_final_score,max_final_score,critical_count,medium_high_count,top_attack_vectors
+Impact,Public Internet / Edge,14,10,10,14,0,T1496.001 Compute Hijacking; T1499 Endpoint Denial of Service; T1491.002 External Defacement; T1499.004 Application or System Exploitation; T1499.003 Application Exhaustion Flood
+Impact,ESXi / Hypervisor,8,10,10,8,0,T1486 Data Encrypted for Impact; T1490 Inhibit System Recovery; T1489 Service Stop; T1485 Data Destruction; T1529 System Shutdown/Reboot
+Impact,SaaS / Office / Email,6,10,10,6,0,T1657 Financial Theft; T1496 Resource Hijacking; T1531 Account Access Removal; T1667 Email Bombing; T1496.004 Cloud Service Hijacking
+Impact,Containers / Kubernetes,5,10,10,5,0,T1485 Data Destruction; T1496.001 Compute Hijacking; T1496 Resource Hijacking; T1498 Network Denial of Service; T1496.002 Bandwidth Hijacking
+Collection,ESXi / Hypervisor,4,10,10,4,0,T1074.001 Local Data Staging; T1005 Data from Local System; T1074.002 Remote Data Staging; T1074 Data Staged
+Credential Access,Containers / Kubernetes,4,10,10,4,0,T1552.001 Credentials In Files; T1528 Steal Application Access Token; T1552 Unsecured Credentials; T1552.007 Container API
+Lateral Movement,ESXi / Hypervisor,4,10,10,4,0,T1210 Exploitation of Remote Services; T1021.004 SSH; T1570 Lateral Tool Transfer; T1021 Remote Services
+Exfiltration,SaaS / Office / Email,3,10,10,3,0,T1567 Exfiltration Over Web Service; T1537 Transfer Data to Cloud Account; T1567.004 Exfiltration Over Webhook
+Command and Control,SaaS / Office / Email,1,10,10,1,0,T1105 Ingress Tool Transfer
+Exfiltration,Identity / IAM,1,10,10,1,0,T1537 Transfer Data to Cloud Account
+Defense Impairment,Containers / Kubernetes,1,10,10,1,0,T1685 Disable or Modify Tools
+Initial Access,Containers / Kubernetes,1,10,10,1,0,T1133 External Remote Services
+Command and Control,ESXi / Hypervisor,34,9.88,10,34,0,T1105 Ingress Tool Transfer; T1573.001 Symmetric Cryptography; T1132.001 Standard Encoding; T1573.002 Asymmetric Cryptography; T1090 Proxy
+Impact,Endpoint / User,14,9.88,10,14,0,T1486 Data Encrypted for Impact; T1561.002 Disk Structure Wipe; T1561.001 Disk Content Wipe; T1491.001 Internal Defacement; T1561 Disk Wipe
+Defense Impairment,ESXi / Hypervisor,4,9.85,10,4,0,T1685 Disable or Modify Tools; T1686 Disable or Modify System Firewall; T1222 File and Directory Permissions Modification; T1690 Prevent Command History Logging
+Collection,Endpoint / User,16,9.84,10,16,0,T1074.001 Local Data Staging; T1560.001 Archive via Utility; T1560 Archive Collected Data; T1005 Data from Local System; T1113 Screen Capture
+Persistence,ESXi / Hypervisor,15,9.79,10,15,0,T1136.001 Local Account; T1078.002 Domain Accounts; T1078 Valid Accounts; T1554 Compromise Host Software Binary; T1098 Account Manipulation
+Defense Impairment,SaaS / Office / Email,9,9.79,10,9,0,T1556 Modify Authentication Process; T1556.006 Multi-Factor Authentication; T1484.002 Trust Modification; T1556.007 Hybrid Identity; T1687 Exploitation for Defense Impairment
+Exfiltration,ESXi / Hypervisor,11,9.77,10,11,0,T1048.003 Exfiltration Over Unencrypted Non-C2 Protocol; T1041 Exfiltration Over C2 Channel; T1567.002 Exfiltration to Cloud Storage; T1567 Exfiltration Over Web Service; T1048 Exfiltration Over Alternative Protocol
+Privilege Escalation,ESXi / Hypervisor,11,9.77,10,11,0,T1078.002 Domain Accounts; T1078 Valid Accounts; T1098 Account Manipulation; T1037.004 RC Scripts; T1037 Boot or Logon Initialization Scripts
+Exfiltration,Server / Workload,13,9.74,10,13,0,T1048.003 Exfiltration Over Unencrypted Non-C2 Protocol; T1041 Exfiltration Over C2 Channel; T1567.002 Exfiltration to Cloud Storage; T1048.002 Exfiltration Over Asymmetric Encrypted Non-C2 Protocol; T1567.001 Exfiltration to Code Repository
+Lateral Movement,Cloud Control Plane,10,9.69,10,10,0,T1072 Software Deployment Tools; T1534 Internal Spearphishing; T1021 Remote Services; T1021.003 Distributed Component Object Model; T1550 Use Alternate Authentication Material
+Lateral Movement,Containers / Kubernetes,2,9.69,10,2,0,T1550 Use Alternate Authentication Material; T1550.001 Application Access Token
+Command and Control,Endpoint / User,31,9.68,10,31,0,T1573.001 Symmetric Cryptography; T1132.001 Standard Encoding; T1573.002 Asymmetric Cryptography; T1071.001 Web Protocols; T1571 Non-Standard Port
+Credential Access,Endpoint / User,31,9.66,10,31,0,T1003.001 LSASS Memory; T1056.002 GUI Input Capture; T1056.004 Credential API Hooking; T1557.001 Name Resolution Poisoning and SMB Relay; T1555.003 Credentials from Web Browsers
+Lateral Movement,Endpoint / User,13,9.66,10,12,1,T1210 Exploitation of Remote Services; T1021.004 SSH; T1021.002 SMB/Windows Admin Shares; T1021.001 Remote Desktop Protocol; T1570 Lateral Tool Transfer
+Exfiltration,Endpoint / User,9,9.63,10,9,0,T1041 Exfiltration Over C2 Channel; T1567.001 Exfiltration to Code Repository; T1011.001 Exfiltration Over Bluetooth; T1567.003 Exfiltration to Text Storage Sites; T1052 Exfiltration Over Physical Medium
+Lateral Movement,SaaS / Office / Email,6,9.59,10,6,0,T1534 Internal Spearphishing; T1550 Use Alternate Authentication Material; T1080 Taint Shared Content; T1550.001 Application Access Token; T1021.007 Cloud Services
+Initial Access,ESXi / Hypervisor,5,9.55,10,5,0,T1078.002 Domain Accounts; T1078 Valid Accounts; T1078.003 Local Accounts; T1078.001 Default Accounts; T1190 Exploit Public-Facing Application
+Privilege Escalation,Public Internet / Edge,9,9.52,10,9,0,T1078.002 Domain Accounts; T1078 Valid Accounts; T1078.003 Local Accounts; T1078.004 Cloud Accounts; T1078.001 Default Accounts
+Credential Access,Server / Workload,53,9.51,10,51,2,T1056.001 Keylogging; T1056 Input Capture; T1003.001 LSASS Memory; T1552.001 Credentials In Files; T1539 Steal Web Session Cookie
+Credential Access,Public Internet / Edge,21,9.49,10,20,1,T1056.001 Keylogging; T1056 Input Capture; T1539 Steal Web Session Cookie; T1557.001 Name Resolution Poisoning and SMB Relay; T1056.003 Web Portal Capture
+Impact,Cloud Control Plane,23,9.46,10,22,0,T1486 Data Encrypted for Impact; T1490 Inhibit System Recovery; T1489 Service Stop; T1485 Data Destruction; T1657 Financial Theft
+Persistence,Cloud Control Plane,25,9.38,10,23,2,T1133 External Remote Services; T1136.001 Local Account; T1078 Valid Accounts; T1543 Create or Modify System Process; T1098 Account Manipulation
+Privilege Escalation,Containers / Kubernetes,8,9.38,10,7,1,T1068 Exploitation for Privilege Escalation; T1543 Create or Modify System Process; T1098 Account Manipulation; T1611 Escape to Host; T1053 Scheduled Task/Job
+Persistence,Containers / Kubernetes,8,9.3,10,7,1,T1133 External Remote Services; T1543 Create or Modify System Process; T1098 Account Manipulation; T1053 Scheduled Task/Job; T1543.005 Container Service
+Privilege Escalation,SaaS / Office / Email,15,9.29,10,14,1,T1078 Valid Accounts; T1098 Account Manipulation; T1546 Event Triggered Execution; T1484.002 Trust Modification; T1548 Abuse Elevation Control Mechanism
+Collection,Cloud Control Plane,14,9.29,10,13,0,T1074.001 Local Data Staging; T1119 Automated Collection; T1074.002 Remote Data Staging; T1074 Data Staged; T1213.006 Databases
+Command and Control,Identity / IAM,7,9.28,10,7,0,T1071.004 DNS; T1132 Data Encoding; T1205.002 Socket Filters; T1659 Content Injection; T1205 Traffic Signaling
+Command and Control,Public Internet / Edge,29,9.26,10,28,0,T1105 Ingress Tool Transfer; T1573.001 Symmetric Cryptography; T1573.002 Asymmetric Cryptography; T1090 Proxy; T1071.001 Web Protocols
+Collection,Server / Workload,32,9.24,10,30,0,T1056.001 Keylogging; T1074.001 Local Data Staging; T1560.001 Archive via Utility; T1119 Automated Collection; T1560 Archive Collected Data
+Command and Control,Server / Workload,47,9.17,10,44,1,T1105 Ingress Tool Transfer; T1573.001 Symmetric Cryptography; T1132.001 Standard Encoding; T1573.002 Asymmetric Cryptography; T1090 Proxy
+Impact,Network / Perimeter,23,9.06,10,21,0,T1490 Inhibit System Recovery; T1529 System Shutdown/Reboot; T1561.002 Disk Structure Wipe; T1561.001 Disk Content Wipe; T1496.001 Compute Hijacking
+Stealth,ESXi / Hypervisor,25,9.03,10,22,3,T1036.005 Match Legitimate Resource Name or Location; T1027 Obfuscated Files or Information; T1036 Masquerading; T1480 Execution Guardrails; T1078.002 Domain Accounts
+Collection,Public Internet / Edge,20,9.0,10,18,1,T1056.001 Keylogging; T1114.002 Remote Email Collection; T1185 Browser Session Hijacking; T1056 Input Capture; T1213.002 Sharepoint
+Stealth,Containers / Kubernetes,5,9.0,10,4,1,T1036.005 Match Legitimate Resource Name or Location; T1036 Masquerading; T1070 Indicator Removal; T1612 Build Image on Host; T1036.010 Masquerade Account Name
+Impact,Server / Workload,34,8.99,10,31,0,T1486 Data Encrypted for Impact; T1490 Inhibit System Recovery; T1489 Service Stop; T1485 Data Destruction; T1657 Financial Theft
+Privilege Escalation,Cloud Control Plane,24,8.99,10,20,3,T1068 Exploitation for Privilege Escalation; T1078 Valid Accounts; T1543 Create or Modify System Process; T1098 Account Manipulation; T1611 Escape to Host
+Lateral Movement,Data / Storage,5,8.88,10,4,1,T1570 Lateral Tool Transfer; T1080 Taint Shared Content; T1021.005 VNC; T1550.004 Web Session Cookie; T1091 Replication Through Removable Media
+Persistence,SaaS / Office / Email,29,8.79,10,27,1,T1078 Valid Accounts; T1554 Compromise Host Software Binary; T1176.001 Browser Extensions; T1098 Account Manipulation; T1556 Modify Authentication Process
+Credential Access,Cloud Control Plane,29,8.75,10,23,5,T1552.001 Credentials In Files; T1539 Steal Web Session Cookie; T1040 Network Sniffing; T1555 Credentials from Password Stores; T1003.003 NTDS
+Lateral Movement,Server / Workload,20,8.66,10,17,1,T1210 Exploitation of Remote Services; T1021.004 SSH; T1021.002 SMB/Windows Admin Shares; T1021.001 Remote Desktop Protocol; T1570 Lateral Tool Transfer
+Credential Access,Network / Perimeter,25,8.64,10,19,6,T1056.001 Keylogging; T1056 Input Capture; T1040 Network Sniffing; T1557.001 Name Resolution Poisoning and SMB Relay; T1056.003 Web Portal Capture
+Persistence,Public Internet / Edge,30,8.62,10,27,2,T1505.003 Web Shell; T1133 External Remote Services; T1078.002 Domain Accounts; T1078 Valid Accounts; T1176.001 Browser Extensions
+Stealth,Cloud Control Plane,17,8.6,10,14,1,T1036.005 Match Legitimate Resource Name or Location; T1036 Masquerading; T1078 Valid Accounts; T1070 Indicator Removal; T1070.009 Clear Persistence
+Defense Impairment,Identity / IAM,29,8.54,10,22,6,T1112 Modify Registry; T1484.001 Group Policy Modification; T1222.001 Windows Permissions; T1556 Modify Authentication Process; T1556.006 Multi-Factor Authentication
+Stealth,SaaS / Office / Email,13,8.51,10,10,2,T1078 Valid Accounts; T1070 Indicator Removal; T1564 Hide Artifacts; T1564.008 Email Hiding Rules; T1684 Social Engineering
+Exfiltration,Public Internet / Edge,9,8.43,10,8,0,T1048.003 Exfiltration Over Unencrypted Non-C2 Protocol; T1567.002 Exfiltration to Cloud Storage; T1567 Exfiltration Over Web Service; T1048 Exfiltration Over Alternative Protocol; T1011.001 Exfiltration Over Bluetooth
+Stealth,Public Internet / Edge,33,8.39,10,26,6,T1027 Obfuscated Files or Information; T1078.002 Domain Accounts; T1078 Valid Accounts; T1564 Hide Artifacts; T1218.001 Compiled HTML File
+Impact,Identity / IAM,12,8.33,10,10,0,T1489 Service Stop; T1657 Financial Theft; T1561.002 Disk Structure Wipe; T1561.001 Disk Content Wipe; T1491.001 Internal Defacement
+Persistence,Server / Workload,110,8.27,10,81,26,T1053.005 Scheduled Task; T1505.003 Web Shell; T1136.001 Local Account; T1078.002 Domain Accounts; T1547.001 Registry Run Keys / Startup Folder
+Credential Access,SaaS / Office / Email,36,8.26,10,28,5,T1003.001 LSASS Memory; T1539 Steal Web Session Cookie; T1040 Network Sniffing; T1056.002 GUI Input Capture; T1555.003 Credentials from Web Browsers
+Stealth,Data / Storage,72,8.25,10,53,17,T1027 Obfuscated Files or Information; T1574.001 DLL; T1036 Masquerading; T1480 Execution Guardrails; T1140 Deobfuscate/Decode Files or Information
+Persistence,Network / Perimeter,33,8.21,10,24,8,T1505.003 Web Shell; T1133 External Remote Services; T1136.001 Local Account; T1078.002 Domain Accounts; T1176.001 Browser Extensions
+Defense Impairment,Endpoint / User,30,8.21,10,21,8,T1112 Modify Registry; T1686 Disable or Modify System Firewall; T1484.001 Group Policy Modification; T1222.001 Windows Permissions; T1484.002 Trust Modification
+Collection,Network / Perimeter,25,8.2,10,20,2,T1056.001 Keylogging; T1005 Data from Local System; T1125 Video Capture; T1114.002 Remote Email Collection; T1185 Browser Session Hijacking
+Defense Impairment,Cloud Control Plane,18,8.19,10,11,7,T1685 Disable or Modify Tools; T1556 Modify Authentication Process; T1556.006 Multi-Factor Authentication; T1484.002 Trust Modification; T1556.007 Hybrid Identity
+Privilege Escalation,Data / Storage,29,8.15,10,18,11,T1053.005 Scheduled Task; T1547.001 Registry Run Keys / Startup Folder; T1484.001 Group Policy Modification; T1037.004 RC Scripts; T1611 Escape to Host
+Persistence,Endpoint / User,84,8.06,10,60,21,T1053.005 Scheduled Task; T1505.003 Web Shell; T1547.001 Registry Run Keys / Startup Folder; T1112 Modify Registry; T1136.002 Domain Account
+Privilege Escalation,Server / Workload,94,8.0,10,58,32,T1053.005 Scheduled Task; T1548.002 Bypass User Account Control; T1068 Exploitation for Privilege Escalation; T1078.002 Domain Accounts; T1547.001 Registry Run Keys / Startup Folder
+Exfiltration,Network / Perimeter,19,7.98,10,16,0,T1048.003 Exfiltration Over Unencrypted Non-C2 Protocol; T1041 Exfiltration Over C2 Channel; T1567.002 Exfiltration to Cloud Storage; T1048 Exfiltration Over Alternative Protocol; T1048.002 Exfiltration Over Asymmetric Encrypted Non-C2 Protocol
+Stealth,Identity / IAM,65,7.97,10,45,17,T1480 Execution Guardrails; T1078.002 Domain Accounts; T1140 Deobfuscate/Decode Files or Information; T1078 Valid Accounts; T1027.015 Compression
+Stealth,Network / Perimeter,61,7.97,10,44,16,T1027 Obfuscated Files or Information; T1480 Execution Guardrails; T1078.002 Domain Accounts; T1070 Indicator Removal; T1027.003 Steganography
+Execution,Containers / Kubernetes,7,7.95,10,6,1,T1053 Scheduled Task/Job; T1053.007 Container Orchestration Job; T1610 Deploy Container; T1204 User Execution; T1204.003 Malicious Image
+Privilege Escalation,Endpoint / User,78,7.94,10,46,29,T1053.005 Scheduled Task; T1548.002 Bypass User Account Control; T1068 Exploitation for Privilege Escalation; T1547.001 Registry Run Keys / Startup Folder; T1134 Access Token Manipulation
+Defense Impairment,Server / Workload,51,7.94,10,31,18,T1685 Disable or Modify Tools; T1112 Modify Registry; T1686 Disable or Modify System Firewall; T1484.001 Group Policy Modification; T1222.001 Windows Permissions
+Exfiltration,Cloud Control Plane,6,7.92,10,5,0,T1567 Exfiltration Over Web Service; T1048 Exfiltration Over Alternative Protocol; T1537 Transfer Data to Cloud Account; T1567.004 Exfiltration Over Webhook; T1020.001 Traffic Duplication
+Exfiltration,Data / Storage,23,7.9,10,19,0,T1048.003 Exfiltration Over Unencrypted Non-C2 Protocol; T1041 Exfiltration Over C2 Channel; T1567.002 Exfiltration to Cloud Storage; T1567 Exfiltration Over Web Service; T1048 Exfiltration Over Alternative Protocol
+Credential Access,Identity / IAM,79,7.82,10,60,7,T1056.001 Keylogging; T1056 Input Capture; T1003.001 LSASS Memory; T1552.001 Credentials In Files; T1539 Steal Web Session Cookie
+Persistence,Data / Storage,37,7.82,10,24,12,T1053.005 Scheduled Task; T1547.001 Registry Run Keys / Startup Folder; T1554 Compromise Host Software Binary; T1037.004 RC Scripts; T1546.011 Application Shimming
+Privilege Escalation,Network / Perimeter,14,7.81,10,7,6,T1078.002 Domain Accounts; T1037.004 RC Scripts; T1037 Boot or Logon Initialization Scripts; T1547 Boot or Logon Autostart Execution; T1546 Event Triggered Execution
+Defense Impairment,Data / Storage,26,7.69,10,13,13,T1484.001 Group Policy Modification; T1222.001 Windows Permissions; T1222 File and Directory Permissions Modification; T1578 Modify Cloud Compute Infrastructure; T1556.008 Network Provider DLL
+Defense Impairment,Public Internet / Edge,13,7.69,10,8,3,T1556 Modify Authentication Process; T1556.006 Multi-Factor Authentication; T1556.007 Hybrid Identity; T1687 Exploitation for Defense Impairment; T1553.001 Gatekeeper Bypass
+Discovery,ESXi / Hypervisor,20,7.68,9.38,16,4,T1497.003 Time Based Checks; T1622 Debugger Evasion; T1082 System Information Discovery; T1124 System Time Discovery; T1018 Remote System Discovery
+Collection,SaaS / Office / Email,22,7.58,10,17,0,T1119 Automated Collection; T1114.002 Remote Email Collection; T1185 Browser Session Hijacking; T1213.006 Databases; T1213 Data from Information Repositories
+Stealth,Server / Workload,140,7.57,10,87,40,T1036.005 Match Legitimate Resource Name or Location; T1027 Obfuscated Files or Information; T1574.001 DLL; T1036 Masquerading; T1480 Execution Guardrails
+Privilege Escalation,Identity / IAM,102,7.56,10,60,32,T1053.005 Scheduled Task; T1548.002 Bypass User Account Control; T1068 Exploitation for Privilege Escalation; T1078.002 Domain Accounts; T1547.001 Registry Run Keys / Startup Folder
+Defense Impairment,Network / Perimeter,20,7.5,10,10,8,T1685 Disable or Modify Tools; T1686 Disable or Modify System Firewall; T1556 Modify Authentication Process; T1687 Exploitation for Defense Impairment; T1556.008 Network Provider DLL
+Credential Access,Data / Storage,42,7.48,10,31,3,T1056.001 Keylogging; T1056 Input Capture; T1003.001 LSASS Memory; T1552.001 Credentials In Files; T1056.002 GUI Input Capture
+Stealth,Endpoint / User,127,7.46,10,77,37,T1036.005 Match Legitimate Resource Name or Location; T1574.001 DLL; T1140 Deobfuscate/Decode Files or Information; T1070.004 File Deletion; T1070.006 Timestomp
+Discovery,Public Internet / Edge,11,7.43,9.0,8,3,T1018 Remote System Discovery; T1518 Software Discovery; T1049 System Network Connections Discovery; T1046 Network Service Discovery; T1614 System Location Discovery
+Lateral Movement,Public Internet / Edge,14,7.41,10,10,1,T1210 Exploitation of Remote Services; T1072 Software Deployment Tools; T1534 Internal Spearphishing; T1021 Remote Services; T1550 Use Alternate Authentication Material
+Lateral Movement,Identity / IAM,27,7.25,10,20,0,T1021.004 SSH; T1021.002 SMB/Windows Admin Shares; T1021.001 Remote Desktop Protocol; T1550.002 Pass the Hash; T1072 Software Deployment Tools
+Persistence,Identity / IAM,130,7.11,10,82,26,T1053.005 Scheduled Task; T1505.003 Web Shell; T1133 External Remote Services; T1136.001 Local Account; T1078.002 Domain Accounts
+Initial Access,Cloud Control Plane,14,7.05,10,10,1,T1133 External Remote Services; T1078 Valid Accounts; T1078.003 Local Accounts; T1078.004 Cloud Accounts; T1078.001 Default Accounts
+Execution,Cloud Control Plane,15,7.04,10,9,5,T1072 Software Deployment Tools; T1053 Scheduled Task/Job; T1053.007 Container Orchestration Job; T1610 Deploy Container; T1204 User Execution
+Command and Control,Network / Perimeter,63,6.84,10,44,1,T1105 Ingress Tool Transfer; T1573.001 Symmetric Cryptography; T1132.001 Standard Encoding; T1573.002 Asymmetric Cryptography; T1090 Proxy
+Command and Control,Data / Storage,10,6.83,10,7,0,T1573 Encrypted Channel; T1071.002 File Transfer Protocols; T1104 Multi-Stage Channels; T1001.002 Steganography; T1219.002 Remote Desktop Software
+Execution,Identity / IAM,26,6.76,10,11,12,T1053.005 Scheduled Task; T1072 Software Deployment Tools; T1053.002 At; T1053 Scheduled Task/Job; T1053.003 Cron
+Discovery,Cloud Control Plane,22,6.73,10,12,8,T1040 Network Sniffing; T1082 System Information Discovery; T1518 Software Discovery; T1057 Process Discovery; T1518.001 Security Software Discovery
+Execution,ESXi / Hypervisor,8,6.7,10,4,2,T1053 Scheduled Task/Job; T1053.003 Cron; T1059.004 Unix Shell; T1059.006 Python; T1059 Command and Scripting Interpreter
+Discovery,Containers / Kubernetes,3,6.67,7.5,1,2,T1046 Network Service Discovery; T1069 Permission Groups Discovery; T1613 Container and Resource Discovery
+Execution,Data / Storage,23,6.59,10,8,15,T1053.005 Scheduled Task; T1574.001 DLL; T1053.003 Cron; T1574.006 Dynamic Linker Hijacking; T1574.010 Services File Permissions Weakness
+Discovery,Endpoint / User,32,6.53,9.38,17,14,T1497.003 Time Based Checks; T1622 Debugger Evasion; T1082 System Information Discovery; T1124 System Time Discovery; T1518 Software Discovery
+Discovery,SaaS / Office / Email,10,6.5,10,5,4,T1040 Network Sniffing; T1087.003 Email Account; T1087 Account Discovery; T1201 Password Policy Discovery; T1538 Cloud Service Dashboard
+Execution,Network / Perimeter,27,6.47,10,11,15,T1072 Software Deployment Tools; T1574.006 Dynamic Linker Hijacking; T1053.007 Container Orchestration Job; T1059.004 Unix Shell; T1059.006 Python
+Lateral Movement,Network / Perimeter,24,6.46,10,15,1,T1210 Exploitation of Remote Services; T1021.004 SSH; T1021.002 SMB/Windows Admin Shares; T1021.001 Remote Desktop Protocol; T1570 Lateral Tool Transfer
+Discovery,Server / Workload,50,6.43,10,26,20,T1040 Network Sniffing; T1497.003 Time Based Checks; T1622 Debugger Evasion; T1082 System Information Discovery; T1124 System Time Discovery
+Command and Control,Cloud Control Plane,3,6.33,10,2,0,T1665 Hide Infrastructure; T1102 Web Service; T1437.001 Web Protocols
+Collection,Identity / IAM,37,6.26,10,23,1,T1056.001 Keylogging; T1119 Automated Collection; T1114.002 Remote Email Collection; T1185 Browser Session Hijacking; T1056 Input Capture
+Command and Control,ICS / OT,8,6.25,10,5,0,T1090 Proxy; T1568.002 Domain Generation Algorithms; T1090.002 External Proxy; T1568 Dynamic Resolution; T1104 Multi-Stage Channels
+Execution,Server / Workload,63,6.22,10,20,38,T1053.005 Scheduled Task; T1574.001 DLL; T1072 Software Deployment Tools; T1053.002 At; T1053 Scheduled Task/Job
+Execution,SaaS / Office / Email,9,6.19,7.5,2,7,T1204 User Execution; T1677 Poisoned Pipeline Execution; T1059 Command and Scripting Interpreter; T1059.009 Cloud API; T1648 Serverless Execution
+Initial Access,Server / Workload,9,6.18,10,3,5,T1078.002 Domain Accounts; T1659 Content Injection; T1078.004 Cloud Accounts; T1091 Replication Through Removable Media; T1566.003 Spearphishing via Service
+Initial Access,Data / Storage,10,6.12,10,4,5,T1659 Content Injection; T1189 Drive-by Compromise; T1566 Phishing; T1195.001 Compromise Software Dependencies and Development Tools; T1091 Replication Through Removable Media
+Impact,Data / Storage,34,6.1,10,21,0,T1486 Data Encrypted for Impact; T1490 Inhibit System Recovery; T1489 Service Stop; T1485 Data Destruction; T1657 Financial Theft
+Execution,Public Internet / Edge,15,5.94,10,5,8,T1072 Software Deployment Tools; T1059.004 Unix Shell; T1610 Deploy Container; T1204 User Execution; T1204.003 Malicious Image
+Credential Access,ESXi / Hypervisor,4,5.9,6.75,0,4,T1110 Brute Force; T1110.003 Password Spraying; T1110.001 Password Guessing; T1110.004 Credential Stuffing
+Execution,Endpoint / User,51,5.89,10,13,33,T1053.005 Scheduled Task; T1574.001 DLL; T1053.002 At; T1053.003 Cron; T1574.006 Dynamic Linker Hijacking
+Discovery,Identity / IAM,25,5.88,10,13,8,T1040 Network Sniffing; T1124 System Time Discovery; T1083 File and Directory Discovery; T1680 Local Storage Discovery; T1087.001 Local Account
+Stealth,ICS / OT,2,5.62,7.5,1,0,T1620 Reflective Code Loading; T1574.013 KernelCallbackTable
+Discovery,Network / Perimeter,29,5.18,10,15,6,T1040 Network Sniffing; T1082 System Information Discovery; T1124 System Time Discovery; T1018 Remote System Discovery; T1083 File and Directory Discovery
+Discovery,Data / Storage,19,5.02,9.38,9,4,T1622 Debugger Evasion; T1018 Remote System Discovery; T1083 File and Directory Discovery; T1057 Process Discovery; T1680 Local Storage Discovery
+Exfiltration,ICS / OT,4,5,10,2,0,T1048.002 Exfiltration Over Asymmetric Encrypted Non-C2 Protocol; T1048.001 Exfiltration Over Symmetric Encrypted Non-C2 Protocol; T1639.001 Exfiltration Over Unencrypted Non-C2 Protocol; T1639 Exfiltration Over Alternative Protocol
+Collection,Data / Storage,65,4.96,10,32,2,T1056.001 Keylogging; T1074.001 Local Data Staging; T1560.001 Archive via Utility; T1119 Automated Collection; T1560 Archive Collected Data
+Initial Access,Endpoint / User,5,4.75,7.5,1,3,T1195.001 Compromise Software Dependencies and Development Tools; T1091 Replication Through Removable Media; T1195.002 Compromise Software Supply Chain; T1195.003 Compromise Hardware Supply Chain; T1444 Masquerade as Legitimate Application
+Initial Access,Network / Perimeter,24,4.52,10,8,7,T1133 External Remote Services; T1078.002 Domain Accounts; T1659 Content Injection; T1078.003 Local Accounts; T1190 Exploit Public-Facing Application
+Initial Access,SaaS / Office / Email,20,4.52,10,7,5,T1078 Valid Accounts; T1078.004 Cloud Accounts; T1078.001 Default Accounts; T1189 Drive-by Compromise; T1566.002 Spearphishing Link
+Initial Access,Public Internet / Edge,51,3.19,10,13,8,T1133 External Remote Services; T1078.002 Domain Accounts; T1078 Valid Accounts; T1659 Content Injection; T1078.003 Local Accounts
+Initial Access,Identity / IAM,47,3.11,10,13,5,T1133 External Remote Services; T1078.002 Domain Accounts; T1078 Valid Accounts; T1659 Content Injection; T1078.003 Local Accounts
+Reconnaissance,SaaS / Office / Email,6,1.8,2.08,0,0,T1598.003 Spearphishing Link; T1598 Phishing for Information; T1598.002 Spearphishing Attachment; T1598.001 Spearphishing Service; T1594 Search Victim-Owned Websites
+Resource Development,Public Internet / Edge,33,1.38,2.08,0,0,T1585.001 Social Media Accounts; T1583 Acquire Infrastructure; T1588.004 Digital Certificates; T1585 Establish Accounts; T1587 Develop Capabilities
+Resource Development,Network / Perimeter,21,1.37,2.08,0,0,T1585.001 Social Media Accounts; T1583 Acquire Infrastructure; T1588.004 Digital Certificates; T1585 Establish Accounts; T1586.001 Social Media Accounts
+Resource Development,Server / Workload,2,1.25,1.25,0,0,T1587.001 Malware; T1588.001 Malware
+Resource Development,ICS / OT,2,1.25,1.25,0,0,T1584.007 Serverless; T1583.007 Serverless
+Reconnaissance,ESXi / Hypervisor,1,1.25,1.25,0,0,T1592.004 Client Configurations
+Resource Development,Data / Storage,6,1.22,2.08,0,0,T1588 Obtain Capabilities; T1583.001 Domains; T1608.001 Upload Malware; T1608.004 Drive-by Target; T1608.003 Install Digital Certificate
+Resource Development,Cloud Control Plane,12,1.18,2.08,0,0,T1583 Acquire Infrastructure; T1584 Compromise Infrastructure; T1583.003 Virtual Private Server; T1608.004 Drive-by Target; T1584.001 Domains
+Resource Development,Identity / IAM,22,0.87,2.08,0,0,T1585.001 Social Media Accounts; T1588.004 Digital Certificates; T1585 Establish Accounts; T1586.001 Social Media Accounts; T1586 Compromise Accounts
+Impact,ICS / OT,13,0.77,10,1,0,T1529 System Shutdown/Reboot; T0828 Loss of Productivity and Revenue; T0882 Theft of Operational Information; T0829 Loss of View; T0832 Manipulation of View
+Persistence,ICS / OT,11,0.68,7.5,1,0,T1505.005 Terminal Services DLL; T0859 Valid Accounts; T1694.002 Hardcoded Credentials; T0889 Modify Program; T1693.001 System Firmware
+Reconnaissance,Identity / IAM,22,0.66,2.08,0,0,T1598.003 Spearphishing Link; T1598 Phishing for Information; T1598.002 Spearphishing Attachment; T1598.001 Spearphishing Service; T1589.002 Email Addresses
+Resource Development,Endpoint / User,2,0.62,0.62,0,0,T1588.003 Code Signing Certificates; T1587.002 Code Signing Certificates
+Reconnaissance,Public Internet / Edge,45,0.52,2.08,0,0,T1598.003 Spearphishing Link; T1598 Phishing for Information; T1598.002 Spearphishing Attachment; T1598.001 Spearphishing Service; T1589.002 Email Addresses
+Reconnaissance,Network / Perimeter,46,0.51,2.08,0,0,T1598.003 Spearphishing Link; T1598 Phishing for Information; T1598.002 Spearphishing Attachment; T1598.001 Spearphishing Service; T1589.002 Email Addresses
+Reconnaissance,Cloud Control Plane,5,0.5,1.25,0,0,T1589.002 Email Addresses; T1595.003 Wordlist Scanning; T1593.003 Code Repositories; T1590.001 Domain Properties; T1590.002 DNS
+Reconnaissance,Data / Storage,24,0.42,1.25,0,0,T1595.002 Vulnerability Scanning; T1594 Search Victim-Owned Websites; T1592.002 Software; T1595.001 Scanning IP Blocks; T1592.004 Client Configurations
+Execution,ICS / OT,13,0.29,3.75,0,0,T1574.013 KernelCallbackTable; T0863 User Execution; T0853 Scripting; T0807 Command-Line Interface; T0858 Change Operating Mode
+Resource Development,SaaS / Office / Email,5,0.25,1.25,0,0,T1608.005 Link Target; T1584.005 Botnet; T1588.007 Artificial Intelligence; T1586.003 Cloud Accounts; T1585.003 Cloud Accounts
+Defense Evasion,Mobile,35,0,0,0,0,T1406 Obfuscated Files or Information; T1655.001 Match Legitimate Name or Location; T1407 Download New Code at Runtime; T1628.001 Suppress Application Icon; T1630.002 File Deletion
+Collection,Mobile,25,0,0,0,0,T1636.004 SMS Messages; T1430 Location Tracking; T1636.003 Contact List; T1533 Data from Local System; T1429 Audio Capture
+Inhibit Response Function,ICS / OT,21,0,0,0,0,T0881 Service Stop; T0814 Denial of Service; T0809 Data Destruction; T0835 Manipulate I/O Image; T1695.003 Wi-Fi
+Command and Control,Mobile,18,0,0,0,0,T1437.001 Web Protocols; T1644 Out of Band Data; T1616 Call Control; T1544 Ingress Tool Transfer; T1509 Non-Standard Port
+Initial Access,Mobile,15,0,0,0,0,T1660 Phishing; T1474.003 Compromise Software Supply Chain; T1456 Drive-By Compromise; T1461 Lockscreen Bypass; T1664 Exploitation for Initial Access
+Initial Access,ICS / OT,14,0,0,0,0,T0865 Spearphishing Attachment; T0817 Drive-by Compromise; T0866 Exploitation of Remote Services; T0886 Remote Services; T0862 Supply Chain Compromise
+Collection,ICS / OT,14,0,0,0,0,T0801 Monitor Process State; T0893 Data from Local System; T0802 Automated Collection; T0861 Point & Tag Identification; T0852 Screen Capture
+Discovery,Mobile,13,0,0,0,0,T1430 Location Tracking; T1426 System Information Discovery; T1418 Software Discovery; T1422 System Network Configuration Discovery; T1422.001 Internet Connection Discovery
+Credential Access,Mobile,12,0,0,0,0,T1417.002 GUI Input Capture; T1417.001 Keylogging; T1517 Access Notifications; T1453 Abuse Accessibility Features; T1414 Clipboard Data
+Persistence,Mobile,12,0,0,0,0,T1624.001 Broadcast Receivers; T1645 Compromise Client Software Binary; T1541 Foreground Persistence; T1603 Scheduled Task/Job; T1398 Boot or Logon Initialization Scripts
+Discovery,ICS / OT,12,0,0,0,0,T0888 Remote System Information Discovery; T0846.001 Port Scan; T0846 Remote System Discovery; T0842 Network Sniffing; T0840 Network Connection Enumeration
+Lateral Movement,ICS / OT,12,0,0,0,0,T0867 Lateral Tool Transfer; T0866 Exploitation of Remote Services; T0859 Valid Accounts; T0843 Program Download; T0886 Remote Services
+Impact,Mobile,11,0,0,0,0,T1582 SMS Control; T1616 Call Control; T1643 Generate Traffic from Victim; T1516 Input Injection; T1642 Endpoint Denial of Service
+Impair Process Control,ICS / OT,10,0,0,0,0,T0836 Modify Parameter; T1692.001 Command Message; T0806 Brute Force I/O; T1693.001 System Firmware; T1693.002 Module Firmware
+Defense Evasion,Identity / IAM,9,0,0,0,0,T1516 Input Injection; T1541 Foreground Persistence; T1631.001 Ptrace System Calls; T1670 Virtualization Solution; T1631 Process Injection
+Evasion,ICS / OT,9,0,0,0,0,T0849 Masquerading; T1692.001 Command Message; T0858 Change Operating Mode; T0872 Indicator Removal on Host; T0851 Rootkit
+Defense Evasion,Endpoint / User,8,0,0,0,0,T1407 Download New Code at Runtime; T1628.001 Suppress Application Icon; T1633.001 System Checks; T1630.001 Uninstall Malicious Application; T1629.002 Device Lockout
+Privilege Escalation,Mobile,6,0,0,0,0,T1404 Exploitation for Privilege Escalation; T1626.001 Device Administrator Permissions; T1631.001 Ptrace System Calls; T1631 Process Injection; T1626 Abuse Elevation Control Mechanism
+Defense Evasion,Data / Storage,5,0,0,0,0,T1406 Obfuscated Files or Information; T1630.002 File Deletion; T1516 Input Injection; T1628.003 Conceal Multimedia Files; T1406.001 Steganography
+Execution,Mobile,5,0,0,0,0,T1575 Native API; T1623.001 Unix Shell; T1603 Scheduled Task/Job; T1658 Exploitation for Client Execution; T1623 Command and Scripting Interpreter
+Inhibit Response Function,Identity / IAM,5,0,0,0,0,T1693.001 System Firmware; T1693.002 Module Firmware; T1693 Modify Firmware; T0892 Change Credential; T0833 Modify Control Logic
+Impair Process Control,Identity / IAM,4,0,0,0,0,T1693.001 System Firmware; T1693.002 Module Firmware; T1693 Modify Firmware; T0833 Modify Control Logic
+Exfiltration,Mobile,3,0,0,0,0,T1646 Exfiltration Over C2 Channel; T1639.001 Exfiltration Over Unencrypted Non-C2 Protocol; T1436 Commonly Used Port
+Defense Evasion,ESXi / Hypervisor,3,0,0,0,0,T1633.001 System Checks; T1670 Virtualization Solution; T1633 Virtualization/Sandbox Evasion
+Lateral Movement,Mobile,3,0,0,0,0,T1458 Replication Through Removable Media; T1428 Exploitation of Remote Services; T1427 Attack PC via USB Connection
+Inhibit Response Function,Network / Perimeter,3,0,0,0,0,T1695.003 Wi-Fi; T1695.002 Ethernet; T0816 Device Restart/Shutdown
+Privilege Escalation,ICS / OT,2,0,0,0,0,T0890 Exploitation for Privilege Escalation; T0874 Hooking
+Defense Evasion,Public Internet / Edge,2,0,0,0,0,T1661 Application Versioning; T1444 Masquerade as Legitimate Application
+Remote Service Effects,ICS / OT,2,0,0,0,0,T1470 Obtain Device Cloud Backups; T1469 Remotely Wipe Data Without Authorization
+Remote Service Effects,Cloud Control Plane,2,0,0,0,0,T1470 Obtain Device Cloud Backups; T1469 Remotely Wipe Data Without Authorization
+Remote Service Effects,Mobile,2,0,0,0,0,T1470 Obtain Device Cloud Backups; T1469 Remotely Wipe Data Without Authorization
+Defense Evasion,Network / Perimeter,1,0,0,0,0,T1406 Obfuscated Files or Information
+Defense Evasion,Server / Workload,1,0,0,0,0,T1541 Foreground Persistence
+Inhibit Response Function,Data / Storage,1,0,0,0,0,T0809 Data Destruction
+Inhibit Response Function,Server / Workload,1,0,0,0,0,T1693 Modify Firmware
+Impair Process Control,Server / Workload,1,0,0,0,0,T1693 Modify Firmware
+Network Effects,ICS / OT,1,0,0,0,0,T1449 Exploit SS7 to Redirect Phone Calls/SMS
+Network Effects,Identity / IAM,1,0,0,0,0,T1449 Exploit SS7 to Redirect Phone Calls/SMS
+Network Effects,Mobile,1,0,0,0,0,T1449 Exploit SS7 to Redirect Phone Calls/SMS

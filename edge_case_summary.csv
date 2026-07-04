@@ -1,0 +1,13 @@
+edge_case,technique_count,avg_final_score,max_final_score,critical_count,medium_high_count,top_attack_vectors
+Cloud / SaaS Tenant Blast Radius,245,7.8,10,176,36,T1105 Ingress Tool Transfer; T1074.001 Local Data Staging; T1486 Data Encrypted for Impact; T1119 Automated Collection; T1490 Inhibit System Recovery
+Living-off-the-Land,434,7.74,10,288,112,T1105 Ingress Tool Transfer; T1056.001 Keylogging; T1074.001 Local Data Staging; T1486 Data Encrypted for Impact; T1119 Automated Collection
+Insider / Trusted Access,310,7.73,10,227,42,T1105 Ingress Tool Transfer; T1056.001 Keylogging; T1074.001 Local Data Staging; T1486 Data Encrypted for Impact; T1560.001 Archive via Utility
+Zero-Day / Unknown Exploit,650,7.11,10,408,126,T1105 Ingress Tool Transfer; T1573.001 Symmetric Cryptography; T1056.001 Keylogging; T1132.001 Standard Encoding; T1074.001 Local Data Staging
+Identity / MFA Bypass,446,6.55,10,262,70,T1056.001 Keylogging; T1486 Data Encrypted for Impact; T1119 Automated Collection; T1489 Service Stop; T1485 Data Destruction
+Exploit Chain / Multi-Step,468,6.37,10,266,75,T1105 Ingress Tool Transfer; T1056.001 Keylogging; T1486 Data Encrypted for Impact; T1119 Automated Collection; T1090 Proxy
+Destructive / Ransomware,208,6.11,10,120,16,T1573.001 Symmetric Cryptography; T1074.001 Local Data Staging; T1573.002 Asymmetric Cryptography; T1486 Data Encrypted for Impact; T1560.001 Archive via Utility
+Telemetry Gap / Evasion,700,4.29,10,248,96,T1573.002 Asymmetric Cryptography; T1486 Data Encrypted for Impact; T1090 Proxy; T1560 Archive Collected Data; T1490 Inhibit System Recovery
+Supply Chain / Trusted Dependency,191,3.86,10,54,32,T1567.004 Exfiltration Over Webhook; T1036.005 Match Legitimate Resource Name or Location; T1685 Disable or Modify Tools; T1574.001 DLL; T1036 Masquerading
+Rare but High Impact,116,3.8,10,35,16,T1056 Input Capture; T1548.002 Bypass User Account Control; T1552.001 Credentials In Files; T1539 Steal Web Session Cookie; T1040 Network Sniffing
+Air-Gapped / ICS Safety,144,1.6,10,21,6,T1056.001 Keylogging; T1490 Inhibit System Recovery; T1090.003 Multi-hop Proxy; T1529 System Shutdown/Reboot; T1499.004 Application or System Exploitation
+AI-Scaled Social Engineering,73,1.35,10,5,2,T1667 Email Bombing; T1078.004 Cloud Accounts; T1566.002 Spearphishing Link; T1566 Phishing; T1087 Account Discovery
