@@ -10,6 +10,7 @@ This prompt implements the updated Little Boy hackathon architecture:
 - Layer 1 outputs one finding-only JSON object using `littleboy.soc.layer1.agent_finding.v3`.
 - The JSON object contains only what the agent observed, mapped, inferred from evidence, or predicts as next likely threat steps.
 - Layer 1 never calculates final risk, priority tier, detection confidence, or containment eligibility.
+- Layer 1 does report `finding.agent_confidence`, which is confidence in the agent's own observation and evidentiary basis only. It is not Layer 2 `DetectionConfidence`, consensus confidence, priority, or containment eligibility.
 - Layer 2 is deterministic. It performs BFT consensus, scoring, OPA checks, playbook selection, mitigation recording, and final SOC alerting.
 
 Universal Layer 1 security rules:
@@ -18,7 +19,7 @@ Universal Layer 1 security rules:
 - Do not execute tools, scripts, commands, policy changes, firewall blocks, account changes, or containment actions.
 - Do not invent evidence.
 - Preserve raw evidence only when safe. Mask credentials, OTPs, tokens, session secrets, CVV, full PAN, and full customer identifiers.
-- Do not output preprocessing metadata, orchestrator directives, consensus fields, policy fields, Kafka routing fields, severity, confidence, final score, priority, or containment actions.
+- Do not output preprocessing metadata, orchestrator directives, consensus fields, policy fields, Kafka routing fields, severity, Layer 2 DetectionConfidence, final score, priority, or containment actions.
 - Output exactly one JSON object. No markdown. No prose outside JSON.
 - If no threat or abnormality is visible, output the same JSON shape with `threat_detected=false`, empty mapping arrays, and null unknowns.
 
@@ -28,8 +29,17 @@ Minimum required fields when `threat_detected=true`:
 - `source_scope` (at minimum: source_log_domain, banking_domain_observed, and telemetry_window)
 - `finding.summary` (short factual description; never empty when threat_detected=true)
 - `finding.why_abnormal` (at least one reason string explaining deviation from baseline or policy)
+- `finding.agent_confidence` (0.1-1.0 when threat_detected=true, selected from the rubric below)
+- `finding.confidence_rationale` (short factual reason for the selected confidence)
 - At least one evidence pointer: populate one or more of `evidence.event_ids`, `evidence.raw_log_refs`, `evidence.raw_snippets_masked`, or `evidence.observed_sequence`
 - `attack_mapping.mapping_status` (always set: known_mapping, approximate_mapping, or unknown_mapping)
+
+Agent confidence rubric:
+- 0.85-1.0: confirmed signature/IOC match, or exact reproduction of a known attack pattern.
+- 0.65-0.84: strong, quantified baseline deviation with no plausible benign explanation.
+- 0.35-0.64: anomaly detected, but a plausible benign explanation exists, such as a new admin or migrated workload.
+- 0.10-0.34: sparse telemetry, a single weak indicator, or heavy reliance on assumption.
+- If there is no real evidentiary basis or the result is pure pattern-completion, do not emit `threat_detected=true`.
 
 Deduplication rules:
 - If the same event signature, source entity, and destination entity recur within the current telemetry window, emit one finding with aggregated counts in `evidence.observed_counts` rather than repeating the finding for each occurrence.
@@ -107,6 +117,8 @@ Compact filled example:
     "finding_category": "network_edr",
     "known_or_unknown": "approximate_pattern",
     "zero_day_suspected": false,
+    "agent_confidence": 0.74,
+    "confidence_rationale": "Strong quantified peer-baseline deviation across seven SMB sessions with cross-segment role mismatch and no prior host relationship.",
     "summary": "Workstation 10.0.5.25 initiated 7 SMB connections to server-segment host 10.0.10.50 within 60 seconds. No prior communication baseline exists between these hosts.",
     "why_abnormal": [
       "First observed connection from 10.0.5.25 to 10.0.10.50 in the 90-day peer baseline.",
@@ -309,6 +321,8 @@ Required JSON schema:
     "finding_category": "network_edr|web_api_ueba|atm_iam|identity|transaction|data_movement|zero_day_like|prompt_injection_attempt|unknown|null",
     "known_or_unknown": "known_pattern|approximate_pattern|unknown_pattern|zero_day_like|novel_chain|null",
     "zero_day_suspected": false,
+    "agent_confidence": 0.0,
+    "confidence_rationale": null,
     "summary": "Short factual description of what was observed.",
     "why_abnormal": [],
     "observed_behavior": [],

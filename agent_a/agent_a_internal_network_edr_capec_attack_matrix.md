@@ -228,8 +228,10 @@ Network / Perimeter, Endpoint / User, Server / Workload, Data / Storage, ESXi / 
 - Treat same user, source IP, destination IP, host, session ID, request ID, transaction ID, object ID, or time window as correlation keys.
 - Treat overlapping ATT&CK technique, CAPEC pattern, CWE, edge case, or affected banking surface as pattern correlation keys.
 - A single-agent hit is still forwarded. Layer 2 decides whether it is 1-of-3, 2-of-3, or 3-of-3 consensus.
+- Layer 2 computes DetectionConfidence as `StructuralAgreement * min(calibrated agent_confidence values among agreeing agents)`.
+- Auto-containment requires `StructuralAgreement >= 1.0`; a single-agent hit can raise analyst-visible severity but cannot trigger automated containment by itself.
 - Unknown or zero-day-like behavior should be emitted with `unknown_or_novel_abnormality` and the best available evidence.
 
 ## Agent Prompt Reference
 
-Use the matching system prompt in `layer1_agent_system_prompts.md` for Agent A.
+Use `agent_a/agent_a_internal_network_edr_system_prompt.md` for Agent A.

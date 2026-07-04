@@ -24,6 +24,8 @@
     "finding_category": "network_edr|web_api_ueba|atm_iam|identity|transaction|data_movement|zero_day_like|prompt_injection_attempt|unknown|null",
     "known_or_unknown": "known_pattern|approximate_pattern|unknown_pattern|zero_day_like|novel_chain|null",
     "zero_day_suspected": false,
+    "agent_confidence": 0.0,
+    "confidence_rationale": null,
     "summary": "Short factual description of what was observed.",
     "why_abnormal": [],
     "observed_behavior": [],
