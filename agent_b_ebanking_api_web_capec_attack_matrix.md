@@ -1,6 +1,6 @@
 # Agent B CAPEC + MITRE ATT&CK Watch Matrix
 
-Generated: 2026-07-04T19:27:03
+Generated: 2026-07-04T20:59:48
 
 Agent: Contextual AI eBanking API & Web UEBA Agent
 
