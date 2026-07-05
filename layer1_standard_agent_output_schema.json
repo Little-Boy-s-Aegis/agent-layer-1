@@ -2,13 +2,51 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "littleboy.soc.layer1.agent_finding.v4",
   "title": "Project Little Boy Aegis Layer 1 Agent Finding",
-  "description": "Strict Layer 1 perception output. LLM agents act only as binary detectors and ATT&CK/CAPEC mappers. Layer 2 performs all deterministic scoring and routing.",
+  "description": "Extended Layer 1 perception output. LLM agents act as domain-specialized detectors and ATT&CK/CAPEC mappers. Layer 2 independently verifies evidence from logs/context, then performs deterministic scoring, policy, routing, and response decisions.",
   "type": "object",
   "additionalProperties": false,
   "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "littleboy.soc.layer1.agent_finding.v4",
+      "description": "Schema identifier. Must always be the constant string above."
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "ISO 8601 UTC timestamp when the finding was emitted by Layer 1. Example: 2025-03-14T09:26:01Z"
+    },
+    "agent_id": {
+      "type": "string",
+      "enum": [
+        "agent_a_internal_network_edr",
+        "agent_b_ebanking_api_web_ueba",
+        "agent_c_atm_iam_adversarial"
+      ],
+      "description": "Identifier of the Layer 1 agent that produced this finding."
+    },
+    "agent_name": {
+      "type": "string",
+      "description": "Human-readable agent display name. Example: 'Agent A - Internal Network & EDR'"
+    },
+    "agent_type": {
+      "type": "string",
+      "enum": ["rule_ml_hybrid", "contextual_ai", "adversarial_ai"],
+      "description": "Agent reasoning paradigm. Agent A = rule_ml_hybrid, Agent B = contextual_ai, Agent C = adversarial_ai."
+    },
     "threat_detected": {
       "type": "boolean",
       "description": "True only when the agent flags a threat or abnormal security-relevant event from the supplied telemetry."
+    },
+    "finding_type": {
+      "type": "string",
+      "enum": [
+        "confirmed_threat",
+        "suspected_threat",
+        "anomaly_no_mapping",
+        "no_threat",
+        "prompt_injection_attempt"
+      ],
+      "description": "Categorical classification of the finding to assist Layer 2 triage."
     },
     "capec_id": {
       "type": "string",
@@ -21,12 +59,108 @@
     "raw_evidence": {
       "type": "string",
       "description": "Short masked evidence excerpt or factual observation supporting the binary finding and mapping."
+    },
+    "banking_domain_observed": {
+      "type": "object",
+      "description": "Flags set by Layer 1 when its telemetry involves a sensitive banking domain. Layer 2 uses these as hints for banking sensitivity override, not as decisions.",
+      "additionalProperties": false,
+      "properties": {
+        "swift_or_payment_path": {"type": "boolean"},
+        "core_banking_path": {"type": "boolean"},
+        "customer_data_path": {"type": "boolean"},
+        "atm_or_hsm_path": {"type": "boolean"},
+        "privileged_identity_path": {"type": "boolean"},
+        "fraud_control_path": {"type": "boolean"}
+      }
+    },
+    "entities": {
+      "type": "object",
+      "description": "Key entities observed in the telemetry. Mask all PII, secrets, full PANs, and credentials.",
+      "additionalProperties": false,
+      "properties": {
+        "source_ip": {"type": "string"},
+        "destination_ip": {"type": "string"},
+        "hostname": {"type": "string"},
+        "username": {"type": "string", "description": "Masked or anonymized. Example: j****h"},
+        "account_ref": {"type": "string", "description": "Masked account reference. Example: A-55**"},
+        "process_name": {"type": "string"},
+        "file_path": {"type": "string"}
+      }
+    },
+    "attack_mapping": {
+      "type": "object",
+      "description": "Structured mapping of the observed behavior to ATT&CK and CAPEC frameworks.",
+      "additionalProperties": false,
+      "properties": {
+        "mitre_tactic": {"type": "string", "description": "MITRE tactic ID. Example: TA0006"},
+        "mitre_technique": {"type": "string", "description": "MITRE technique ID. Example: T1003.001"},
+        "capec_pattern": {"type": "string", "description": "CAPEC pattern ID. Example: CAPEC-560"},
+        "kill_chain_phase": {
+          "type": "string",
+          "enum": ["reconnaissance", "initial_access", "execution", "persistence", "privilege_escalation", "defense_evasion", "credential_access", "discovery", "lateral_movement", "collection", "command_and_control", "exfiltration", "impact", "unknown"]
+        }
+      }
+    },
+    "surfaces_and_context": {
+      "type": "object",
+      "description": "Surface and context metadata to assist Layer 2 blast-radius reasoning.",
+      "additionalProperties": false,
+      "properties": {
+        "asset_type": {"type": "string", "description": "Type of asset involved. Example: workstation, server, atm_endpoint, api_gateway"},
+        "environment": {"type": "string", "enum": ["production", "staging", "development", "unknown"]},
+        "network_zone": {"type": "string", "description": "Network segment. Example: internal_lan, dmz, atm_network, swift_zone"},
+        "observed_surface": {"type": "string", "description": "The specific surface where behavior was detected. Example: LSASS, ATM_XFS_layer, API_gateway_audit_log"}
+      }
+    },
+    "safety": {
+      "type": "object",
+      "description": "Prompt injection and data-safety indicators.",
+      "additionalProperties": false,
+      "properties": {
+        "prompt_injection_observed": {
+          "type": "boolean",
+          "description": "True if instruction-like text was detected inside the telemetry. The injection must be masked and ignored."
+        },
+        "evidence_masked": {
+          "type": "boolean",
+          "description": "True if any PII, secret, token, or credential was masked in raw_evidence."
+        }
+      },
+      "required": ["prompt_injection_observed", "evidence_masked"]
+    },
+    "quality": {
+      "type": "object",
+      "description": "Self-assessment of the finding quality. Layer 2 uses this for verification planning.",
+      "additionalProperties": false,
+      "properties": {
+        "telemetry_completeness": {
+          "type": "string",
+          "enum": ["full", "partial", "sparse"],
+          "description": "How complete the supplied telemetry was for this agent's domain."
+        },
+        "mapping_confidence": {
+          "type": "string",
+          "enum": ["high", "medium", "low", "none"],
+          "description": "Agent's confidence in the ATT&CK/CAPEC mapping. Not a risk score."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Optional short note on why mapping confidence is low or telemetry is sparse."
+        }
+      }
     }
   },
   "required": [
+    "schema_version",
+    "timestamp",
+    "agent_id",
+    "agent_name",
+    "agent_type",
     "threat_detected",
+    "finding_type",
     "capec_id",
     "mitre_attack_id",
-    "raw_evidence"
+    "raw_evidence",
+    "safety"
   ]
 }
