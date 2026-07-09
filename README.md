@@ -1,12 +1,13 @@
 # Agent L1 - Layer 1 Sensor Workers
 
-This folder contains the Layer 1 runtime contract, specialist sensor prompts,
-and watch matrices for the Project Little Boy Aegis banking SOC architecture.
+This folder contains three self-contained Layer 1 worker packages for the
+Project Little Boy Aegis banking SOC architecture.
 
 Layer 1 is a read-only sensor layer. It inspects clean routed telemetry,
 identifies whether a security-relevant abnormality is present, maps the finding
-to the best CAPEC and MITRE ATT&CK identifiers, and emits a strict extended
-JSON object for the orchestrator stored in `../agent-l2`.
+to the best CAPEC and MITRE ATT&CK identifiers, predicts likely attack-pattern
+transitions for defensive verification, and emits a strict extended JSON object
+for the orchestrator stored in `../agent-l2`.
 
 ## Runtime Contract
 
@@ -21,7 +22,7 @@ schema `littleboy.soc.layer1.agent_finding.v4`. Required fields:
   "agent_name": "<human-readable name>",
   "agent_type": "rule_ml_hybrid | contextual_ai | adversarial_ai",
   "threat_detected": true,
-  "finding_type": "confirmed_threat | suspected_threat | anomaly_no_mapping | no_threat | prompt_injection_attempt",
+  "finding_type": "observed_threat_pattern | observed_suspicious_pattern | anomaly_no_mapping | no_threat | prompt_injection_attempt",
   "capec_id": "CAPEC-### or empty string",
   "mitre_attack_id": "T#### or empty string",
   "raw_evidence": "Masked factual evidence string",
@@ -33,9 +34,12 @@ schema `littleboy.soc.layer1.agent_finding.v4`. Required fields:
 ```
 
 Optional enrichment fields: `banking_domain_observed`, `entities`, `attack_mapping`,
-`surfaces_and_context`, `quality`. Include when data is available from telemetry.
+`surfaces_and_context`, `attack_pattern_prediction`, `quality`. Include when data
+is available from telemetry.
 
-The authoritative schema is `layer1_standard_agent_output_schema.json`.
+Each worker folder contains its own copy of
+`layer1_standard_agent_output_schema.json`. There is no shared runtime schema
+or shared runtime reference file at the Layer 1 root.
 
 Layer 1 must not calculate, emit, or imply:
 
@@ -48,41 +52,50 @@ Layer 1 must not calculate, emit, or imply:
 - playbook selection
 - containment eligibility
 - automated action
+- numeric probability, likelihood, confidence, or score for predictions
+- operational attacker instructions, exploit steps, or response actions
 
-## Worker Files
+## Worker Packages
 
-- `agent_a/agent_a_internal_network_edr_system_prompt.md`: internal network,
-  endpoint, EDR, lateral movement, credential access, and defense impairment.
-- `agent_b/agent_b_ebanking_api_web_ueba_system_prompt.md`: eBanking, API,
-  WAF, web, UEBA, fraud workflow, and customer-facing application behavior.
-- `agent_c/agent_c_atm_iam_adversarial_system_prompt.md`: ATM, IAM, HSM,
-  privileged identity, Active Directory, PAM, VPN, and adversarial misuse.
-- `agent_*/agent_*_capec_attack_matrix.md`: domain watch matrices used only
-  for mapping and analyst context.
+Each `agent_*` folder is self-contained and includes:
+
+- one system prompt;
+- one domain CAPEC/ATT&CK watch matrix;
+- one local `layer1_standard_agent_output_schema.json`;
+- `attack_vector_prediction_reference.md`;
+- `capec_attack_pattern_prediction_reference.md`;
+- `edge_case_matrix.md`;
+- `surface_context_matrix.md`.
+
+`agent_a/` covers internal network, endpoint, EDR, lateral movement,
+credential access, and defense impairment.
+
+`agent_b/` covers eBanking, API, WAF, web, UEBA, fraud workflow, and
+customer-facing application behavior.
+
+`agent_c/` covers ATM, IAM, HSM, privileged identity, Active Directory, PAM,
+VPN, and adversarial misuse.
 
 ## Reference Files
 
-The root Markdown files are reference material for mapping and context:
+Layer 1 keeps runtime artifacts inside the individual worker folders only.
+Generated CSV/JSON exports and threat-grading artifacts do not belong in Layer
+1. The root folder is an index and repo boundary, not a shared runtime context.
 
-- `attack_vector_scores.md`
-- `capec_attack_pattern_scores.md`
-- `surface_multiplier_matrix.md`
-- `edge_case_matrix.md`
-- `edge_case_summary.md`
-
-Despite some legacy filenames, these files are not runtime scoring authority for
-Layer 1. Runtime risk scoring belongs to the orchestrator in
+Runtime risk scoring, playbook routing, containment, and final predictive
+defense belong to the orchestrator in `../agent-l2`. Layer 1 may emit
+non-scoring attack-pattern prediction hints; Layer 2 must independently verify
+them before using them. The authoritative scoring inputs live under
 `../agent-l2/risk_scoring`.
-
-`threat_grading_full_report.md` and `threat_grading_summary.json` are retained
-only as migration notes. They must not be used to make Layer 1 score or action
-decisions.
 
 ## How To Use
 
-1. Route each clean telemetry batch to the matching worker prompt by domain.
-2. Provide the worker only the telemetry needed for its domain.
-3. The worker returns one JSON object using the extended schema above.
+1. Route each clean telemetry batch to the matching worker folder by domain.
+2. Provide the worker only the files in its own folder plus the telemetry
+   needed for its domain.
+3. The worker returns one JSON object using the extended schema above,
+   including `attack_pattern_prediction` when a positive finding supports a
+   likely next attack pattern.
 4. Send every Layer 1 output to the orchestrator in `../agent-l2`.
 5. Let the orchestrator independently verify logs, compute final risk, apply
    policy guardrails, select playbooks, and decide allowed actions.
@@ -96,16 +109,25 @@ orchestrator decides whether they describe the same attack.
 Use these checks after editing:
 
 ```bash
-python3 -m json.tool layer1_standard_agent_output_schema.json >/dev/null
+for f in agent_*/layer1_standard_agent_output_schema.json; do
+  python3 -m json.tool "$f" >/dev/null
+done
 find . -name '*.csv' -print
-rg -n "structural_agreement|base_confident|verification_modifier" .
-rg -n "block_ip|quarantine_host|force_logout|disable_account|auto_execute" agent_a agent_b agent_c
+find . -maxdepth 1 -type f \
+  \( -name '*grading*' -o -name 'threat_grading*' -o -name '*.json' \) \
+  -print
+rg -n "risk_score|confidence_score|priority|response_mode|playbook_id|recommended_action|containment_eligible|auto_execute|Score=|predicted_techniques|watch_for_next" .
 ```
 
 Expected result:
 
 - JSON parses successfully.
-- No CSV files are required.
-- No Layer 1 prompt outputs confidence, consensus, risk score, or action fields.
-- Any action words found in reference material are descriptive context only, not
-  authorization for Layer 1 execution.
+- No CSV files are present.
+- No shared runtime JSON/schema/reference artifacts are present at the Layer 1
+  root.
+- Each worker package contains its own Markdown prediction references and local
+  JSON schema.
+- No Layer 1 prompt, matrix, schema, or example emits score, priority, playbook,
+  action, containment, or predictive-defense fields.
+- Layer 1 prediction is limited to `attack_pattern_prediction`; final
+  predictive defense is performed by Layer 2 after independent verification.

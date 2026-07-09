@@ -1,0 +1,314 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "littleboy.soc.layer1.agent_finding.v4",
+  "title": "Project Little Boy Aegis Layer 1 Agent Finding",
+  "description": "Extended Layer 1 perception output. LLM agents act as domain-specialized detectors, ATT&CK/CAPEC mappers, and non-scoring attack-pattern predictors. Layer 2 independently verifies evidence from logs/context, then performs deterministic scoring, policy, routing, and response decisions.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "littleboy.soc.layer1.agent_finding.v4",
+      "description": "Schema identifier. Must always be the constant string above."
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "ISO 8601 UTC timestamp when the finding was emitted by Layer 1. Example: 2025-03-14T09:26:01Z"
+    },
+    "agent_id": {
+      "type": "string",
+      "const": "agent_a_internal_network_edr",
+      "description": "Identifier of Agent A only."
+    },
+    "agent_name": {
+      "type": "string",
+      "const": "Agent A - Internal Network & EDR",
+      "description": "Human-readable name for Agent A only."
+    },
+    "agent_type": {
+      "type": "string",
+      "const": "rule_ml_hybrid",
+      "description": "Reasoning paradigm for Agent A only."
+    },
+    "threat_detected": {
+      "type": "boolean",
+      "description": "True only when the agent observes a security-relevant abnormality from the supplied telemetry. This is a candidate signal for Layer 2, not an incident verdict."
+    },
+    "finding_type": {
+      "type": "string",
+      "enum": [
+        "observed_threat_pattern",
+        "observed_suspicious_pattern",
+        "anomaly_no_mapping",
+        "no_threat",
+        "prompt_injection_attempt"
+      ],
+      "description": "Observation category emitted by Layer 1. This must not be treated as Layer 2 confirmation."
+    },
+    "capec_id": {
+      "type": "string",
+      "description": "Best CAPEC mapping such as CAPEC-1. Use an empty string when no CAPEC mapping is available."
+    },
+    "mitre_attack_id": {
+      "type": "string",
+      "description": "Best MITRE ATT&CK technique or sub-technique such as T1021.002. Use an empty string when no ATT&CK mapping is available."
+    },
+    "raw_evidence": {
+      "type": "string",
+      "description": "Short masked evidence excerpt or factual observation supporting the binary finding and mapping."
+    },
+    "banking_domain_observed": {
+      "type": "object",
+      "description": "Flags set by Layer 1 when its telemetry involves a sensitive banking domain. Layer 2 uses these as hints for banking sensitivity override, not as decisions.",
+      "additionalProperties": false,
+      "properties": {
+        "core_banking_path": {
+          "type": "boolean"
+        }
+      }
+    },
+    "entities": {
+      "type": "object",
+      "description": "Key entities observed in the telemetry. Mask all PII, secrets, full PANs, and credentials.",
+      "additionalProperties": false,
+      "properties": {
+        "source_ip": {
+          "type": "string"
+        },
+        "destination_ip": {
+          "type": "string"
+        },
+        "hostname": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string",
+          "description": "Masked or anonymized. Example: j****h"
+        },
+        "process_name": {
+          "type": "string"
+        },
+        "file_path": {
+          "type": "string"
+        }
+      }
+    },
+    "attack_mapping": {
+      "type": "object",
+      "description": "Structured mapping of the observed behavior to ATT&CK and CAPEC frameworks.",
+      "additionalProperties": false,
+      "properties": {
+        "mitre_tactic": {
+          "type": "string",
+          "description": "MITRE tactic ID. Example: TA0006"
+        },
+        "mitre_technique": {
+          "type": "string",
+          "description": "MITRE technique ID. Example: T1003.001"
+        },
+        "capec_pattern": {
+          "type": "string",
+          "description": "CAPEC pattern ID. Example: CAPEC-560"
+        },
+        "kill_chain_phase": {
+          "type": "string",
+          "enum": [
+            "reconnaissance",
+            "initial_access",
+            "execution",
+            "persistence",
+            "privilege_escalation",
+            "defense_evasion",
+            "credential_access",
+            "discovery",
+            "lateral_movement",
+            "collection",
+            "command_and_control",
+            "exfiltration",
+            "impact",
+            "unknown"
+          ]
+        }
+      }
+    },
+    "surfaces_and_context": {
+      "type": "object",
+      "description": "Surface and context metadata to assist Layer 2 blast-radius reasoning.",
+      "additionalProperties": false,
+      "properties": {
+        "asset_type": {
+          "type": "string",
+          "enum": [
+            "endpoint",
+            "workstation",
+            "server",
+            "workload",
+            "domain_controller",
+            "network_device",
+            "edr_sensor"
+          ],
+          "description": "Type of asset involved. Examples: endpoint, workstation, server, workload, domain_controller, network_device, edr_sensor"
+        },
+        "environment": {
+          "type": "string",
+          "enum": [
+            "production",
+            "staging",
+            "development",
+            "unknown"
+          ]
+        },
+        "network_zone": {
+          "type": "string",
+          "enum": [
+            "internal_lan",
+            "endpoint_segment",
+            "server_segment",
+            "edr_management",
+            "unknown"
+          ],
+          "description": "Network segment. Examples: internal_lan, endpoint_segment, server_segment, edr_management"
+        },
+        "observed_surface": {
+          "type": "string",
+          "enum": [
+            "Endpoint / EDR",
+            "Internal Network",
+            "Server / Workload",
+            "Firewall / Network Device",
+            "DNS / Proxy",
+            "Sensor Health"
+          ],
+          "description": "Scoped observed surface. Examples: Endpoint / EDR, Internal Network, Server / Workload, Firewall / Network Device, DNS / Proxy, Sensor Health"
+        }
+      }
+    },
+    "attack_pattern_prediction": {
+      "type": "object",
+      "description": "Layer 1 non-scoring prediction of likely attack-pattern transitions based only on observed telemetry and local L1 watch references. Layer 2 must treat these as hypotheses, not decisions.",
+      "additionalProperties": false,
+      "properties": {
+        "prediction_horizon": {
+          "type": "string",
+          "enum": [
+            "immediate",
+            "short_term",
+            "unknown"
+          ],
+          "description": "Approximate defensive watch horizon for the predicted pattern."
+        },
+        "predicted_attack_patterns": {
+          "type": "array",
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "mitre_attack_id": {
+                "type": "string",
+                "description": "Likely ATT&CK technique or sub-technique to watch next. Use an empty string when no supported ATT&CK mapping exists."
+              },
+              "capec_id": {
+                "type": "string",
+                "description": "Likely CAPEC pattern to watch next. Use an empty string when no supported CAPEC mapping exists."
+              },
+              "pattern_name": {
+                "type": "string",
+                "description": "Short name of the predicted attack pattern."
+              },
+              "prediction_basis": {
+                "type": "string",
+                "description": "Observed facts and local reference relationship that support this prediction. No scores, probabilities, or certainty values."
+              },
+              "watch_signal": {
+                "type": "string",
+                "description": "Concrete defensive signal Layer 2 should verify in logs or context."
+              }
+            },
+            "required": [
+              "mitre_attack_id",
+              "capec_id",
+              "pattern_name",
+              "prediction_basis",
+              "watch_signal"
+            ]
+          }
+        },
+        "source_references": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Local L1 reference files used for the prediction, such as attack_vector_prediction_reference.md or edge_case_matrix.md."
+        }
+      },
+      "required": [
+        "prediction_horizon",
+        "predicted_attack_patterns",
+        "source_references"
+      ]
+    },
+    "safety": {
+      "type": "object",
+      "description": "Prompt injection and data-safety indicators.",
+      "additionalProperties": false,
+      "properties": {
+        "prompt_injection_observed": {
+          "type": "boolean",
+          "description": "True if instruction-like text was detected inside the telemetry. The injection must be masked and ignored."
+        },
+        "evidence_masked": {
+          "type": "boolean",
+          "description": "True if any PII, secret, token, or credential was masked in raw_evidence."
+        }
+      },
+      "required": [
+        "prompt_injection_observed",
+        "evidence_masked"
+      ]
+    },
+    "quality": {
+      "type": "object",
+      "description": "Self-assessment of the finding quality. Layer 2 uses this for verification planning.",
+      "additionalProperties": false,
+      "properties": {
+        "telemetry_completeness": {
+          "type": "string",
+          "enum": [
+            "full",
+            "partial",
+            "sparse"
+          ],
+          "description": "How complete the supplied telemetry was for this agent's domain."
+        },
+        "mapping_support": {
+          "type": "string",
+          "enum": [
+            "direct",
+            "contextual",
+            "weak",
+            "none"
+          ],
+          "description": "How directly the supplied telemetry supports the ATT&CK/CAPEC mapping. This is not a risk score or certainty score."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Optional short note on why mapping support is weak or telemetry is sparse."
+        }
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "timestamp",
+    "agent_id",
+    "agent_name",
+    "agent_type",
+    "threat_detected",
+    "finding_type",
+    "capec_id",
+    "mitre_attack_id",
+    "raw_evidence",
+    "safety"
+  ]
+}

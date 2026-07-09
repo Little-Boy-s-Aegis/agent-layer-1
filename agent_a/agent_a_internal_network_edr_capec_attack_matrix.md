@@ -1,12 +1,10 @@
 # Agent A CAPEC + MITRE ATT&CK Watch Matrix
 
-Generated: 2026-07-04T20:59:48
+Generated: scoped runtime rewrite from local Layer 1 package references
 
-Agent: Rule-Based + ML Hybrid Internal Network & EDR Agent
+Agent: Agent A
 
-Internal network, EDR, endpoint, server, lateral movement, C2, data movement, ransomware, and baseline anomaly monitoring.
-
-This file is a Layer 1 watchlist source. It is not an exploit guide and does not authorize containment. Layer 1 uses it to map observations to ATT&CK/CAPEC/CWE labels, predict likely next steps, and emit structured JSON to the deterministic Layer 2 orchestrator.
+This file is a Layer 1 watchlist source. It is not an exploit guide and does not authorize containment. Layer 1 uses it to map observed behavior to ATT&CK/CAPEC/CWE labels and form non-scoring attack-pattern prediction hints before emitting structured JSON to the deterministic Layer 2 orchestrator.
 
 ## Scope
 
@@ -17,221 +15,406 @@ This file is a Layer 1 watchlist source. It is not an exploit guide and does not
 
 ## Primary Surfaces
 
-Network / Perimeter, Endpoint / User, Server / Workload, Data / Storage, ESXi / Hypervisor
-
-## Primary Evidence Fields
-
-- process tree and command line
-- hash, signer, file path, and module load
-- source/destination IP, port, protocol, and DNS domain
-- endpoint hostname, EDR alert ID, and user
-- baseline deviation and first-seen timestamp
+Endpoint / EDR, Internal Network, Server / Workload
 
 ## Included Matrix Size
 
-- Relevant ATT&CK candidates found: 771
-- ATT&CK rows included here: 90
-- Relevant CAPEC candidates found: 215
-- CAPEC rows included here: 70
-- CAPEC IDs directly linked from included ATT&CK rows: 21
-
-## Included ATT&CK ID Set
-
-- T1570, T1041, T1027, T1490, T1567, T1005, T1053, T1560, T1572, T1573, T1105, T1048, T1090, T1021
-- T1489, T1071.004, T1036, T1486, T1205.002, T1048.003, T1197, T1071.001, T1480.001, T1074, T1218.014, T1048.001, T1480, T1485
-- T1037, T1048.002, T1011, T1021.002, T1567.001, T1567.003, T1037.004, T1505, T1205, T1567.004, T1127.001, T1125, T1090.001, T1219
-- T1059, T1218.009, T1564.006, T1127, T1027.013, T1020, T1021.001, T1210, T1021.004, T1218.003, T1027.018, T1543.003, T1074.001, T1574.001
-- T1567.002, T1090.003, T1686, T1001.003, T1074.002, T1011.001, T1574.011, T1176, T1029, T1573.002, T1560.002, T1070.003, T1014, T1547.006
-- T1218.013, T1542, T1219.001, T1053.005, T1102.002, T1102.003, T1127.003, T1046, T1505.004, T1070.007, T1216, T1205.001, T1027.003, T1546
-- T1556.008, T1546.004, T1124, T1573.001, T1560.001, T1001
-
-## Included CAPEC ID Set
-
-- CAPEC-542, CAPEC-481, CAPEC-646, CAPEC-465, CAPEC-574, CAPEC-471, CAPEC-573, CAPEC-634, CAPEC-102, CAPEC-552, CAPEC-158, CAPEC-203, CAPEC-177, CAPEC-700
-- CAPEC-555, CAPEC-35, CAPEC-675, CAPEC-543, CAPEC-643, CAPEC-180, CAPEC-165, CAPEC-292, CAPEC-673, CAPEC-637, CAPEC-589, CAPEC-457, CAPEC-640, CAPEC-204
-- CAPEC-616, CAPEC-267, CAPEC-448, CAPEC-649, CAPEC-217, CAPEC-578, CAPEC-572, CAPEC-15, CAPEC-698, CAPEC-504, CAPEC-678, CAPEC-669, CAPEC-186, CAPEC-159
-- CAPEC-665, CAPEC-478, CAPEC-697, CAPEC-551, CAPEC-17, CAPEC-482, CAPEC-21, CAPEC-655, CAPEC-652, CAPEC-560, CAPEC-550, CAPEC-268, CAPEC-620, CAPEC-509
-- CAPEC-523, CAPEC-564, CAPEC-662, CAPEC-489, CAPEC-148, CAPEC-130, CAPEC-529, CAPEC-150, CAPEC-593, CAPEC-19, CAPEC-270, CAPEC-609, CAPEC-561, CAPEC-9
+- ATT&CK rows included here: 202
+- CAPEC rows included here: 183
+- ATT&CK source boundary: `agent_a/surface_context_matrix.md`
+- CAPEC source boundary: `agent_a/capec_attack_pattern_prediction_reference.md`
 
 ## MITRE ATT&CK Matrix Vectors
 
 | rank | attack_id | attack_vector | tactics | surface | edge_case | related_capec | watch_focus |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | T1570 | Lateral Tool Transfer | Lateral Movement | ESXi / Hypervisor | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Command; Process; File; Network Share |
-| 2 | T1041 | Exfiltration Over C2 Channel | Exfiltration | ESXi / Hypervisor | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Network Traffic; Process; File |
-| 3 | T1027 | Obfuscated Files or Information | Stealth | ESXi / Hypervisor | Telemetry Gap / Evasion | CAPEC-267; CAPEC-542 | Telemetry Gap / Evasion; Watch: Command; Network Traffic; Process; File |
-| 4 | T1490 | Inhibit System Recovery | Impact | Cloud Control Plane | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Process; Windows Registry; Service; File; Snapshot; Cloud Storage |
-| 5 | T1567 | Exfiltration Over Web Service | Exfiltration | ESXi / Hypervisor | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Network Traffic; Process; File; Application Log |
-| 6 | T1005 | Data from Local System | Collection | ESXi / Hypervisor | Destructive / Ransomware | CAPEC-204; CAPEC-37; CAPEC-545; CAPEC-647 | Destructive / Ransomware; Watch: Command; Process; File |
-| 7 | T1053 | Scheduled Task/Job | Execution; Persistence; Privilege Escalation | ESXi / Hypervisor | Exploit Chain / Multi-Step |  | Exploit Chain / Multi-Step; Watch: Command; Process; File; Scheduled Job |
-| 8 | T1560 | Archive Collected Data | Collection | Data / Storage | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Process; File; Module |
-| 9 | T1572 | Protocol Tunneling | Command and Control | ESXi / Hypervisor | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Network Traffic; Process; Application Log |
-| 10 | T1573 | Encrypted Channel | Command and Control | ESXi / Hypervisor | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Network Traffic; Process; Module; Application Log |
-| 11 | T1105 | Ingress Tool Transfer | Command and Control | ESXi / Hypervisor | Living-off-the-Land |  | Living-off-the-Land; Watch: Command; Process; Network Traffic; File |
-| 12 | T1048 | Exfiltration Over Alternative Protocol | Exfiltration | Cloud Control Plane | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Network Traffic; Process; File; Cloud Storage |
-| 13 | T1090 | Proxy | Command and Control | ESXi / Hypervisor | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Command; Process; Network Traffic; Firewall |
-| 14 | T1021 | Remote Services | Lateral Movement | ESXi / Hypervisor | Identity / MFA Bypass | CAPEC-555 | Identity / MFA Bypass; Watch: Command; Process; Logon Session; Network Traffic |
-| 15 | T1489 | Service Stop | Impact | Cloud Control Plane | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Process; Service; File; Logon Session |
-| 16 | T1071.004 | DNS | Command and Control | ESXi / Hypervisor | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Network Traffic; Process |
-| 17 | T1036 | Masquerading | Stealth | ESXi / Hypervisor | Cloud / SaaS Tenant Blast Radius | CAPEC-177 | Cloud / SaaS Tenant Blast Radius; Watch: Command; Process; File; Service; Image |
-| 18 | T1486 | Data Encrypted for Impact | Impact | Cloud Control Plane | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Process; File; Cloud Storage |
-| 19 | T1205.002 | Socket Filters | Stealth; Persistence; Command and Control | Network / Perimeter | Living-off-the-Land |  | Living-off-the-Land; Watch: Network Traffic; Process; Module; Driver; Service |
-| 20 | T1048.003 | Exfiltration Over Unencrypted Non-C2 Protocol | Exfiltration | ESXi / Hypervisor | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Network Traffic; Process; File |
-| 21 | T1197 | BITS Jobs | Stealth; Persistence; Execution | Network / Perimeter | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Command; Process; Network Traffic; Service |
-| 22 | T1071.001 | Web Protocols | Command and Control | ESXi / Hypervisor | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Command; Network Traffic; Process |
-| 23 | T1480.001 | Environmental Keying | Stealth | Data / Storage | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Process; Command; Network Traffic; WMI; Module; File; Logon Session |
-| 24 | T1074 | Data Staged | Collection | Cloud Control Plane | Cloud / SaaS Tenant Blast Radius |  | Cloud / SaaS Tenant Blast Radius; Watch: Command; Process; File; Cloud Storage |
-| 25 | T1218.014 | MMC | Stealth | Data / Storage | Living-off-the-Land |  | Living-off-the-Land; Watch: Command; Process; Network Traffic; Windows Registry; Module; File |
-| 26 | T1048.001 | Exfiltration Over Symmetric Encrypted Non-C2 Protocol | Exfiltration | ESXi / Hypervisor | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Network Traffic; Process |
-| 27 | T1480 | Execution Guardrails | Stealth | ESXi / Hypervisor | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Command; Process; Network Traffic; Windows Registry; WMI; Module; File; Logon Session; User Account |
-| 28 | T1485 | Data Destruction | Impact | Cloud Control Plane | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Process; File; Volume; Cloud Storage |
-| 29 | T1037 | Boot or Logon Initialization Scripts | Persistence; Privilege Escalation | ESXi / Hypervisor | Identity / MFA Bypass | CAPEC-564 | Identity / MFA Bypass; Watch: Process; File; Windows Registry; Scheduled Job; Script; Service |
-| 30 | T1048.002 | Exfiltration Over Asymmetric Encrypted Non-C2 Protocol | Exfiltration | ESXi / Hypervisor | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Network Traffic; Process; File |
-| 31 | T1011 | Exfiltration Over Other Network Medium | Exfiltration | Data / Storage | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Network Traffic; Process; File; Sensor Health |
-| 32 | T1021.002 | SMB/Windows Admin Shares | Lateral Movement | Identity / IAM | Identity / MFA Bypass | CAPEC-561 | Identity / MFA Bypass; Watch: Process; Logon Session; Network Traffic |
-| 33 | T1567.001 | Exfiltration to Code Repository | Exfiltration | ESXi / Hypervisor | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Network Traffic; Process; File |
-| 34 | T1567.003 | Exfiltration to Text Storage Sites | Exfiltration | ESXi / Hypervisor | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Network Traffic; Process; File |
-| 35 | T1037.004 | RC Scripts | Persistence; Privilege Escalation | ESXi / Hypervisor | Living-off-the-Land |  | Living-off-the-Land; Watch: Command; Process; File; Script |
-| 36 | T1505 | Server Software Component | Persistence | ESXi / Hypervisor | Living-off-the-Land |  | Living-off-the-Land; Watch: Command; Network Traffic; Process; Scheduled Job; Application Log |
-| 37 | T1205 | Traffic Signaling | Stealth; Persistence; Command and Control | Network / Perimeter | Exploit Chain / Multi-Step |  | Exploit Chain / Multi-Step; Watch: Command; Network Traffic; Process |
-| 38 | T1567.004 | Exfiltration Over Webhook | Exfiltration | ESXi / Hypervisor | Cloud / SaaS Tenant Blast Radius |  | Cloud / SaaS Tenant Blast Radius; Watch: Command; Network Traffic; Process; File; Application Log |
-| 39 | T1127.001 | MSBuild | Stealth; Execution | Network / Perimeter | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Process; Network Traffic; Script; Module; File |
-| 40 | T1125 | Video Capture | Collection | Data / Storage | Zero-Day / Unknown Exploit | CAPEC-634 | Zero-Day / Unknown Exploit; Watch: Command; Network Traffic; Process; Module; File |
-| 41 | T1090.001 | Internal Proxy | Command and Control | ESXi / Hypervisor | Zero-Day / Unknown Exploit | CAPEC-465 | Zero-Day / Unknown Exploit; Watch: Command; Network Traffic; Process; Firewall; Service |
-| 42 | T1219 | Remote Access Tools | Command and Control | Network / Perimeter | Living-off-the-Land |  | Living-off-the-Land; Watch: Process; Network Traffic; Windows Registry; File; Service |
-| 43 | T1059 | Command and Scripting Interpreter | Execution | Cloud Control Plane | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Command; Process; User Account |
-| 44 | T1218.009 | Regsvcs/Regasm | Stealth | Network / Perimeter | Living-off-the-Land |  | Living-off-the-Land; Watch: Command; Process; Network Traffic; Windows Registry; Module; File |
-| 45 | T1564.006 | Run Virtual Instance | Stealth | ESXi / Hypervisor | Living-off-the-Land |  | Living-off-the-Land; Watch: Command; Process; Windows Registry; File; Service; Image |
-| 46 | T1127 | Trusted Developer Utilities Proxy Execution | Stealth; Execution | Network / Perimeter | Zero-Day / Unknown Exploit | CAPEC-670 | Zero-Day / Unknown Exploit; Watch: Process; Network Traffic; Module; File |
-| 47 | T1027.013 | Encrypted/Encoded File | Stealth | Network / Perimeter | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Process; Command; Network Traffic; Module |
-| 48 | T1020 | Automated Exfiltration | Exfiltration | Network / Perimeter | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Process; Network Traffic; Scheduled Job |
-| 49 | T1021.001 | Remote Desktop Protocol | Lateral Movement | Identity / IAM | Identity / MFA Bypass |  | Identity / MFA Bypass; Watch: Logon Session; Process; Network Traffic |
-| 50 | T1210 | Exploitation of Remote Services | Lateral Movement | ESXi / Hypervisor | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Process; Network Traffic; Module; File; Application Log |
-| 51 | T1021.004 | SSH | Lateral Movement | ESXi / Hypervisor | Identity / MFA Bypass |  | Identity / MFA Bypass; Watch: Command; Network Traffic; Process; Logon Session |
-| 52 | T1218.003 | CMSTP | Stealth | Server / Workload | Living-off-the-Land |  | Living-off-the-Land; Watch: Command; Process; Network Traffic; Windows Registry; File |
-| 53 | T1027.018 | Invisible Unicode | Stealth | Network / Perimeter | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Command; Process; Network Traffic; Script; Module; File |
-| 54 | T1543.003 | Windows Service | Persistence; Privilege Escalation | Server / Workload | Zero-Day / Unknown Exploit | CAPEC-478 | Zero-Day / Unknown Exploit; Watch: Windows Registry; Process; Service; Driver |
-| 55 | T1074.001 | Local Data Staging | Collection | ESXi / Hypervisor | Cloud / SaaS Tenant Blast Radius |  | Cloud / SaaS Tenant Blast Radius; Watch: Command; Process; Snapshot; File |
-| 56 | T1574.001 | DLL | Stealth; Execution | Data / Storage | Telemetry Gap / Evasion | CAPEC-471 | Telemetry Gap / Evasion; Watch: Process; Windows Registry; Module; File |
-| 57 | T1567.002 | Exfiltration to Cloud Storage | Exfiltration | ESXi / Hypervisor | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Command; Network Traffic; Process; File |
-| 58 | T1090.003 | Multi-hop Proxy | Command and Control | ESXi / Hypervisor | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Firmware; Network Traffic; Process |
-| 59 | T1686 | Disable or Modify System Firewall | Defense Impairment | ESXi / Hypervisor | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Command; Process; Firewall; Windows Registry |
-| 60 | T1001.003 | Protocol or Service Impersonation | Command and Control | ESXi / Hypervisor | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Network Traffic; Process |
-| 61 | T1074.002 | Remote Data Staging | Collection | Cloud Control Plane | Cloud / SaaS Tenant Blast Radius |  | Cloud / SaaS Tenant Blast Radius; Watch: Command; Network Traffic; Process; File; Cloud Storage; Network Share |
-| 62 | T1011.001 | Exfiltration Over Bluetooth | Exfiltration | Data / Storage | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Process; Network Traffic; File |
-| 63 | T1574.011 | Services Registry Permissions Weakness | Stealth; Execution | Server / Workload | Zero-Day / Unknown Exploit | CAPEC-478 | Zero-Day / Unknown Exploit; Watch: Process; Windows Registry; Service |
-| 64 | T1176 | Software Extensions | Persistence | Network / Perimeter | Zero-Day / Unknown Exploit | CAPEC-698 | Zero-Day / Unknown Exploit; Watch: Command; Process; Network Traffic; Windows Registry; File |
-| 65 | T1029 | Scheduled Transfer | Exfiltration | Network / Perimeter | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Process; Network Traffic; Scheduled Job |
-| 66 | T1573.002 | Asymmetric Cryptography | Command and Control | ESXi / Hypervisor | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Network Traffic; Process; Module; Application Log |
-| 67 | T1560.002 | Archive via Library | Collection | Data / Storage | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Process; File; Module |
-| 68 | T1070.003 | Clear Command History | Stealth | ESXi / Hypervisor | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Command; Process; File |
-| 69 | T1014 | Rootkit | Stealth | Server / Workload | Telemetry Gap / Evasion | CAPEC-552 | Telemetry Gap / Evasion; Watch: Process; File; Module; Driver; Service |
-| 70 | T1547.006 | Kernel Modules and Extensions | Persistence; Privilege Escalation | Server / Workload | Exploit Chain / Multi-Step | CAPEC-552 | Exploit Chain / Multi-Step; Watch: Command; Kernel; Process; File |
-| 71 | T1218.013 | Mavinject | Stealth | Network / Perimeter | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Process; Command; Network Traffic; Module; File |
-| 72 | T1542 | Pre-OS Boot | Stealth; Persistence | Server / Workload | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Command; Firmware; Drive; Process; File |
-| 73 | T1219.001 | IDE Tunneling | Command and Control | Network / Perimeter | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Process; File; Network Traffic |
-| 74 | T1053.005 | Scheduled Task | Execution; Persistence; Privilege Escalation | Identity / IAM | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Process; Windows Registry; Scheduled Job; File |
-| 75 | T1102.002 | Bidirectional Communication | Command and Control | ESXi / Hypervisor | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Process; Network Traffic |
-| 76 | T1102.003 | One-Way Communication | Command and Control | ESXi / Hypervisor | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Network Traffic; Process |
-| 77 | T1127.003 | JamPlus | Stealth; Execution | Network / Perimeter | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Process; File; Network Traffic |
-| 78 | T1046 | Network Service Discovery | Discovery | Cloud Control Plane | Zero-Day / Unknown Exploit | CAPEC-300 | Zero-Day / Unknown Exploit; Watch: Process; Network Traffic |
-| 79 | T1505.004 | IIS Components | Persistence | Server / Workload | Exploit Chain / Multi-Step | CAPEC-698 | Exploit Chain / Multi-Step; Watch: Process; File; Module; Service; Application Log |
-| 80 | T1070.007 | Clear Network Connection History and Configurations | Stealth | Public Internet / Edge | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Command; Network Traffic; Process; Windows Registry; File; Firewall |
-| 81 | T1216 | System Script Proxy Execution | Stealth | Server / Workload | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Command; Process; Module; File |
-| 82 | T1205.001 | Port Knocking | Stealth; Persistence; Command and Control | Network / Perimeter | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Process; Network Traffic |
-| 83 | T1027.003 | Steganography | Stealth | Data / Storage | Telemetry Gap / Evasion | CAPEC-636 | Telemetry Gap / Evasion; Watch: Process; Network Traffic; File |
-| 84 | T1546 | Event Triggered Execution | Privilege Escalation; Persistence | Identity / IAM | Cloud / SaaS Tenant Blast Radius |  | Cloud / SaaS Tenant Blast Radius; Watch: Command; Network Traffic; Process; Windows Registry; WMI; Scheduled Job; File; Script; Cloud Service |
-| 85 | T1556.008 | Network Provider DLL | Defense Impairment; Persistence; Credential Access | Identity / IAM | Identity / MFA Bypass |  | Identity / MFA Bypass; Watch: Process; File; Windows Registry; Module |
-| 86 | T1546.004 | Unix Shell Configuration Modification | Privilege Escalation; Persistence | Server / Workload | Identity / MFA Bypass | CAPEC-19 | Identity / MFA Bypass; Watch: Process; File; Network Traffic |
-| 87 | T1124 | System Time Discovery | Discovery | ESXi / Hypervisor | Living-off-the-Land | CAPEC-295 | Living-off-the-Land; Watch: Process; Command; Scheduled Job; File; Module; User Account |
-| 88 | T1573.001 | Symmetric Cryptography | Command and Control | ESXi / Hypervisor | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Network Traffic; Process; Module; Application Log |
-| 89 | T1560.001 | Archive via Utility | Collection | Data / Storage | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Process; File; Module |
-| 90 | T1001 | Data Obfuscation | Command and Control | ESXi / Hypervisor | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Network Traffic; Process |
+| 1 | T1105 | Ingress Tool Transfer | Command and Control | Endpoint / EDR | Living-off-the-Land |  | Living-off-the-Land; Watch: Command; Process; Network Traffic; File |
+| 2 | T1074.001 | Local Data Staging | Collection | Endpoint / EDR | Server / Workload Blast Radius |  | Server / Workload Blast Radius; Watch: Command; Process; Snapshot; File |
+| 3 | T1486 | Data Encrypted for Impact | Impact | Endpoint / EDR | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Process; File |
+| 4 | T1560.001 | Archive via Utility | Collection | Endpoint / EDR | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Process; File; Module |
+| 5 | T1090 | Proxy | Command and Control | Internal Network | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Command; Process; Network Traffic; Firewall |
+| 6 | T1560 | Archive Collected Data | Collection | Endpoint / EDR | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Process; File; Module |
+| 7 | T1490 | Inhibit System Recovery | Impact | Server / Workload | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Process; Windows Registry; Service; File; Snapshot |
+| 8 | T1489 | Service Stop | Impact | Server / Workload | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Process; Service; File |
+| 9 | T1485 | Data Destruction | Impact | Endpoint / EDR | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Process; File; Volume |
+| 10 | T1048.003 | Exfiltration Over Unencrypted Non-C2 Protocol | Exfiltration | Internal Network | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Network Traffic; Process; File |
+| 11 | T1041 | Exfiltration Over C2 Channel | Exfiltration | Internal Network | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Network Traffic; Process; File |
+| 12 | T1571 | Non-Standard Port | Command and Control | Internal Network | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Network Traffic; Process; Application Log |
+| 13 | T1071.004 | DNS | Command and Control | Internal Network | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Network Traffic; Process |
+| 14 | T1560.003 | Archive via Custom Method | Collection | Endpoint / EDR | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Process; Command; File |
+| 15 | T1572 | Protocol Tunneling | Command and Control | Internal Network | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Network Traffic; Process; Application Log |
+| 16 | T1090.003 | Multi-hop Proxy | Command and Control | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Firmware; Network Traffic; Process |
+| 17 | T1090.001 | Internal Proxy | Command and Control | Internal Network | Zero-Day / Unknown Exploit | CAPEC-465 | Zero-Day / Unknown Exploit; Watch: Command; Network Traffic; Process; Firewall; Service |
+| 18 | T1529 | System Shutdown/Reboot | Impact | Endpoint / EDR | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Process; Sensor Health |
+| 19 | T1001.003 | Protocol or Service Impersonation | Command and Control | Server / Workload | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Network Traffic; Process |
+| 20 | T1573 | Encrypted Channel | Command and Control | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Network Traffic; Process; Module; Application Log |
+| 21 | T1560.002 | Archive via Library | Collection | Endpoint / EDR | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Process; File; Module |
+| 22 | T1074 | Data Staged | Collection | Endpoint / EDR | Server / Workload Blast Radius |  | Server / Workload Blast Radius; Watch: Command; Process; File |
+| 23 | T1048 | Exfiltration Over Alternative Protocol | Exfiltration | Endpoint / EDR | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Network Traffic; Process; File |
+| 24 | T1048.002 | Exfiltration Over Asymmetric Encrypted Non-C2 Protocol | Exfiltration | Internal Network | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Network Traffic; Process; File |
+| 25 | T1499 | Endpoint Denial of Service | Impact | Endpoint / EDR; Server / Workload | Server / Workload Blast Radius | CAPEC-125; CAPEC-131; CAPEC-227 | Server / Workload Blast Radius; Watch: Process; Instance; Sensor Health; Application Log; Network Traffic |
+| 26 | T1011.001 | Exfiltration Over Bluetooth | Exfiltration | Endpoint / EDR | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Process; Network Traffic; File |
+| 27 | T1561 | Disk Wipe | Impact | Endpoint / EDR | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Drive; Command; Process; User Account; Driver |
+| 28 | T1499.002 | Service Exhaustion Flood | Impact | Server / Workload | Destructive / Ransomware | CAPEC-482; CAPEC-489; CAPEC-528 | Destructive / Ransomware; Watch: Process; Network Traffic; Firewall; Sensor Health; Application Log |
+| 29 | T1496 | Resource Hijacking | Impact | Endpoint / EDR | Server / Workload Blast Radius |  | Server / Workload Blast Radius; Watch: Network Traffic; Process; Instance; Sensor Health; Application Log |
+| 30 | T1052 | Exfiltration Over Physical Medium | Exfiltration | Endpoint / EDR | Destructive / Ransomware | CAPEC-675 | Destructive / Ransomware; Watch: Drive; Command; Process; File |
+| 31 | T1011 | Exfiltration Over Other Network Medium | Exfiltration | Internal Network | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Network Traffic; Process; File; Sensor Health |
+| 32 | T1053.005 | Scheduled Task | Execution; Persistence; Privilege Escalation | Server / Workload | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Process; Windows Registry; Scheduled Job; File |
+| 33 | T1027 | Obfuscated Files or Information | Stealth | Endpoint / EDR | Telemetry Gap / Evasion | CAPEC-267; CAPEC-542 | Telemetry Gap / Evasion; Watch: Command; Network Traffic; Process; File |
+| 34 | T1574.001 | DLL | Stealth; Execution | Endpoint / EDR | Telemetry Gap / Evasion | CAPEC-471 | Telemetry Gap / Evasion; Watch: Process; Windows Registry; Module; File |
+| 35 | T1003.001 | LSASS Memory | Credential Access | Endpoint / EDR | Credential Artifact Abuse |  | Credential Artifact Abuse; Watch: Process; User Account; Windows Registry; File |
+| 36 | T1036 | Masquerading | Stealth | Endpoint / EDR | Server / Workload Blast Radius | CAPEC-177 | Server / Workload Blast Radius; Watch: Command; Process; File; Service; Image |
+| 37 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Process; Container; Module; Driver |
+| 38 | T1552.001 | Credentials In Files | Credential Access | Endpoint / EDR | Credential Artifact Abuse | CAPEC-191; CAPEC-639 | Credential Artifact Abuse; Watch: Command; Process; Network Traffic; File |
+| 39 | T1133 | External Remote Services | Persistence; Initial Access | Internal Network; Server / Workload | Credential Artifact Abuse | CAPEC-555 | Credential Artifact Abuse; Watch: Network Traffic; User Account; Application Log |
+| 40 | T1040 | Network Sniffing | Credential Access; Discovery | Internal Network | Credential Artifact Abuse | CAPEC-158; CAPEC-65 | Credential Artifact Abuse; Watch: Command; Network Traffic; Process; Service; User Account |
+| 41 | T1210 | Exploitation of Remote Services | Lateral Movement | Internal Network; Server / Workload | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Process; Network Traffic; Module; File; Application Log |
+| 42 | T1021.004 | SSH | Lateral Movement | Internal Network | Credential Artifact Abuse |  | Credential Artifact Abuse; Watch: Command; Network Traffic; Process |
+| 43 | T1071.002 | File Transfer Protocols | Command and Control | Internal Network; Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Command; Network Traffic; Process |
+| 44 | T1025 | Data from Removable Media | Collection | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Drive; Process; File |
+| 45 | T1090.002 | External Proxy | Command and Control | Internal Network | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Network Traffic; Process; Firewall |
+| 46 | T1001 | Data Obfuscation | Command and Control | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Network Traffic; Process |
+| 47 | T1039 | Data from Network Shared Drive | Collection | Internal Network | Destructive / Ransomware | CAPEC-639 | Destructive / Ransomware; Watch: File; Drive; Network Share |
+| 48 | T1557.001 | Name Resolution Poisoning and SMB Relay | Credential Access; Collection | Internal Network | Credential Artifact Abuse |  | Credential Artifact Abuse; Watch: Windows Registry; Network Traffic; Service |
+| 49 | T1052.001 | Exfiltration over USB | Exfiltration | Endpoint / EDR | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Drive; Process; File |
+| 50 | T1568.001 | Fast Flux DNS | Command and Control | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Process; Network Traffic |
+| 51 | T1498 | Network Denial of Service | Impact | Internal Network; Server / Workload | Server / Workload Blast Radius |  | Server / Workload Blast Radius; Watch: Process; Network Traffic |
+| 52 | T1602.002 | Network Device Configuration Dump | Collection | Internal Network | Credential Artifact Abuse |  | Credential Artifact Abuse; Watch: Command; Network Traffic; User Account |
+| 53 | T1568.003 | DNS Calculation | Command and Control | Internal Network | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Process; Network Traffic |
+| 54 | T1498.001 | Direct Network Flood | Impact | Internal Network | Server / Workload Blast Radius | CAPEC-125; CAPEC-482; CAPEC-528; CAPEC-666 | Server / Workload Blast Radius; Watch: Process; Sensor Health; Network Traffic |
+| 55 | T1048.001 | Exfiltration Over Symmetric Encrypted Non-C2 Protocol | Exfiltration | Internal Network | Destructive / Ransomware |  | Destructive / Ransomware; Watch: Command; Network Traffic; Process |
+| 56 | T1140 | Deobfuscate/Decode Files or Information | Stealth | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Process; File; Command |
+| 57 | T1547.001 | Registry Run Keys / Startup Folder | Persistence; Privilege Escalation | Endpoint / EDR | Credential Artifact Abuse | CAPEC-270 | Credential Artifact Abuse; Watch: Process; File; Windows Registry |
+| 58 | T1112 | Modify Registry | Defense Impairment; Persistence | Endpoint / EDR | Telemetry Gap / Evasion | CAPEC-203 | Telemetry Gap / Evasion; Watch: Process; Windows Registry |
+| 59 | T1021.002 | SMB/Windows Admin Shares | Lateral Movement | Internal Network | Credential Artifact Abuse | CAPEC-561 | Credential Artifact Abuse; Watch: Process; Network Traffic |
+| 60 | T1570 | Lateral Tool Transfer | Lateral Movement | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Command; Process; File; Network Share |
+| 61 | T1555 | Credentials from Password Stores | Credential Access | Endpoint / EDR | Server / Workload Blast Radius | CAPEC-150 | Server / Workload Blast Radius; Watch: Process; File |
+| 62 | T1070 | Indicator Removal | Stealth | Endpoint / EDR | Server / Workload Blast Radius | CAPEC-268 | Server / Workload Blast Radius; Watch: File; Windows Registry; Scheduled Job; Application Log |
+| 63 | T1003.002 | Security Account Manager | Credential Access | Endpoint / EDR | Credential Artifact Abuse |  | Credential Artifact Abuse; Watch: File; Process; Windows Registry |
+| 64 | T1003 | OS Credential Dumping | Credential Access | Endpoint / EDR | Credential Artifact Abuse | CAPEC-150 | Credential Artifact Abuse; Watch: Process; File |
+| 65 | T1222.001 | Windows Permissions | Defense Impairment | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Command; Process; WMI; File |
+| 66 | T1021.006 | Windows Remote Management | Lateral Movement | Endpoint / EDR | Credential Artifact Abuse |  | Credential Artifact Abuse; Watch: Process; Service; Network Traffic |
+| 67 | T1564 | Hide Artifacts | Stealth | Endpoint / EDR | Living-off-the-Land |  | Living-off-the-Land; Watch: Command; Process; Windows Registry; File; Application Log |
+| 68 | T1543 | Create or Modify System Process | Persistence; Privilege Escalation | Endpoint / EDR | Exploit Chain / Multi-Step | CAPEC-550; CAPEC-551 | Exploit Chain / Multi-Step; Watch: Command; Process; Windows Registry; File; Container; Service |
+| 69 | T1037.004 | RC Scripts | Persistence; Privilege Escalation | Endpoint / EDR | Living-off-the-Land |  | Living-off-the-Land; Watch: Command; Process; File; Script |
+| 70 | T1037 | Boot or Logon Initialization Scripts | Persistence; Privilege Escalation | Endpoint / EDR; Server / Workload | Credential Artifact Abuse | CAPEC-564 | Credential Artifact Abuse; Watch: Process; File; Windows Registry; Scheduled Job; Script; Service |
+| 71 | T1021 | Remote Services | Lateral Movement | Internal Network; Server / Workload | Credential Artifact Abuse | CAPEC-555 | Credential Artifact Abuse; Watch: Command; Process; Network Traffic |
+| 72 | T1547 | Boot or Logon Autostart Execution | Persistence; Privilege Escalation | Server / Workload | Living-off-the-Land | CAPEC-564 | Living-off-the-Land; Watch: Process; File; Windows Registry; Service |
+| 73 | T1037.001 | Logon Script (Windows) | Persistence; Privilege Escalation | Endpoint / EDR; Server / Workload | Credential Artifact Abuse |  | Credential Artifact Abuse; Watch: Process; Script; File |
+| 74 | T1547.012 | Print Processors | Persistence; Privilege Escalation | Endpoint / EDR | Living-off-the-Land |  | Living-off-the-Land; Watch: Process; File; Windows Registry; Module |
+| 75 | T1547.008 | LSASS Driver | Persistence; Privilege Escalation | Endpoint / EDR | Living-off-the-Land |  | Living-off-the-Land; Watch: File; Windows Registry; Module; Driver |
+| 76 | T1053 | Scheduled Task/Job | Execution; Persistence; Privilege Escalation | Server / Workload | Exploit Chain / Multi-Step |  | Exploit Chain / Multi-Step; Watch: Command; Process; File; Scheduled Job |
+| 77 | T1543.005 | Container Service | Persistence; Privilege Escalation | Server / Workload | Server / Workload Blast Radius |  | Server / Workload Blast Radius; Watch: Process; Service; Container; Pod |
+| 78 | T1134.002 | Create Process with Token | Stealth; Privilege Escalation | Endpoint / EDR | Credential Artifact Abuse | CAPEC-196 | Credential Artifact Abuse; Watch: Process |
+| 79 | T1070.003 | Clear Command History | Stealth | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Command; Process; File |
+| 80 | T1690 | Prevent Command History Logging | Defense Impairment | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Command; Process |
+| 81 | T1552.002 | Credentials in Registry | Credential Access | Endpoint / EDR | Credential Artifact Abuse | CAPEC-647 | Credential Artifact Abuse; Watch: Process; Windows Registry |
+| 82 | T1098.004 | SSH Authorized Keys | Persistence; Privilege Escalation | Internal Network | Credential Artifact Abuse |  | Credential Artifact Abuse; Watch: Command; Process; File |
+| 83 | T1055.013 | Process Doppelgänging | Stealth; Privilege Escalation | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Process; File |
+| 84 | T1574.010 | Services File Permissions Weakness | Stealth; Execution | Endpoint / EDR; Server / Workload | Zero-Day / Unknown Exploit | CAPEC-1; CAPEC-17; CAPEC-180 | Zero-Day / Unknown Exploit; Watch: File; Process; Service |
+| 85 | T1546.013 | PowerShell Profile | Privilege Escalation; Persistence | Endpoint / EDR | Credential Artifact Abuse |  | Credential Artifact Abuse; Watch: Command; Process; File |
+| 86 | T1546.009 | AppCert DLLs | Privilege Escalation; Persistence | Endpoint / EDR | Credential Artifact Abuse |  | Credential Artifact Abuse; Watch: Process; Windows Registry; Module |
+| 87 | T1053.007 | Container Orchestration Job | Execution; Persistence; Privilege Escalation | Server / Workload | Exploit Chain / Multi-Step |  | Exploit Chain / Multi-Step; Watch: Network Traffic; Scheduled Job; Container |
+| 88 | T1543.003 | Windows Service | Persistence; Privilege Escalation | Server / Workload | Zero-Day / Unknown Exploit | CAPEC-478 | Zero-Day / Unknown Exploit; Watch: Windows Registry; Process; Service; Driver |
+| 89 | T1218.011 | Rundll32 | Stealth | Endpoint / EDR | Living-off-the-Land |  | Living-off-the-Land; Watch: Process; File; Network Traffic; Module |
+| 90 | T1020 | Automated Exfiltration | Exfiltration | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Process; Network Traffic; Scheduled Job |
+| 91 | T1092 | Communication Through Removable Media | Command and Control | Endpoint / EDR | Zero-Day / Unknown Exploit | CAPEC-457 | Zero-Day / Unknown Exploit; Watch: Drive; Process; File |
+| 92 | T1057 | Process Discovery | Discovery | Endpoint / EDR | Living-off-the-Land | CAPEC-573 | Living-off-the-Land; Watch: Process; Command; File |
+| 93 | T1016 | System Network Configuration Discovery | Discovery | Internal Network | Living-off-the-Land | CAPEC-309 | Living-off-the-Land; Watch: Command; Process |
+| 94 | T1049 | System Network Connections Discovery | Discovery | Internal Network | Server / Workload Blast Radius | CAPEC-309 | Server / Workload Blast Radius; Watch: Command; Process; Network Traffic |
+| 95 | T1036.004 | Masquerade Task or Service | Stealth | Endpoint / EDR; Server / Workload | Living-off-the-Land | CAPEC-504 | Living-off-the-Land; Watch: Scheduled Job; Process; Service |
+| 96 | T1055 | Process Injection | Stealth; Privilege Escalation | Endpoint / EDR | Telemetry Gap / Evasion | CAPEC-251; CAPEC-660 | Telemetry Gap / Evasion; Watch: Process; Module; File |
+| 97 | T1046 | Network Service Discovery | Discovery | Internal Network; Server / Workload | Zero-Day / Unknown Exploit | CAPEC-300 | Zero-Day / Unknown Exploit; Watch: Process; Network Traffic |
+| 98 | T1027.010 | Command Obfuscation | Stealth | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Command; Process |
+| 99 | T1686.003 | Windows Host Firewall | Defense Impairment | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Process; Network Traffic; Windows Registry; Service |
+| 100 | T1543.002 | Systemd Service | Persistence; Privilege Escalation | Server / Workload | Exploit Chain / Multi-Step |  | Exploit Chain / Multi-Step; Watch: Command; Process; File; Service |
+| 101 | T1070.005 | Network Share Connection Removal | Stealth | Internal Network | Credential Artifact Abuse |  | Credential Artifact Abuse; Watch: Command; Process; Network Traffic |
+| 102 | T1610 | Deploy Container | Execution | Server / Workload | Server / Workload Blast Radius |  | Server / Workload Blast Radius; Watch: Container; Process; Network Traffic; Application Log |
+| 103 | T1686.002 | Network Device Firewall | Defense Impairment | Internal Network | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Firewall; Command; Network Traffic |
+| 104 | T1685.001 | Disable or Modify Windows Event Log | Defense Impairment | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Process; Windows Registry; Service; Application Log |
+| 105 | T1070.007 | Clear Network Connection History and Configurations | Stealth | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Command; Network Traffic; Process; Windows Registry; File; Firewall |
+| 106 | T1685.004 | Disable or Modify Linux Audit System Log | Defense Impairment | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Command; File; Service; Process |
+| 107 | T1505.005 | Terminal Services DLL | Persistence | Endpoint / EDR; Server / Workload | Credential Artifact Abuse | CAPEC-558; CAPEC-640; CAPEC-642 | Credential Artifact Abuse; Watch: Process; File; Windows Registry; Module |
+| 108 | T1216 | System Script Proxy Execution | Stealth | Internal Network; Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Command; Process; Module; File |
+| 109 | T1127 | Trusted Developer Utilities Proxy Execution | Stealth; Execution | Internal Network | Zero-Day / Unknown Exploit | CAPEC-670 | Zero-Day / Unknown Exploit; Watch: Process; Network Traffic; Module; File |
+| 110 | T1055.012 | Process Hollowing | Stealth; Privilege Escalation | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Process |
+| 111 | T1685.005 | Clear Windows Event Logs | Defense Impairment | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Process; File; Application Log |
+| 112 | T1059 | Command and Scripting Interpreter | Execution | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Command; Process; User Account |
+| 113 | T1091 | Replication Through Removable Media | Lateral Movement; Initial Access | Endpoint / EDR | Zero-Day / Unknown Exploit | CAPEC-457 | Zero-Day / Unknown Exploit; Watch: Drive; Process; File |
+| 114 | T1546.003 | Windows Management Instrumentation Event Subscription | Privilege Escalation; Persistence | Endpoint / EDR | Living-off-the-Land |  | Living-off-the-Land; Watch: Process; WMI; Module |
+| 115 | T1222.002 | Linux and Mac Permissions | Defense Impairment | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Command; File; Process |
+| 116 | T1547.004 | Winlogon Helper DLL | Persistence; Privilege Escalation | Endpoint / EDR | Living-off-the-Land | CAPEC-579 | Living-off-the-Land; Watch: Process; Windows Registry; Module |
+| 117 | T1685.006 | Clear Linux or Mac System Logs | Defense Impairment | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Process; File |
+| 118 | T1564.011 | Ignore Process Interrupts | Stealth | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Command; Process |
+| 119 | T1609 | Container Administration Command | Execution | Endpoint / EDR; Server / Workload | Server / Workload Blast Radius |  | Server / Workload Blast Radius; Watch: Command; Process |
+| 120 | T1546.010 | AppInit DLLs | Privilege Escalation; Persistence | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Process; Windows Registry; Module |
+| 121 | T1202 | Indirect Command Execution | Stealth | Endpoint / EDR | Living-off-the-Land |  | Living-off-the-Land; Watch: Process; File; Network Traffic |
+| 122 | T1613 | Container and Resource Discovery | Discovery | Server / Workload | Server / Workload Blast Radius |  | Server / Workload Blast Radius; Watch: Container; Pod |
+| 123 | T1220 | XSL Script Processing | Stealth | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Process; Module |
+| 124 | T1059.008 | Network Device CLI | Execution | Internal Network | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Command; Network Traffic; User Account |
+| 125 | T1218 | System Binary Proxy Execution | Stealth | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Process; Network Traffic; Module |
+| 126 | T1546.007 | Netsh Helper DLL | Privilege Escalation; Persistence | Endpoint / EDR | Living-off-the-Land |  | Living-off-the-Land; Watch: Process; Windows Registry; Module |
+| 127 | T1574.011 | Services Registry Permissions Weakness | Stealth; Execution | Endpoint / EDR; Server / Workload | Zero-Day / Unknown Exploit | CAPEC-478 | Zero-Day / Unknown Exploit; Watch: Process; Windows Registry; Service |
+| 128 | T1135 | Network Share Discovery | Discovery | Internal Network | Zero-Day / Unknown Exploit | CAPEC-643 | Zero-Day / Unknown Exploit; Watch: Command; Process; Network Traffic; Named Pipe |
+| 129 | T1569.002 | Service Execution | Execution | Server / Workload | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Windows Registry; Process; Network Traffic; Service |
+| 130 | T1059.007 | JavaScript | Execution | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Command; Process; Script; Module |
+| 131 | T1036.010 | Masquerade Account Name | Stealth | Endpoint / EDR | Server / Workload Blast Radius |  | Server / Workload Blast Radius; Watch: User Account |
+| 132 | T1098.006 | Additional Container Cluster Roles | Persistence; Privilege Escalation | Server / Workload | Credential Artifact Abuse |  | Credential Artifact Abuse; Watch: User Account |
+| 133 | T1059.003 | Windows Command Shell | Execution | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Process; Script; Module |
+| 134 | T1059.001 | PowerShell | Execution | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Command; Process; Module |
+| 135 | T1047 | Windows Management Instrumentation | Execution | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Process; Network Traffic; WMI |
+| 136 | T1012 | Query Registry | Discovery | Endpoint / EDR | Living-off-the-Land | CAPEC-647 | Living-off-the-Land; Watch: Command; Process; Windows Registry |
+| 137 | T1007 | System Service Discovery | Discovery | Server / Workload | Zero-Day / Unknown Exploit | CAPEC-574 | Zero-Day / Unknown Exploit; Watch: Command; Process |
+| 138 | T1566.003 | Spearphishing via Service | Initial Access | Server / Workload | Zero-Day / Unknown Exploit | CAPEC-163 | Zero-Day / Unknown Exploit; Watch: Network Traffic; Process; File; Application Log |
+| 139 | T1559 | Inter-Process Communication | Execution | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Process; Script; File; Named Pipe |
+| 140 | T1652 | Device Driver Discovery | Discovery | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Command; Process; Windows Registry; File |
+| 141 | T1569 | System Services | Execution | Server / Workload | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Windows Registry; Process; Service; File |
+| 142 | T1669 | Wi-Fi Networks | Initial Access | Internal Network | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Network Traffic; Firewall; User Account |
+| 143 | T1559.003 | XPC Services | Execution | Server / Workload | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Process; Named Pipe |
+| 144 | T1675 | ESXi Administration Command | Execution | Endpoint / EDR; Server / Workload | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Application Log |
+| 145 | T1564.010 | Process Argument Spoofing | Stealth | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Process |
+| 146 | T1036.009 | Break Process Trees | Stealth | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Process |
+| 147 | T1599 | Network Boundary Bridging | Defense Impairment | Internal Network | Telemetry Gap / Evasion | CAPEC-700 | Telemetry Gap / Evasion; Watch: Network Traffic |
+| 148 | T1036.011 | Overwrite Process Arguments | Stealth | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Process |
+| 149 | T1599.001 | Network Address Translation Traversal | Defense Impairment | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Network Traffic |
+| 150 | T1036.008 | Masquerade File Type | Stealth | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; Watch: Process; File |
+| 151 | T1027.005 | Indicator Removal from Tools | Stealth | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Process; File; Application Log |
+| 152 | T1059.002 | AppleScript | Execution | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; Watch: Process |
+| 153 | T1422 | System Network Configuration Discovery | Discovery | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 154 | T1406 | Obfuscated Files or Information | Defense Evasion | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 155 | T1646 | Exfiltration Over C2 Channel | Exfiltration | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 156 | T1404 | Exploitation for Privilege Escalation | Privilege Escalation | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit |
+| 157 | T1544 | Ingress Tool Transfer | Command and Control | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 158 | T1532 | Archive Collected Data | Collection | Endpoint / EDR | Destructive / Ransomware |  | Destructive / Ransomware |
+| 159 | T1424 | Process Discovery | Discovery | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 160 | T1509 | Non-Standard Port | Command and Control | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 161 | T1421 | System Network Connections Discovery | Discovery | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 162 | T1655 | Masquerading | Defense Evasion | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 163 | T1642 | Endpoint Denial of Service | Impact | Endpoint / EDR; Server / Workload | Destructive / Ransomware |  | Destructive / Ransomware |
+| 164 | T1603 | Scheduled Task/Job | Execution; Persistence | Server / Workload | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 165 | T0881 | Service Stop | Inhibit Response Function | Server / Workload | Rare but High Impact |  | Rare but High Impact |
+| 166 | T0867 | Lateral Tool Transfer | Lateral Movement | Endpoint / EDR | Rare but High Impact |  | Rare but High Impact |
+| 167 | T1662 | Data Destruction | Impact | Endpoint / EDR | Destructive / Ransomware |  | Destructive / Ransomware |
+| 168 | T1398 | Boot or Logon Initialization Scripts | Persistence | Endpoint / EDR; Server / Workload | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 169 | T0866 | Exploitation of Remote Services | Initial Access; Lateral Movement | Internal Network; Server / Workload | Rare but High Impact |  | Rare but High Impact |
+| 170 | T0853 | Scripting | Execution | Endpoint / EDR | Rare but High Impact |  | Rare but High Impact |
+| 171 | T0849 | Masquerading | Evasion | Endpoint / EDR | Rare but High Impact |  | Rare but High Impact |
+| 172 | T0814 | Denial of Service | Inhibit Response Function | Server / Workload | Rare but High Impact |  | Rare but High Impact |
+| 173 | T0809 | Data Destruction | Inhibit Response Function | Endpoint / EDR | Rare but High Impact |  | Rare but High Impact |
+| 174 | T0807 | Command-Line Interface | Execution | Endpoint / EDR | Rare but High Impact |  | Rare but High Impact |
+| 175 | T0801 | Monitor Process State | Collection | Endpoint / EDR | Rare but High Impact |  | Rare but High Impact |
+| 176 | T1692.001 | Command Message | Evasion; Impair Process Control | Endpoint / EDR | Rare but High Impact |  | Rare but High Impact |
+| 177 | T1639.001 | Exfiltration Over Unencrypted Non-C2 Protocol | Exfiltration | Internal Network | Destructive / Ransomware |  | Destructive / Ransomware |
+| 178 | T1471 | Data Encrypted for Impact | Impact | Endpoint / EDR | Destructive / Ransomware |  | Destructive / Ransomware |
+| 179 | T0886 | Remote Services | Initial Access; Lateral Movement | Internal Network; Server / Workload | Rare but High Impact |  | Rare but High Impact |
+| 180 | T0884 | Connection Proxy | Command and Control | Internal Network | Rare but High Impact |  | Rare but High Impact |
+| 181 | T0842 | Network Sniffing | Discovery | Internal Network | Rare but High Impact |  | Rare but High Impact |
+| 182 | T1631 | Process Injection | Defense Evasion; Privilege Escalation | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 183 | T1630 | Indicator Removal on Host | Defense Evasion | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 184 | T1623 | Command and Scripting Interpreter | Execution | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 185 | T1604 | Proxy Through Victim | Defense Evasion | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 186 | T1521 | Encrypted Channel | Command and Control | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 187 | T1458 | Replication Through Removable Media | Initial Access; Lateral Movement | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 188 | T1428 | Exploitation of Remote Services | Lateral Movement | Internal Network; Server / Workload | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 189 | T0890 | Exploitation for Privilege Escalation | Privilege Escalation | Endpoint / EDR | Rare but High Impact |  | Rare but High Impact |
+| 190 | T0872 | Indicator Removal on Host | Evasion | Endpoint / EDR | Rare but High Impact |  | Rare but High Impact |
+| 191 | T0847 | Replication Through Removable Media | Initial Access | Endpoint / EDR | Rare but High Impact |  | Rare but High Impact |
+| 192 | T0840 | Network Connection Enumeration | Discovery | Internal Network | Rare but High Impact |  | Rare but High Impact |
+| 193 | T1691.001 | Command Message | Inhibit Response Function | Endpoint / EDR | Rare but High Impact |  | Rare but High Impact |
+| 194 | T1639 | Exfiltration Over Alternative Protocol | Exfiltration | Endpoint / EDR | Destructive / Ransomware |  | Destructive / Ransomware |
+| 195 | T1464 | Network Denial of Service | Impact | Internal Network; Server / Workload | Destructive / Ransomware |  | Destructive / Ransomware |
+| 196 | T1423 | Network Service Scanning | Discovery | Internal Network; Server / Workload | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 197 | T0822 | External Remote Services | Initial Access | Internal Network; Server / Workload | Rare but High Impact |  | Rare but High Impact |
+| 198 | T1628 | Hide Artifacts | Defense Evasion | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 199 | T1444 | Masquerade as Legitimate Application | Initial Access; Defense Evasion | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 200 | T1430.001 | Remote Device Management Services | Collection; Discovery | Server / Workload | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 201 | T0894 | System Binary Proxy Execution | Evasion | Internal Network | Rare but High Impact |  | Rare but High Impact |
+| 202 | T0841 | Network Service Scanning | Discovery | Internal Network; Server / Workload | Rare but High Impact |  | Rare but High Impact |
 
 ## CAPEC Attack Pattern Matrix
 
 | rank | capec_id | attack_pattern | surface | edge_case | related_attack | watch_focus |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | CAPEC-542 | Targeted Malware | Network / Perimeter | Telemetry Gap / Evasion | T1027; T1587.001 | Telemetry Gap / Evasion |
-| 2 | CAPEC-481 | Contradictory Destinations in Traffic Routing Schemes | ESXi / Hypervisor | Telemetry Gap / Evasion | T1090.004 | Telemetry Gap / Evasion; CWE: CWE-923 |
-| 3 | CAPEC-646 | Peripheral Footprinting | Network / Perimeter | Destructive / Ransomware | T1120 | Destructive / Ransomware; CWE: CWE-200 |
-| 4 | CAPEC-465 | Transparent Proxy Abuse | ESXi / Hypervisor | Telemetry Gap / Evasion | T1090.001 | Telemetry Gap / Evasion; CWE: CWE-441 |
-| 5 | CAPEC-574 | Services Footprinting | Server / Workload | Zero-Day / Unknown Exploit | T1007 | Zero-Day / Unknown Exploit; CWE: CWE-200 |
-| 6 | CAPEC-471 | Search Order Hijacking | Data / Storage | Telemetry Gap / Evasion | T1574.001; T1574.004; T1574.008 | Telemetry Gap / Evasion; CWE: CWE-427 |
-| 7 | CAPEC-573 | Process Footprinting | ESXi / Hypervisor | Zero-Day / Unknown Exploit | T1057 | Zero-Day / Unknown Exploit; CWE: CWE-200 |
-| 8 | CAPEC-634 | Probe Audio and Video Peripherals | Data / Storage | Zero-Day / Unknown Exploit | T1123; T1125 | Zero-Day / Unknown Exploit; CWE: CWE-267 |
-| 9 | CAPEC-102 | Session Sidejacking | Network / Perimeter | Destructive / Ransomware |  | Destructive / Ransomware; CWE: CWE-294; CWE-319; CWE-522; CWE-523; CWE-614 |
-| 10 | CAPEC-552 | Install Rootkit | Identity / IAM | Telemetry Gap / Evasion | T1014; T1542.003; T1547.006 | Telemetry Gap / Evasion; CWE: CWE-284 |
-| 11 | CAPEC-158 | Sniffing Network Traffic | Identity / IAM | Identity / MFA Bypass | T1040; T1111 | Identity / MFA Bypass; CWE: CWE-311 |
-| 12 | CAPEC-203 | Manipulate Registry Information | Identity / IAM | Telemetry Gap / Evasion | T1112; T1647 | Telemetry Gap / Evasion; CWE: CWE-15 |
-| 13 | CAPEC-177 | Create files with the same name as files protected with a higher classification | ESXi / Hypervisor | Telemetry Gap / Evasion | T1036 | Telemetry Gap / Evasion; CWE: CWE-706 |
-| 14 | CAPEC-700 | Network Boundary Bridging | Network / Perimeter | Telemetry Gap / Evasion | T1599 | Telemetry Gap / Evasion |
-| 15 | CAPEC-555 | Remote Services with Stolen Credentials | Identity / IAM | Identity / MFA Bypass | T1021; T1114.002; T1133 | Identity / MFA Bypass; CWE: CWE-262; CWE-263; CWE-294; CWE-308; CWE-309; CWE-521; CWE-522 |
-| 16 | CAPEC-35 | Leverage Executable Code in Non-Executable Files | Data / Storage | Rare but High Impact | T1027.006; T1027.009; T1564.009 | Rare but High Impact; CWE: CWE-270; CWE-272; CWE-282; CWE-59; CWE-94; CWE-95; CWE-96; CWE-97 |
-| 17 | CAPEC-675 | Retrieve Data from Decommissioned Devices | Data / Storage | Destructive / Ransomware | T1052 | Destructive / Ransomware; CWE: CWE-1266 |
-| 18 | CAPEC-543 | Counterfeit Websites | ESXi / Hypervisor | Telemetry Gap / Evasion | T1036.005 | Telemetry Gap / Evasion |
-| 19 | CAPEC-643 | Identify Shared Files/Directories on System | Network / Perimeter | Zero-Day / Unknown Exploit | T1135 | Zero-Day / Unknown Exploit; CWE: CWE-200; CWE-267 |
-| 20 | CAPEC-180 | Exploiting Incorrectly Configured Access Control Security Levels | Data / Storage | Rare but High Impact | T1574.010 | Rare but High Impact; CWE: CWE-1190; CWE-1191; CWE-1193; CWE-1220; CWE-1268; CWE-1280; CWE-1297; CWE-1311; CWE-1315; CWE-1318; CWE-1320; CWE-1321; CWE-732 |
-| 21 | CAPEC-165 | File Manipulation | Data / Storage | Telemetry Gap / Evasion | T1036.003 | Telemetry Gap / Evasion |
-| 22 | CAPEC-292 | Host Discovery | ESXi / Hypervisor | Telemetry Gap / Evasion | T1018 | Telemetry Gap / Evasion; CWE: CWE-200 |
-| 23 | CAPEC-673 | Developer Signing Maliciously Altered Software | Network / Perimeter | Supply Chain / Trusted Dependency | T1195.002 | Supply Chain / Trusted Dependency |
-| 24 | CAPEC-637 | Collect Data from Clipboard | Data / Storage | Zero-Day / Unknown Exploit | T1115 | Zero-Day / Unknown Exploit; CWE: CWE-267 |
-| 25 | CAPEC-589 | DNS Blocking | Network / Perimeter | Destructive / Ransomware |  | Destructive / Ransomware; CWE: CWE-300 |
-| 26 | CAPEC-457 | USB Memory Attacks | Network / Perimeter | Air-Gapped / ICS Safety | T1091; T1092 | Air-Gapped / ICS Safety; CWE: CWE-1299 |
-| 27 | CAPEC-640 | Inclusion of Code in Existing Process | ICS / OT | Air-Gapped / ICS Safety | T1505.005; T1574.006; T1574.013; T1620 | Air-Gapped / ICS Safety; CWE: CWE-114; CWE-829 |
-| 28 | CAPEC-204 | Lifting Sensitive Data Embedded in Cache | ESXi / Hypervisor | Telemetry Gap / Evasion | T1005 | Telemetry Gap / Evasion; CWE: CWE-1239; CWE-1258; CWE-311; CWE-524 |
-| 29 | CAPEC-616 | Establish Rogue Location | ESXi / Hypervisor | Telemetry Gap / Evasion | T1036.005 | Telemetry Gap / Evasion; CWE: CWE-200 |
-| 30 | CAPEC-267 | Leverage Alternate Encoding | ESXi / Hypervisor | Telemetry Gap / Evasion | T1027 | Telemetry Gap / Evasion; CWE: CWE-172; CWE-173; CWE-180; CWE-181; CWE-20; CWE-692; CWE-697; CWE-73; CWE-74 |
-| 31 | CAPEC-448 | Embed Virus into DLL | Data / Storage | Telemetry Gap / Evasion | T1027.009 | Telemetry Gap / Evasion; CWE: CWE-506 |
-| 32 | CAPEC-649 | Adding a Space to a File Extension | Data / Storage | Telemetry Gap / Evasion | T1036.006 | Telemetry Gap / Evasion; CWE: CWE-46 |
-| 33 | CAPEC-217 | Exploiting Incorrectly Configured SSL/TLS | Data / Storage | Destructive / Ransomware |  | Destructive / Ransomware; CWE: CWE-201 |
-| 34 | CAPEC-578 | Disable Security Software | Identity / IAM | Identity / MFA Bypass | T1556.006 | Identity / MFA Bypass; CWE: CWE-284 |
-| 35 | CAPEC-572 | Artificially Inflate File Sizes | Data / Storage | Rare but High Impact | T1027.001 | Rare but High Impact |
-| 36 | CAPEC-15 | Command Delimiters | Data / Storage | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; CWE: CWE-138; CWE-140; CWE-146; CWE-154; CWE-157; CWE-184; CWE-185; CWE-697; CWE-77; CWE-78; CWE-93 |
-| 37 | CAPEC-698 | Install Malicious Extension | Server / Workload | Telemetry Gap / Evasion | T1176; T1505.004 | Telemetry Gap / Evasion; CWE: CWE-507; CWE-829 |
-| 38 | CAPEC-504 | Task Impersonation | Server / Workload | Telemetry Gap / Evasion | T1036.004 | Telemetry Gap / Evasion; CWE: CWE-1021 |
-| 39 | CAPEC-678 | System Build Data Maliciously Altered | Network / Perimeter | Supply Chain / Trusted Dependency | T1195.002 | Supply Chain / Trusted Dependency |
-| 40 | CAPEC-669 | Alteration of a Software Update | Network / Perimeter | Supply Chain / Trusted Dependency | T1195.002 | Supply Chain / Trusted Dependency |
-| 41 | CAPEC-186 | Malicious Software Update | Network / Perimeter | Supply Chain / Trusted Dependency | T1195.002 | Supply Chain / Trusted Dependency; CWE: CWE-494 |
-| 42 | CAPEC-159 | Redirect Access to Libraries | Server / Workload | Rare but High Impact | T1574.008 | Rare but High Impact; CWE: CWE-706 |
-| 43 | CAPEC-665 | Exploitation of Thunderbolt Protection Flaws | Identity / IAM | Identity / MFA Bypass | T1211; T1542.002; T1556 | Identity / MFA Bypass; CWE: CWE-1188; CWE-288; CWE-345; CWE-353; CWE-862 |
-| 44 | CAPEC-478 | Modification of Windows Service Configuration | Identity / IAM | Zero-Day / Unknown Exploit | T1543.003; T1574.011 | Zero-Day / Unknown Exploit; CWE: CWE-284 |
-| 45 | CAPEC-697 | DHCP Spoofing | Identity / IAM | Identity / MFA Bypass | T1557.003 | Identity / MFA Bypass; CWE: CWE-923 |
-| 46 | CAPEC-551 | Modify Existing Service | Identity / IAM | Telemetry Gap / Evasion | T1543 | Telemetry Gap / Evasion; CWE: CWE-284; CWE-522 |
-| 47 | CAPEC-17 | Using Malicious Files | Public Internet / Edge | Living-off-the-Land | T1574.005; T1574.010 | Living-off-the-Land; CWE: CWE-270; CWE-272; CWE-282; CWE-285; CWE-59; CWE-693; CWE-732 |
-| 48 | CAPEC-482 | TCP Flood | Cloud Control Plane | Cloud / SaaS Tenant Blast Radius | T1498.001; T1499.001; T1499.002 | Cloud / SaaS Tenant Blast Radius; CWE: CWE-770 |
-| 49 | CAPEC-21 | Exploitation of Trusted Identifiers | Identity / IAM | Identity / MFA Bypass | T1134; T1528; T1539 | Identity / MFA Bypass; CWE: CWE-290; CWE-302; CWE-346; CWE-384; CWE-539; CWE-6; CWE-602; CWE-642; CWE-664 |
-| 50 | CAPEC-655 | Avoid Security Tool Identification by Adding Data | Data / Storage | Rare but High Impact | T1027.001 | Rare but High Impact |
-| 51 | CAPEC-652 | Use of Known Kerberos Credentials | Identity / IAM | Identity / MFA Bypass | T1558 | Identity / MFA Bypass; CWE: CWE-262; CWE-263; CWE-294; CWE-307; CWE-308; CWE-309; CWE-522; CWE-654; CWE-836 |
-| 52 | CAPEC-560 | Use of Known Domain Credentials | Identity / IAM | Identity / MFA Bypass | T1078 | Identity / MFA Bypass; CWE: CWE-1273; CWE-262; CWE-263; CWE-307; CWE-308; CWE-309; CWE-522; CWE-654 |
-| 53 | CAPEC-550 | Install New Service | Identity / IAM | Cloud / SaaS Tenant Blast Radius | T1543 | Cloud / SaaS Tenant Blast Radius; CWE: CWE-284 |
-| 54 | CAPEC-268 | Audit Log Manipulation | ESXi / Hypervisor | Cloud / SaaS Tenant Blast Radius | T1070 | Cloud / SaaS Tenant Blast Radius; CWE: CWE-117 |
-| 55 | CAPEC-620 | Drop Encryption Level | Identity / IAM | Telemetry Gap / Evasion | T1600 | Telemetry Gap / Evasion; CWE: CWE-757 |
-| 56 | CAPEC-509 | Kerberoasting | Identity / IAM | Identity / MFA Bypass | T1558.003 | Identity / MFA Bypass; CWE: CWE-262; CWE-263; CWE-294; CWE-308; CWE-309; CWE-521; CWE-522 |
-| 57 | CAPEC-523 | Malicious Software Implanted | Network / Perimeter | Supply Chain / Trusted Dependency | T1195.002 | Supply Chain / Trusted Dependency |
-| 58 | CAPEC-564 | Run Software at Logon | Identity / IAM | Exploit Chain / Multi-Step | T1037; T1543.001; T1543.004; T1547 | Exploit Chain / Multi-Step; CWE: CWE-284 |
-| 59 | CAPEC-662 | Adversary in the Browser (AiTB) | Public Internet / Edge | Identity / MFA Bypass | T1185 | Identity / MFA Bypass; CWE: CWE-300; CWE-494 |
-| 60 | CAPEC-489 | SSL Flood | Public Internet / Edge | Cloud / SaaS Tenant Blast Radius | T1499.002 | Cloud / SaaS Tenant Blast Radius; CWE: CWE-770 |
-| 61 | CAPEC-148 | Content Spoofing | Cloud Control Plane | Cloud / SaaS Tenant Blast Radius | T1491 | Cloud / SaaS Tenant Blast Radius; CWE: CWE-345 |
-| 62 | CAPEC-130 | Excessive Allocation | Cloud Control Plane | Cloud / SaaS Tenant Blast Radius | T1499.003 | Cloud / SaaS Tenant Blast Radius; CWE: CWE-1325; CWE-404; CWE-770 |
-| 63 | CAPEC-529 | Malware-Directed Internal Reconnaissance | Network / Perimeter | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
-| 64 | CAPEC-150 | Collect Data from Common Resource Locations | Identity / IAM | Identity / MFA Bypass | T1003; T1119; T1213; T1530; T1555; T1602 | Identity / MFA Bypass; CWE: CWE-1239; CWE-1258; CWE-1266; CWE-1272; CWE-1323; CWE-1330; CWE-552 |
-| 65 | CAPEC-593 | Session Hijacking | Identity / IAM | Identity / MFA Bypass | T1185; T1550.001; T1563 | Identity / MFA Bypass; CWE: CWE-287 |
-| 66 | CAPEC-19 | Embedding Scripts within Scripts | Identity / IAM | Rare but High Impact | T1027.009; T1546.004; T1546.016 | Rare but High Impact; CWE: CWE-284 |
-| 67 | CAPEC-270 | Modification of Registry Run Keys | Identity / IAM | Insider / Trusted Access | T1547.001; T1547.014 | Insider / Trusted Access; CWE: CWE-15 |
-| 68 | CAPEC-609 | Cellular Traffic Intercept | Identity / IAM | Identity / MFA Bypass | T1111 | Identity / MFA Bypass; CWE: CWE-311 |
-| 69 | CAPEC-561 | Windows Admin Shares with Stolen Credentials | Identity / IAM | Identity / MFA Bypass | T1021.002 | Identity / MFA Bypass; CWE: CWE-262; CWE-263; CWE-294; CWE-308; CWE-309; CWE-521; CWE-522 |
-| 70 | CAPEC-9 | Buffer Overflow in Local Command-Line Utilities | Server / Workload | Exploit Chain / Multi-Step |  | Exploit Chain / Multi-Step; CWE: CWE-118; CWE-119; CWE-120; CWE-20; CWE-680; CWE-697; CWE-733; CWE-74 |
-
-## Layer 2 Correlation Hints
-
-- Treat same user, source IP, destination IP, host, session ID, request ID, transaction ID, object ID, or time window as correlation keys.
-- Treat overlapping ATT&CK technique, CAPEC pattern, CWE, edge case, or affected banking surface as pattern correlation keys.
-- Every positive Layer 1 finding is forwarded as a hypothesis with the best available masked evidence.
-- Do not use this matrix to compute runtime risk, priority, containment, or action eligibility.
-- Runtime risk scoring and response gates belong only to Layer 2.
-- Unknown or zero-day-like behavior should be emitted with an empty mapping when needed and the best available evidence.
-
-## Agent Prompt Reference
-
-Use `agent_a/agent_a_internal_network_edr_system_prompt.md` for Agent A.
+| 1 | CAPEC-150 | Collect Data from Common Resource Locations | Endpoint / EDR; Internal Network | Credential Artifact Abuse | T1003; T1119; T1213; T1530; T1555; T1602 | Credential Artifact Abuse; CWE: CWE-1239; CWE-1258; CWE-1266; CWE-1272; CWE-1323; CWE-1330; CWE-552 |
+| 2 | CAPEC-639 | Probe System Files | Internal Network; Endpoint / EDR | Destructive / Ransomware | T1039; T1552.001; T1552.003; T1552.004; T1552.006 | Destructive / Ransomware; CWE: CWE-552 |
+| 3 | CAPEC-636 | Hiding Malicious Data or Code within Files | Endpoint / EDR; Internal Network | Telemetry Gap / Evasion | T1001.002; T1027.003; T1027.004; T1218.001; T1221 | Telemetry Gap / Evasion; CWE: CWE-506 |
+| 4 | CAPEC-555 | Remote Services with Stolen Credentials | Internal Network; Server / Workload; Endpoint / EDR | Credential Artifact Abuse | T1021; T1114.002; T1133 | Credential Artifact Abuse; CWE: CWE-262; CWE-263; CWE-294; CWE-308; CWE-309; CWE-521; CWE-522 |
+| 5 | CAPEC-647 | Collect Data from Registries | Endpoint / EDR | Living-off-the-Land | T1005; T1012; T1552.002 | Living-off-the-Land; CWE: CWE-285 |
+| 6 | CAPEC-482 | TCP Flood | Internal Network; Server / Workload; Endpoint / EDR | Server / Workload Blast Radius | T1498.001; T1499.001; T1499.002 | Server / Workload Blast Radius; CWE: CWE-770 |
+| 7 | CAPEC-634 | Probe Audio and Video Peripherals | Endpoint / EDR | Zero-Day / Unknown Exploit | T1123; T1125 | Zero-Day / Unknown Exploit; CWE: CWE-267 |
+| 8 | CAPEC-545 | Pull Data from System Resources | Endpoint / EDR | Server / Workload Blast Radius | T1005; T1555.001 | Server / Workload Blast Radius; CWE: CWE-1239; CWE-1243; CWE-1258; CWE-1266; CWE-1272; CWE-1278; CWE-1323; CWE-1330 |
+| 9 | CAPEC-125 | Flooding | Internal Network; Server / Workload; Endpoint / EDR | Server / Workload Blast Radius | T1498.001; T1499 | Server / Workload Blast Radius; CWE: CWE-404; CWE-770 |
+| 10 | CAPEC-94 | Adversary in the Middle (AiTM) | Internal Network | Credential Artifact Abuse | T1557 | Credential Artifact Abuse; CWE: CWE-287; CWE-290; CWE-294; CWE-300; CWE-593 |
+| 11 | CAPEC-675 | Retrieve Data from Decommissioned Devices | Endpoint / EDR | Destructive / Ransomware | T1052 | Destructive / Ransomware; CWE: CWE-1266 |
+| 12 | CAPEC-490 | Amplification | Internal Network; Server / Workload | Server / Workload Blast Radius | T1498.002 | Server / Workload Blast Radius; CWE: CWE-770 |
+| 13 | CAPEC-489 | SSL Flood | Endpoint / EDR; Server / Workload | Server / Workload Blast Radius | T1499.002 | Server / Workload Blast Radius; CWE: CWE-770 |
+| 14 | CAPEC-465 | Transparent Proxy Abuse | Internal Network | Zero-Day / Unknown Exploit | T1090.001 | Zero-Day / Unknown Exploit; CWE: CWE-441 |
+| 15 | CAPEC-25 | Forced Deadlock | Endpoint / EDR; Server / Workload | Server / Workload Blast Radius | T1499.004 | Server / Workload Blast Radius; CWE: CWE-1322; CWE-412; CWE-567; CWE-662; CWE-667; CWE-833 |
+| 16 | CAPEC-227 | Sustained Client Engagement | Endpoint / EDR; Server / Workload | Server / Workload Blast Radius | T1499 | Server / Workload Blast Radius; CWE: CWE-400 |
+| 17 | CAPEC-148 | Content Spoofing | Internal Network; Endpoint / EDR | Server / Workload Blast Radius | T1491 | Server / Workload Blast Radius; CWE: CWE-345 |
+| 18 | CAPEC-131 | Resource Leak Exposure | Endpoint / EDR; Server / Workload | Server / Workload Blast Radius | T1499 | Server / Workload Blast Radius; CWE: CWE-404 |
+| 19 | CAPEC-130 | Excessive Allocation | Endpoint / EDR; Server / Workload | Server / Workload Blast Radius | T1499.003 | Server / Workload Blast Radius; CWE: CWE-1325; CWE-404; CWE-770 |
+| 20 | CAPEC-75 | Manipulating Writeable Configuration Files | Endpoint / EDR | Rare but High Impact |  | Rare but High Impact; CWE: CWE-346; CWE-349; CWE-353; CWE-354; CWE-77; CWE-99 |
+| 21 | CAPEC-44 | Overflow Binary Resource File | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; CWE: CWE-119; CWE-120; CWE-697 |
+| 22 | CAPEC-163 | Spear Phishing | Server / Workload | Zero-Day / Unknown Exploit | T1534; T1566.001; T1566.002; T1566.003; T1598.001; T1598.002; T1598.003 | Zero-Day / Unknown Exploit; CWE: CWE-451 |
+| 23 | CAPEC-640 | Inclusion of Code in Existing Process | Endpoint / EDR; Server / Workload | Credential Artifact Abuse | T1505.005; T1574.006; T1574.013; T1620 | Credential Artifact Abuse; CWE: CWE-114; CWE-829 |
+| 24 | CAPEC-642 | Replace Binaries | Endpoint / EDR; Server / Workload | Credential Artifact Abuse | T1505.005; T1554; T1574.005 | Credential Artifact Abuse; CWE: CWE-732 |
+| 25 | CAPEC-471 | Search Order Hijacking | Endpoint / EDR | Telemetry Gap / Evasion | T1574.001; T1574.004; T1574.008 | Telemetry Gap / Evasion; CWE: CWE-427 |
+| 26 | CAPEC-21 | Exploitation of Trusted Identifiers | Endpoint / EDR | Credential Artifact Abuse | T1134; T1528; T1539 | Credential Artifact Abuse; CWE: CWE-290; CWE-302; CWE-346; CWE-384; CWE-539; CWE-6; CWE-602; CWE-642; CWE-664 |
+| 27 | CAPEC-542 | Targeted Malware | Endpoint / EDR | Zero-Day / Unknown Exploit | T1027; T1587.001 | Zero-Day / Unknown Exploit |
+| 28 | CAPEC-478 | Modification of Windows Service Configuration | Endpoint / EDR; Server / Workload | Zero-Day / Unknown Exploit | T1543.003; T1574.011 | Zero-Day / Unknown Exploit; CWE: CWE-284 |
+| 29 | CAPEC-158 | Sniffing Network Traffic | Internal Network | Credential Artifact Abuse | T1040; T1111 | Credential Artifact Abuse; CWE: CWE-311 |
+| 30 | CAPEC-65 | Sniff Application Code | Internal Network | Credential Artifact Abuse | T1040 | Credential Artifact Abuse; CWE: CWE-311; CWE-318; CWE-319; CWE-693 |
+| 31 | CAPEC-616 | Establish Rogue Location | Endpoint / EDR | Server / Workload Blast Radius | T1036.005 | Server / Workload Blast Radius; CWE: CWE-200 |
+| 32 | CAPEC-267 | Leverage Alternate Encoding | Endpoint / EDR | Zero-Day / Unknown Exploit | T1027 | Zero-Day / Unknown Exploit; CWE: CWE-172; CWE-173; CWE-180; CWE-181; CWE-20; CWE-692; CWE-697; CWE-73; CWE-74 |
+| 33 | CAPEC-191 | Read Sensitive Constants Within an Executable | Endpoint / EDR | Credential Artifact Abuse | T1552.001 | Credential Artifact Abuse; CWE: CWE-798 |
+| 34 | CAPEC-177 | Create files with the same name as files protected with a higher classification | Endpoint / EDR; Server / Workload | Telemetry Gap / Evasion | T1036 | Telemetry Gap / Evasion; CWE: CWE-706 |
+| 35 | CAPEC-666 | BlueSmacking | Internal Network; Server / Workload; Endpoint / EDR | Server / Workload Blast Radius | T1498.001; T1499.001 | Server / Workload Blast Radius; CWE: CWE-404 |
+| 36 | CAPEC-697 | DHCP Spoofing | Internal Network; Server / Workload | Credential Artifact Abuse | T1557.003 | Credential Artifact Abuse; CWE: CWE-923 |
+| 37 | CAPEC-481 | Contradictory Destinations in Traffic Routing Schemes | Internal Network | Zero-Day / Unknown Exploit | T1090.004 | Zero-Day / Unknown Exploit; CWE: CWE-923 |
+| 38 | CAPEC-2 | Inducing Account Lockout | Server / Workload | Credential Artifact Abuse | T1531 | Credential Artifact Abuse; CWE: CWE-645 |
+| 39 | CAPEC-175 | Code Inclusion | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; CWE: CWE-829 |
+| 40 | CAPEC-564 | Run Software at Logon | Endpoint / EDR; Server / Workload; Internal Network | Living-off-the-Land | T1037; T1543.001; T1543.004; T1547 | Living-off-the-Land; CWE: CWE-284 |
+| 41 | CAPEC-665 | Exploitation of Thunderbolt Protection Flaws | Endpoint / EDR; Internal Network | Credential Artifact Abuse | T1211; T1542.002; T1556 | Credential Artifact Abuse; CWE: CWE-1188; CWE-288; CWE-345; CWE-353; CWE-862 |
+| 42 | CAPEC-552 | Install Rootkit | Server / Workload | Living-off-the-Land | T1014; T1542.003; T1547.006 | Living-off-the-Land; CWE: CWE-284 |
+| 43 | CAPEC-35 | Leverage Executable Code in Non-Executable Files | Endpoint / EDR | Telemetry Gap / Evasion | T1027.006; T1027.009; T1564.009 | Telemetry Gap / Evasion; CWE: CWE-270; CWE-272; CWE-282; CWE-59; CWE-94; CWE-95; CWE-96; CWE-97 |
+| 44 | CAPEC-19 | Embedding Scripts within Scripts | Endpoint / EDR | Telemetry Gap / Evasion | T1027.009; T1546.004; T1546.016 | Telemetry Gap / Evasion; CWE: CWE-284 |
+| 45 | CAPEC-670 | Software Development Tools Maliciously Altered | Internal Network | Zero-Day / Unknown Exploit | T1127; T1195.001 | Zero-Day / Unknown Exploit |
+| 46 | CAPEC-558 | Replace Trusted Executable | Endpoint / EDR; Server / Workload | Credential Artifact Abuse | T1505.005; T1546.008 | Credential Artifact Abuse; CWE: CWE-284 |
+| 47 | CAPEC-473 | Signature Spoof | Endpoint / EDR | Server / Workload Blast Radius | T1036.001; T1553.002 | Server / Workload Blast Radius; CWE: CWE-20; CWE-290; CWE-327 |
+| 48 | CAPEC-270 | Modification of Registry Run Keys | Server / Workload; Endpoint / EDR | Living-off-the-Land | T1547.001; T1547.014 | Living-off-the-Land; CWE: CWE-15 |
+| 49 | CAPEC-203 | Manipulate Registry Information | Endpoint / EDR | Telemetry Gap / Evasion | T1112; T1647 | Telemetry Gap / Evasion; CWE: CWE-15 |
+| 50 | CAPEC-660 | Root/Jailbreak Detection Evasion via Hooking | Endpoint / EDR | Telemetry Gap / Evasion | T1055 | Telemetry Gap / Evasion; CWE: CWE-829 |
+| 51 | CAPEC-655 | Avoid Security Tool Identification by Adding Data | Endpoint / EDR | Telemetry Gap / Evasion | T1027.001 | Telemetry Gap / Evasion |
+| 52 | CAPEC-651 | Eavesdropping | Internal Network | Credential Artifact Abuse | T1111 | Credential Artifact Abuse; CWE: CWE-200 |
+| 53 | CAPEC-633 | Token Impersonation | Endpoint / EDR | Credential Artifact Abuse | T1134 | Credential Artifact Abuse; CWE: CWE-1270; CWE-287 |
+| 54 | CAPEC-578 | Disable Security Software | Endpoint / EDR | Credential Artifact Abuse | T1556.006 | Credential Artifact Abuse; CWE: CWE-284 |
+| 55 | CAPEC-572 | Artificially Inflate File Sizes | Endpoint / EDR | Telemetry Gap / Evasion | T1027.001 | Telemetry Gap / Evasion |
+| 56 | CAPEC-561 | Windows Admin Shares with Stolen Credentials | Internal Network; Server / Workload | Credential Artifact Abuse | T1021.002 | Credential Artifact Abuse; CWE: CWE-262; CWE-263; CWE-294; CWE-308; CWE-309; CWE-521; CWE-522 |
+| 57 | CAPEC-560 | Use of Known Domain Credentials | Server / Workload | Credential Artifact Abuse | T1078 | Credential Artifact Abuse; CWE: CWE-1273; CWE-262; CWE-263; CWE-307; CWE-308; CWE-309; CWE-522; CWE-654 |
+| 58 | CAPEC-551 | Modify Existing Service | Endpoint / EDR; Server / Workload | Exploit Chain / Multi-Step | T1543 | Exploit Chain / Multi-Step; CWE: CWE-284; CWE-522 |
+| 59 | CAPEC-550 | Install New Service | Endpoint / EDR; Server / Workload | Exploit Chain / Multi-Step | T1543 | Exploit Chain / Multi-Step; CWE: CWE-284 |
+| 60 | CAPEC-480 | Escaping Virtualization | Server / Workload | Rare but High Impact | T1611 | Rare but High Impact; CWE: CWE-693 |
+| 61 | CAPEC-448 | Embed Virus into DLL | Endpoint / EDR | Telemetry Gap / Evasion | T1027.009 | Telemetry Gap / Evasion; CWE: CWE-506 |
+| 62 | CAPEC-268 | Audit Log Manipulation | Endpoint / EDR; Internal Network | Telemetry Gap / Evasion | T1070 | Telemetry Gap / Evasion; CWE: CWE-117 |
+| 63 | CAPEC-251 | Local Code Inclusion | Endpoint / EDR | Telemetry Gap / Evasion | T1055 | Telemetry Gap / Evasion; CWE: CWE-829 |
+| 64 | CAPEC-132 | Symlink Attack | Server / Workload | Living-off-the-Land | T1547.009 | Living-off-the-Land; CWE: CWE-59 |
+| 65 | CAPEC-93 | Log Injection-Tampering-Forging | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-117; CWE-150; CWE-75 |
+| 66 | CAPEC-79 | Using Slashes in Alternate Encoding | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; CWE: CWE-173; CWE-180; CWE-181; CWE-185; CWE-20; CWE-200; CWE-22; CWE-697; CWE-707; CWE-73; CWE-74 |
+| 67 | CAPEC-653 | Use of Known Operating System Credentials | Server / Workload | Credential Artifact Abuse |  | Credential Artifact Abuse; CWE: CWE-262; CWE-263; CWE-307; CWE-308; CWE-309; CWE-522; CWE-654 |
+| 68 | CAPEC-6 | Argument Injection | Server / Workload | Rare but High Impact |  | Rare but High Impact; CWE: CWE-146; CWE-184; CWE-185; CWE-697; CWE-74; CWE-78 |
+| 69 | CAPEC-46 | Overflow Variables and Tags | Endpoint / EDR | Rare but High Impact |  | Rare but High Impact; CWE: CWE-118; CWE-119; CWE-120; CWE-20; CWE-680; CWE-697; CWE-733; CWE-74 |
+| 70 | CAPEC-45 | Buffer Overflow via Symbolic Links | Endpoint / EDR | Rare but High Impact |  | Rare but High Impact; CWE: CWE-118; CWE-119; CWE-120; CWE-20; CWE-285; CWE-302; CWE-680; CWE-697; CWE-74 |
+| 71 | CAPEC-29 | Leveraging Time-of-Check and Time-of-Use (TOCTOU) Race Conditions | Endpoint / EDR | Rare but High Impact |  | Rare but High Impact; CWE: CWE-362; CWE-366; CWE-367; CWE-368; CWE-370; CWE-662; CWE-663; CWE-665; CWE-691 |
+| 72 | CAPEC-26 | Leveraging Race Conditions | Endpoint / EDR | Rare but High Impact |  | Rare but High Impact; CWE: CWE-1223; CWE-1254; CWE-1298; CWE-362; CWE-363; CWE-366; CWE-368; CWE-370; CWE-662; CWE-665; CWE-667; CWE-689 |
+| 73 | CAPEC-242 | Code Injection | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; CWE: CWE-94 |
+| 74 | CAPEC-229 | Serialized Data Parameter Blowup | Server / Workload; Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; CWE: CWE-770 |
+| 75 | CAPEC-201 | Serialized Data External Linking | Endpoint / EDR | Rare but High Impact |  | Rare but High Impact; CWE: CWE-829 |
+| 76 | CAPEC-15 | Command Delimiters | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; CWE: CWE-138; CWE-140; CWE-146; CWE-154; CWE-157; CWE-184; CWE-185; CWE-697; CWE-77; CWE-78; CWE-93 |
+| 77 | CAPEC-275 | DNS Rebinding | Internal Network; Server / Workload | Rare but High Impact |  | Rare but High Impact; CWE: CWE-350 |
+| 78 | CAPEC-23 | File Content Injection | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; CWE: CWE-20 |
+| 79 | CAPEC-126 | Path Traversal | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; CWE: CWE-22 |
+| 80 | CAPEC-38 | Leveraging/Manipulating Configuration File Search Paths | Endpoint / EDR | Rare but High Impact | T1574.007; T1574.009 | Rare but High Impact; CWE: CWE-426; CWE-427 |
+| 81 | CAPEC-17 | Using Malicious Files | Endpoint / EDR; Server / Workload | Zero-Day / Unknown Exploit | T1574.005; T1574.010 | Zero-Day / Unknown Exploit; CWE: CWE-270; CWE-272; CWE-282; CWE-285; CWE-59; CWE-693; CWE-732 |
+| 82 | CAPEC-649 | Adding a Space to a File Extension | Endpoint / EDR | Server / Workload Blast Radius | T1036.006 | Server / Workload Blast Radius; CWE: CWE-46 |
+| 83 | CAPEC-638 | Altered Component Firmware | Endpoint / EDR | Zero-Day / Unknown Exploit | T1542.002 | Zero-Day / Unknown Exploit |
+| 84 | CAPEC-579 | Replace Winlogon Helper DLL | Server / Workload; Endpoint / EDR | Living-off-the-Land | T1547.004 | Living-off-the-Land; CWE: CWE-15 |
+| 85 | CAPEC-562 | Modify Shared File | Endpoint / EDR | Server / Workload Blast Radius | T1080 | Server / Workload Blast Radius; CWE: CWE-284 |
+| 86 | CAPEC-556 | Replace File Extension Handlers | Endpoint / EDR | Exploit Chain / Multi-Step | T1546.001 | Exploit Chain / Multi-Step; CWE: CWE-284 |
+| 87 | CAPEC-30 | Hijacking a Privileged Thread of Execution | Endpoint / EDR | Telemetry Gap / Evasion | T1055.003 | Telemetry Gap / Evasion; CWE: CWE-270 |
+| 88 | CAPEC-180 | Exploiting Incorrectly Configured Access Control Security Levels | Endpoint / EDR; Server / Workload | Zero-Day / Unknown Exploit | T1574.010 | Zero-Day / Unknown Exploit; CWE: CWE-1190; CWE-1191; CWE-1193; CWE-1220; CWE-1268; CWE-1280; CWE-1297; CWE-1311; CWE-1315; CWE-1318; CWE-1320; CWE-1321; CWE-732 |
+| 89 | CAPEC-165 | File Manipulation | Endpoint / EDR | Server / Workload Blast Radius | T1036.003 | Server / Workload Blast Radius |
+| 90 | CAPEC-690 | Metadata Spoofing | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 91 | CAPEC-604 | Wi-Fi Jamming | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 92 | CAPEC-441 | Malicious Logic Insertion | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-284 |
+| 93 | CAPEC-27 | Leveraging Race Conditions via Symbolic Links | Endpoint / EDR | Exploit Chain / Multi-Step |  | Exploit Chain / Multi-Step; CWE: CWE-367; CWE-61; CWE-662; CWE-667; CWE-689 |
+| 94 | CAPEC-313 | Passive OS Fingerprinting | Internal Network; Server / Workload | Server / Workload Blast Radius | T1082 | Server / Workload Blast Radius; CWE: CWE-200 |
+| 95 | CAPEC-292 | Host Discovery | Internal Network | Telemetry Gap / Evasion | T1018 | Telemetry Gap / Evasion; CWE: CWE-200 |
+| 96 | CAPEC-457 | USB Memory Attacks | Endpoint / EDR | Zero-Day / Unknown Exploit | T1091; T1092 | Zero-Day / Unknown Exploit; CWE: CWE-1299 |
+| 97 | CAPEC-309 | Network Topology Mapping | Internal Network | Telemetry Gap / Evasion | T1016; T1049; T1590 | Telemetry Gap / Evasion; CWE: CWE-200 |
+| 98 | CAPEC-98 | Phishing | Server / Workload | Zero-Day / Unknown Exploit | T1566; T1598 | Zero-Day / Unknown Exploit; CWE: CWE-451 |
+| 99 | CAPEC-677 | Server Motherboard Compromise | Server / Workload; Endpoint / EDR | Supply Chain / Trusted Dependency | T1195.003 | Supply Chain / Trusted Dependency |
+| 100 | CAPEC-646 | Peripheral Footprinting | Internal Network; Endpoint / EDR | Destructive / Ransomware | T1120 | Destructive / Ransomware; CWE: CWE-200 |
+| 101 | CAPEC-637 | Collect Data from Clipboard | Endpoint / EDR | Zero-Day / Unknown Exploit | T1115 | Zero-Day / Unknown Exploit; CWE: CWE-267 |
+| 102 | CAPEC-577 | Owner Footprinting | Endpoint / EDR | Zero-Day / Unknown Exploit | T1033 | Zero-Day / Unknown Exploit; CWE: CWE-200 |
+| 103 | CAPEC-573 | Process Footprinting | Endpoint / EDR | Living-off-the-Land | T1057 | Living-off-the-Land; CWE: CWE-200 |
+| 104 | CAPEC-511 | Infiltration of Software Development Environment | Endpoint / EDR | Rare but High Impact | T1195.001 | Rare but High Impact |
+| 105 | CAPEC-504 | Task Impersonation | Endpoint / EDR; Server / Workload | Server / Workload Blast Radius | T1036.004 | Server / Workload Blast Radius; CWE: CWE-1021 |
+| 106 | CAPEC-497 | File Discovery | Internal Network; Endpoint / EDR | Rare but High Impact | T1083 | Rare but High Impact; CWE: CWE-200 |
+| 107 | CAPEC-446 | Malicious Logic Insertion into Product via Inclusion of Third-Party Component | Endpoint / EDR | Supply Chain / Trusted Dependency | T1195 | Supply Chain / Trusted Dependency |
+| 108 | CAPEC-445 | Malicious Logic Insertion into Product Software via Configuration Management Manipulation | Endpoint / EDR | Supply Chain / Trusted Dependency | T1195.001 | Supply Chain / Trusted Dependency |
+| 109 | CAPEC-439 | Manipulation During Distribution | Server / Workload | Telemetry Gap / Evasion | T1195 | Telemetry Gap / Evasion; CWE: CWE-1269 |
+| 110 | CAPEC-300 | Port Scanning | Internal Network; Server / Workload | Zero-Day / Unknown Exploit | T1046 | Zero-Day / Unknown Exploit; CWE: CWE-200 |
+| 111 | CAPEC-127 | Directory Indexing | Endpoint / EDR | Rare but High Impact | T1083 | Rare but High Impact; CWE: CWE-276; CWE-285; CWE-288; CWE-424; CWE-425; CWE-693; CWE-732 |
+| 112 | CAPEC-9 | Buffer Overflow in Local Command-Line Utilities | Endpoint / EDR | Exploit Chain / Multi-Step |  | Exploit Chain / Multi-Step; CWE: CWE-118; CWE-119; CWE-120; CWE-20; CWE-680; CWE-697; CWE-733; CWE-74 |
+| 113 | CAPEC-641 | DLL Side-Loading | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-706 |
+| 114 | CAPEC-536 | Data Injected During Configuration | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-284 |
+| 115 | CAPEC-271 | Schema Poisoning | Server / Workload | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-15 |
+| 116 | CAPEC-174 | Flash Parameter Injection | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; CWE: CWE-88 |
+| 117 | CAPEC-139 | Relative Path Traversal | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; CWE: CWE-23 |
+| 118 | CAPEC-635 | Alternative Execution Due to Deceptive Filenames | Endpoint / EDR | Server / Workload Blast Radius | T1036.007 | Server / Workload Blast Radius; CWE: CWE-162 |
+| 119 | CAPEC-601 | Jamming | Server / Workload | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 120 | CAPEC-586 | Object Injection | Internal Network; Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; CWE: CWE-502 |
+| 121 | CAPEC-549 | Local Execution of Code | Endpoint / EDR | Destructive / Ransomware |  | Destructive / Ransomware; CWE: CWE-829 |
+| 122 | CAPEC-4 | Using Alternative IP Address Encodings | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-173; CWE-291 |
+| 123 | CAPEC-155 | Screen Temporary Files for Sensitive Information | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; CWE: CWE-377 |
+| 124 | CAPEC-643 | Identify Shared Files/Directories on System | Internal Network | Zero-Day / Unknown Exploit | T1135 | Zero-Day / Unknown Exploit; CWE: CWE-200; CWE-267 |
+| 125 | CAPEC-678 | System Build Data Maliciously Altered | Endpoint / EDR | Supply Chain / Trusted Dependency | T1195.002 | Supply Chain / Trusted Dependency |
+| 126 | CAPEC-669 | Alteration of a Software Update | Endpoint / EDR | Supply Chain / Trusted Dependency | T1195.002 | Supply Chain / Trusted Dependency |
+| 127 | CAPEC-574 | Services Footprinting | Server / Workload | Zero-Day / Unknown Exploit | T1007 | Zero-Day / Unknown Exploit; CWE: CWE-200 |
+| 128 | CAPEC-141 | Cache Poisoning | Internal Network | Credential Artifact Abuse | T1557.002 | Credential Artifact Abuse; CWE: CWE-345; CWE-346; CWE-348; CWE-349 |
+| 129 | CAPEC-606 | Weakening of Cellular Encryption | Internal Network | Destructive / Ransomware |  | Destructive / Ransomware; CWE: CWE-757 |
+| 130 | CAPEC-590 | IP Address Blocking | Server / Workload | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-300 |
+| 131 | CAPEC-582 | Route Disabling | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 132 | CAPEC-548 | Contaminate Resource | Internal Network | Destructive / Ransomware |  | Destructive / Ransomware |
+| 133 | CAPEC-533 | Malicious Manual Software Update | Internal Network; Endpoint / EDR | Supply Chain / Trusted Dependency |  | Supply Chain / Trusted Dependency; CWE: CWE-494 |
+| 134 | CAPEC-499 | Android Intent Intercept | Server / Workload | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; CWE: CWE-925 |
+| 135 | CAPEC-491 | Quadratic Data Expansion | Server / Workload | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; CWE: CWE-770 |
+| 136 | CAPEC-263 | Force Use of Corrupted Files | Server / Workload; Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; CWE: CWE-829 |
+| 137 | CAPEC-253 | Remote Code Inclusion | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; CWE: CWE-829 |
+| 138 | CAPEC-221 | Data Serialization External Entities Blowup | Server / Workload; Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-611 |
+| 139 | CAPEC-200 | Removal of filters: Input filters, output filters, data masking | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 140 | CAPEC-194 | Fake the Source of Data | Server / Workload | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-287 |
+| 141 | CAPEC-181 | Flash File Overlay | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-1021 |
+| 142 | CAPEC-176 | Configuration/Environment Manipulation | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-1233; CWE-1234; CWE-1304; CWE-1328; CWE-15 |
+| 143 | CAPEC-168 | Windows ::DATA Alternate Data Stream | Endpoint / EDR | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; CWE: CWE-212; CWE-69 |
+| 144 | CAPEC-161 | Infrastructure Manipulation | Internal Network; Server / Workload | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; CWE: CWE-923 |
+| 145 | CAPEC-149 | Explore for Predictable Temporary File Names | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-377 |
+| 146 | CAPEC-661 | Root/Jailbreak Detection Evasion via Debugging | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-489 |
+| 147 | CAPEC-529 | Malware-Directed Internal Reconnaissance | Internal Network; Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 148 | CAPEC-700 | Network Boundary Bridging | Internal Network | Telemetry Gap / Evasion | T1599 | Telemetry Gap / Evasion |
+| 149 | CAPEC-598 | DNS Spoofing | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 150 | CAPEC-594 | Traffic Injection | Internal Network | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; CWE: CWE-940 |
+| 151 | CAPEC-589 | DNS Blocking | Internal Network; Server / Workload | Destructive / Ransomware |  | Destructive / Ransomware; CWE: CWE-300 |
+| 152 | CAPEC-585 | DNS Domain Seizure | Internal Network; Server / Workload | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 153 | CAPEC-584 | BGP Route Disabling | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 154 | CAPEC-583 | Disabling Network Hardware | Internal Network; Server / Workload | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion |
+| 155 | CAPEC-495 | UDP Fragmentation | Internal Network; Server / Workload | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-404; CWE-770 |
+| 156 | CAPEC-494 | TCP Fragmentation | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-404; CWE-770 |
+| 157 | CAPEC-487 | ICMP Flood | Internal Network; Server / Workload | Credential Artifact Abuse |  | Credential Artifact Abuse; CWE: CWE-770 |
+| 158 | CAPEC-486 | UDP Flood | Internal Network; Server / Workload | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-770 |
+| 159 | CAPEC-202 | Create Malicious Client | Server / Workload | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-602 |
+| 160 | CAPEC-179 | Calling Micro-Services Directly | Server / Workload | Supply Chain / Trusted Dependency |  | Supply Chain / Trusted Dependency |
+| 161 | CAPEC-167 | White Box Reverse Engineering | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-1323 |
+| 162 | CAPEC-157 | Sniffing Attacks | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-311 |
+| 163 | CAPEC-117 | Interception | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-319 |
+| 164 | CAPEC-452 | Infected Hardware | Endpoint / EDR | Supply Chain / Trusted Dependency |  | Supply Chain / Trusted Dependency |
+| 165 | CAPEC-190 | Reverse Engineer an Executable to Expose Assumed Hidden Functionality | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-912 |
+| 166 | CAPEC-320 | TCP Timestamp Probe | Server / Workload | Supply Chain / Trusted Dependency |  | Supply Chain / Trusted Dependency; CWE: CWE-200 |
+| 167 | CAPEC-142 | DNS Cache Poisoning | Internal Network; Server / Workload | Exploit Chain / Multi-Step | T1584.002 | Exploit Chain / Multi-Step; CWE: CWE-345; CWE-346; CWE-348; CWE-349; CWE-350 |
+| 168 | CAPEC-618 | Cellular Broadcast Message Request | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-201 |
+| 169 | CAPEC-615 | Evil Twin Wi-Fi Attack | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-300 |
+| 170 | CAPEC-613 | WiFi SSID Tracking | Internal Network; Server / Workload | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-201; CWE-300 |
+| 171 | CAPEC-458 | Flash Memory Attacks | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-1282 |
+| 172 | CAPEC-394 | Using a Snap Gun Lock to Force a Lock | Endpoint / EDR | Supply Chain / Trusted Dependency |  | Supply Chain / Trusted Dependency |
+| 173 | CAPEC-392 | Lock Bumping | Endpoint / EDR | Supply Chain / Trusted Dependency |  | Supply Chain / Trusted Dependency |
+| 174 | CAPEC-310 | Scanning for Vulnerable Software | Internal Network; Server / Workload | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; CWE: CWE-200 |
+| 175 | CAPEC-307 | TCP RPC Scan | Server / Workload | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-200 |
+| 176 | CAPEC-297 | TCP ACK Ping | Server / Workload | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-200 |
+| 177 | CAPEC-296 | ICMP Information Request | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-200 |
+| 178 | CAPEC-294 | ICMP Address Mask Request | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-200 |
+| 179 | CAPEC-293 | Traceroute Route Enumeration | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-200 |
+| 180 | CAPEC-291 | DNS Zone Transfers | Internal Network; Server / Workload | Zero-Day / Unknown Exploit |  | Zero-Day / Unknown Exploit; CWE: CWE-200 |
+| 181 | CAPEC-290 | Enumerate Mail Exchange (MX) Records | Internal Network; Server / Workload | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-200 |
+| 182 | CAPEC-192 | Protocol Analysis | Internal Network | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-326 |
+| 183 | CAPEC-189 | Black Box Reverse Engineering | Endpoint / EDR | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-1255; CWE-1300; CWE-203 |
