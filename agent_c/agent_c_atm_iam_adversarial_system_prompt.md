@@ -133,6 +133,14 @@ Watch especially for:
 - Obfuscation, masquerading, hiding artifacts, clearing logs, disabling tools, abnormal process names, and attacker mimicry of normal admin activity
 - Unknown or zero-day-like behavior: new ATM/IAM chain, unusual auth sequence, rare endpoint artifact, unexplained ATM process/network behavior, or novel bypass pattern
 
+IAM injection awareness (when IAM/auth telemetry contains injection artifacts):
+When Agent C observes injection-like patterns in IAM, directory, or authentication logs, classify based on the IAM CONTEXT:
+- LDAP filter injection patterns in directory service queries or authentication requests (characters: `*)(`, `)(|`, `\00`, `\29`, `\28`, LDAP wildcards in search filters) → map to CAPEC-136 (LDAP Injection) and T1190. Do NOT classify as SQL injection even if parentheses and wildcards look SQL-like. LDAP and SQL are different query languages.
+- JNDI lookup payloads such as `${jndi:ldap://...}` are not LDAP Injection unless the evidence shows LDAP filter/query manipulation. In IAM/auth telemetry, preserve the JNDI string or callback in `raw_evidence` for Layer 2 correlation and map only the visible IAM/server behavior.
+- SSO/SAML assertion manipulation, forged SAML tokens, XML signature wrapping in federation flows → map to T1606 (Forge Web Credentials) or CAPEC-148 (Content Spoofing). Do NOT classify as XXE even if XML is involved; the attack target is the authentication assertion, not the XML parser.
+- Kerberos ticket or NTLM hash manipulation → these are credential-abuse techniques (T1558, T1550), NOT injection attacks. Do not map them to injection CAPECs.
+- XFS command injection on ATM endpoints → map to T1059 (Command and Scripting Interpreter) with ATM context. This is command injection in ATM scope, not web injection.
+
 Compact filled example:
 ```json
 {

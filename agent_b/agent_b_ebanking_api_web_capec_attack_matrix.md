@@ -313,3 +313,55 @@ API / Web / WAF, Session / Token, Payment / Transaction, Customer Data, Fraud Wo
 | 210 | CAPEC-189 | Black Box Reverse Engineering | API / Web / WAF | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-1255; CWE-1300; CWE-203 |
 | 211 | CAPEC-144 | Detect Unpublicized Web Services | API / Web / WAF | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-425 |
 | 212 | CAPEC-143 | Detect Unpublicized Web Pages | API / Web / WAF | Telemetry Gap / Evasion |  | Telemetry Gap / Evasion; CWE: CWE-425 |
+
+## Injection Family Disambiguation Cross-Reference
+
+This section helps resolve injection type ambiguity. When telemetry contains injection-like behavior, inspect both the original payload and the safely decoded payload when available, evaluate every matching family, and use ambiguity rules before selecting the final CAPEC. CAPEC-101 is officially Server Side Include (SSI) Injection; this matrix uses it only as the closest available CAPEC for SSTI, with ATT&CK T1221 as the primary SSTI identifier.
+
+### Quick Lookup: Payload → CAPEC
+
+| Payload Pattern | Correct CAPEC | Injection Type | NEVER Confuse With |
+| --- | --- | --- | --- |
+| `<script>`, `<img onerror=`, `javascript:`, `document.cookie` | CAPEC-63/591/592/588 | XSS | SQLi (CAPEC-66) |
+| `' OR 1=1--`, `UNION SELECT`, `SLEEP()`, `BENCHMARK()` | CAPEC-66/7/108/110 | SQL Injection | XSS (CAPEC-63) |
+| `{"$gt":""}`, `{"$ne":null}`, `$where`, `$regex`, JSON keys beginning with `$` | CAPEC-676 | NoSQL Injection | SQLi (CAPEC-66) |
+| `${jndi:ldap://...}`, `${jndi:rmi://...}`, obfuscated Log4j lookups | empty CAPEC, primary ATT&CK T1190 | Log4Shell / JNDI lookup exploitation | SSTI (CAPEC-101) or LDAP Injection (CAPEC-136) |
+| `{{7*7}}`, `${7*7}`, `{%if%}`, `__class__.__mro__` | CAPEC-101 closest CAPEC, primary ATT&CK T1221 | SSTI | XSS (CAPEC-588) |
+| `; whoami`, `\| cat /etc/passwd`, `` `id` `` | CAPEC-88 | Command Injection | SQLi (CAPEC-66) |
+| `http://127.0.0.1`, `http://169.254.169.254` | CAPEC-664 | SSRF | Path Traversal (CAPEC-126) |
+| `../../../etc/passwd`, `..%2f..%2f` | CAPEC-126/139 | Path Traversal | Command Injection (CAPEC-88) |
+| `*)(uid=*)`, `)(cn=`, LDAP filter chars | CAPEC-136 | LDAP Injection | SQLi (CAPEC-66) |
+| `<!DOCTYPE`, `<!ENTITY`, `SYSTEM "file://"` | CAPEC-228/250, or CAPEC-201 when serialized external-linking behavior is the local match | XXE / XML Injection | XPath/XQuery or generic injection |
+| XPath selectors/functions in XML query context (`//user`, `count(/`, `substring(`) | CAPEC-83/84 | XPath/XQuery Injection | SQLi or XXE |
+| `%0d%0aSet-Cookie:`, `%0D%0ALocation:`, CRLF followed by HTTP header | CAPEC-105 | CRLF / HTTP Header Injection | Generic URL encoding |
+| Encoded payloads such as `%3Cscript%3E`, `%27%20OR%201%3D1--` | Decode and use original family CAPEC | Encoded XSS/SQLi/etc. | Generic injection |
+
+### Quick Lookup: Error Response → CAPEC Confirmation
+
+| Error Pattern in Response | Confirms | CAPEC |
+| --- | --- | --- |
+| ORA-xxxxx, MySQL syntax error, pg_query error, sqlite3 error | SQL Injection | CAPEC-66 |
+| MongoError, BSONError, Mongoose CastError, CouchDB query error | NoSQL Injection | CAPEC-676 |
+| Jinja2 UndefinedError, TemplateSyntaxError, Twig\Exception | SSTI | CAPEC-101 closest CAPEC |
+| Log4j/JNDI lookup expansion or outbound LDAP/RMI/DNS callback tied to `${jndi:...}` | Log4Shell / JNDI lookup exploitation | empty CAPEC, primary ATT&CK T1190 |
+| Reflected `<script>` in HTML response body | XSS | CAPEC-591 |
+| uid=0(root), Windows NT, directory listing output | Command Injection | CAPEC-88 |
+| Internal IP data, cloud metadata in response | SSRF | CAPEC-664 |
+| File content from outside web root | Path Traversal | CAPEC-126 |
+| XML parsing error, DTD processing error | XXE / XML Injection | CAPEC-228/250, or CAPEC-201 when serialized external-linking behavior is the local match |
+| XPath/XQuery parser error or unexpected XML node selection | XPath/XQuery Injection | CAPEC-83/84 |
+| Injected response header, split response line, or CRLF parser error | CRLF / HTTP Header Injection | CAPEC-105 |
+
+### Common Misclassification Warnings
+
+| Mistake | Why It Happens | Correct Resolution |
+| --- | --- | --- |
+| `<script>alert(1)</script>` classified as SQLi | LLM sees `<` and `>` as potential SQL operators | Check: no SQL keywords present → it is XSS (CAPEC-63/591) |
+| `{{7*7}}` classified as XSS | Template syntax looks like client-side rendering | Check: sent in request body to server → it is SSTI (CAPEC-101 closest CAPEC, T1221 primary) |
+| `; cat /etc/passwd` classified as SQLi | Semicolon `;` is also SQL statement separator | Check: `cat` is an OS command, not SQL → it is CMDi (CAPEC-88) |
+| `../../../etc/passwd` classified as CMDi | Path contains `/etc/passwd` like OS command output | Check: `../` traversal pattern without command execution → it is Path Traversal (CAPEC-126) |
+| LDAP filter `*)(uid=*)` classified as SQLi | Parentheses and wildcards look SQL-like | Check: LDAP filter syntax, no SQL keywords → it is LDAP Injection (CAPEC-136) |
+| `${jndi:ldap://...}` classified as SSTI | `${...}` resembles template syntax | Check: JNDI lookup marker wins over generic template syntax → map T1190 and leave CAPEC empty if no supported CAPEC fits |
+| `{"$ne":null}` classified as SQLi | It is a query-bypass payload | Check: JSON `$` operators target NoSQL query logic → CAPEC-676 |
+| `%3Cscript%3E` ignored as encoding | Encoded form hides HTML tags | Decode safely before classification → XSS family |
+| `%0d%0aSet-Cookie:` classified as generic URL encoding | CRLF is percent-encoded | Decode safely; CRLF followed by a header name → CAPEC-105 |

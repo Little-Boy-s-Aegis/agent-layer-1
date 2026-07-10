@@ -132,6 +132,122 @@ Watch especially for:
 - Payment, transfer, SWIFT/API, beneficiary, payee, limit, card, fraud override, or admin-portal behavior that deviates from user/entity baseline
 - Unknown or zero-day-like behavior: strange request sequence, first-seen payload shape, abnormal API parser behavior, novel workflow bypass, or unexplained application error chain
 
+Injection type disambiguation (MANDATORY when any injection-like payload or error is detected):
+
+When the telemetry contains injection-like patterns you MUST classify the injection type using the decision tree below BEFORE selecting a CAPEC or ATT&CK mapping. Do NOT guess. Follow the steps in order.
+
+Before matching, inspect both the original payload and a safe normalized view when visible in logs: URL-decoded, HTML-entity-decoded, common Unicode escape decoded, and obvious hex-encoded metacharacters. Do not execute or transform the payload outside this classification task.
+
+In STEP 1, evaluate ALL IF blocks before selecting the final family. Collect every matching injection family first. Do NOT stop at the first match. If multiple families match, proceed to STEP 3 for disambiguation.
+
+Tie-breaker priority for mixed payloads:
+1. Response/error/callback confirmation in STEP 2.
+2. Explicit STEP 3 ambiguity rule.
+3. The parameter, header, or request part that triggered the WAF alert, application error, or suspicious response.
+4. Outer wrapper and execution context of the payload.
+5. Payload keyword count only as a last resort.
+WAF rule names are context only and never override payload analysis.
+
+STEP 1 — IDENTIFY THE PAYLOAD TARGET:
+
+IF payload contains SQL keywords (SELECT, UNION, INSERT, UPDATE, DELETE, DROP, OR 1=1, AND 1=1, single-quote followed by SQL operator, --, #, SLEEP(), BENCHMARK(), WAITFOR, xp_cmdshell, INFORMATION_SCHEMA, pg_tables, sqlite_master):
+  → SQL Injection family. Use CAPEC-66 (general), CAPEC-7 (blind), CAPEC-108 (via command line), CAPEC-110 (via SOAP), CAPEC-109 (ORM), or CAPEC-470 (expanding control over OS). Map ATT&CK to T1190.
+
+IF payload contains NoSQL document-query operators or Mongo/Couch-style injection syntax (`$gt`, `$ne`, `$where`, `$regex`, `$or`, `$and`, `$nin`, `$exists`, JSON keys beginning with `$`, `{"$gt":""}`, `{"$ne":null}`, `db.collection`, `ObjectId(`, Mongoose/Mongo error context):
+  → NoSQL Injection. Use CAPEC-676. Map ATT&CK to T1190.
+
+IF payload contains HTML or JavaScript elements (<script>, <img, <svg, <iframe, <body, <div, <input, onerror=, onload=, onfocus=, onmouseover=, onclick=, javascript:, data:text/html, document.cookie, document.location, alert(), prompt(), confirm(), eval(), String.fromCharCode, atob(), btoa(), window.location, innerHTML, outerHTML, fetch(), XMLHttpRequest):
+  → XSS family. Use CAPEC-591 (reflected), CAPEC-592 (stored), CAPEC-588 (DOM-based), CAPEC-86 (via HTTP headers), or CAPEC-63 (general XSS). Map ATT&CK to T1059.007 (JavaScript execution) or T1189 (drive-by compromise).
+
+IF payload contains JNDI lookup exploitation syntax (`${jndi:ldap://`, `${jndi:rmi://`, `${jndi:dns://`, `${jndi:iiop://`, obfuscated `${lower:j}${lower:n}${lower:d}${lower:i}`, Log4j lookup markers):
+  → Log4Shell/JNDI lookup exploitation. MITRE ATT&CK T1190 is the primary mapping. Use an empty `capec_id` when no supported CAPEC is available. Do NOT classify as SSTI only because the payload contains `${...}`, and do NOT classify as LDAP Injection only because the callback URI uses LDAP.
+
+IF payload contains server-side template syntax ({{, }}, {%, %}, ${, }, <%= %>, #{}, <%=, @(), #set, #if, __class__, __mro__, __subclasses__, __builtins__, __import__, __globals__, config.items(), request.application, lipsum, cycler, joiner, namespace, Jinja2 filters, Twig filters, Freemarker directives, Velocity directives, Mako expressions, EL expressions like ${applicationScope}):
+  → SSTI (Server-Side Template Injection). Use CAPEC-101 only as the closest available CAPEC for SSTI because MITRE CAPEC does not have a dedicated Server-Side Template Injection entry. Map ATT&CK to T1221 (Template Injection) as the primary identifier.
+  IMPORTANT: Template expressions like {{7*7}} or ${7*7} are SSTI, NOT XSS, when observed in request body, URL parameter, or POST data sent to the server. They are only client-side template injection (a subset of XSS, use CAPEC-588) when a client-side JavaScript framework like AngularJS is confirmed in the application stack.
+
+IF payload contains OS command syntax (; followed by OS command, | followed by OS command, backtick-wrapped command, $() command substitution, && or || chaining with OS commands, common OS commands like whoami, cat, id, ls, dir, net, ipconfig, ping, nslookup, curl, wget, nc, ncat, powershell, cmd.exe, /bin/sh, /bin/bash):
+  → Command Injection. Use CAPEC-88 (OS command injection) or CAPEC-15 (command delimiters). Map ATT&CK to T1059 (Command and Scripting Interpreter).
+
+IF payload contains internal/private URLs or IP addresses targeting the server itself (http://127.0.0.1, http://localhost, http://169.254.169.254, http://[::1], http://0.0.0.0, http://10.x.x.x, http://172.16-31.x.x, http://192.168.x.x, file://, gopher://, dict://, ftp:// to internal hosts, cloud metadata endpoints like /latest/meta-data):
+  → SSRF (Server-Side Request Forgery). Use CAPEC-664. Map ATT&CK to T1190.
+
+IF payload contains directory traversal sequences (../, ..\\, ....//,  ..%2f, %2e%2e%2f, %2e%2e/, ..%5c, %2e%2e%5c, targeting paths like /etc/passwd, /etc/shadow, /proc/self, C:\Windows, C:\boot.ini, web.config, .htaccess, WEB-INF):
+  → Path Traversal. Use CAPEC-126 (path traversal) or CAPEC-139 (relative path traversal). Map ATT&CK to T1083 (File and Directory Discovery).
+
+IF payload contains LDAP filter injection syntax (*)(uid=*), )(cn=, )(|(, \00, \29, \28, ldap://, LDAP wildcard or filter operators in authentication or search fields):
+  → LDAP Injection. Use CAPEC-136. Map ATT&CK to T1190.
+
+IF payload contains XML injection or external entity syntax (<!DOCTYPE, <!ENTITY, SYSTEM, PUBLIC, file://, expect://, php://filter, XML processing instructions, CDATA sections with injection, parameter entities %xxe;):
+  → XXE / XML Injection. Use CAPEC-228 for DTD injection, CAPEC-250 for generic XML injection, or CAPEC-201 when serialized external-linking behavior is the closest local match. Map ATT&CK to T1190.
+
+IF payload contains XPath or XQuery syntax in XML/search/filter context (`' or '1'='1`, `count(/`, `substring(`, `name()`, `local-name()`, `//user`, `//*`, `doc(`, `collection(`, `for $x in`, `return $x`):
+  → XPath/XQuery Injection. Use CAPEC-83 for XPath Injection or CAPEC-84 for XQuery Injection. Map ATT&CK to T1190.
+
+IF payload contains HTTP header splitting or CRLF injection syntax (`%0d%0a`, `%0D%0A`, `\r\n`, `Set-Cookie:`, `Location:`, injected response header names, duplicate header injection through a user-controlled parameter):
+  → CRLF / HTTP Header Injection. Use CAPEC-105 (HTTP Request Splitting). Map ATT&CK to T1190.
+
+STEP 2 — CONFIRM WITH RESPONSE OR ERROR CONTEXT (when available):
+
+IF response contains SQL database error messages (ORA-xxxxx, MySQL syntax error, MSSQL error, PostgreSQL error, SQLite error, ODBC error, SQL syntax error near, unclosed quotation mark, quoted string not properly terminated):
+  → Confirms SQL Injection family.
+
+IF response contains NoSQL-specific errors (MongoError, BSONError, Mongoose CastError, CouchDB query error, Elasticsearch query parser error caused by user input):
+  → Confirms NoSQL Injection.
+
+IF response contains template engine error messages (Jinja2 error, UndefinedError, TemplateSyntaxError, Twig error, Freemarker error, Thymeleaf error, Velocity error, Mako error, ERB error, Django template error):
+  → Confirms SSTI.
+
+IF response or adjacent telemetry shows Log4j/JNDI lookup expansion, outbound LDAP/RMI/DNS callback, or log4j lookup exception tied to `${jndi:...}`:
+  → Confirms Log4Shell/JNDI lookup exploitation attempt.
+
+IF response contains reflected HTML or JavaScript that executes in browser context, or Content-Type is text/html with unescaped user input:
+  → Confirms XSS family.
+
+IF response contains OS command output (uid=, root:x:, Windows NT, directory listing, system info output):
+  → Confirms Command Injection.
+
+IF response contains internal service responses, cloud metadata, or internal IP data that should not be externally accessible:
+  → Confirms SSRF.
+
+IF response contains file content from outside the web root (passwd file content, Windows system file content, application config content):
+  → Confirms Path Traversal.
+
+IF response contains XPath/XQuery parser errors, XML query evaluation errors, or unauthorized XML node results:
+  → Confirms XPath/XQuery Injection.
+
+IF response contains injected headers, response splitting, cache poisoning header effects, or CRLF-related parser errors:
+  → Confirms CRLF / HTTP Header Injection.
+
+STEP 3 — RESOLVE AMBIGUOUS PAYLOADS:
+
+IF multiple STEP 1 families match, do not choose the first match. Apply the tie-breaker priority above.
+IF payload is URL-encoded or HTML-encoded and the decoded form is clearly `<script>`, SQL syntax, command syntax, CRLF, or traversal, classify by the decoded family and mention the encoded original in raw_evidence.
+IF payload starts with `${jndi:` or an obfuscated Log4j lookup → Log4Shell/JNDI lookup exploitation (T1190, empty CAPEC when no supported CAPEC fits), NOT SSTI and NOT LDAP Injection.
+IF payload is {{7*7}} or ${7*7} in URL param or POST body without confirmed client-side Angular/Vue framework → default to SSTI (CAPEC-101 closest CAPEC / T1221 primary).
+IF payload is {{7*7}} AND the application uses AngularJS/Vue.js confirmed in response → client-side template injection, classify as DOM XSS (CAPEC-588).
+IF payload has <script> tags wrapping SQL keywords → primary classification is XSS (CAPEC-63), note SQL keywords as secondary observation in raw_evidence.
+IF payload has ' OR 1=1-- alongside <script> in SEPARATE parameters → classify by the parameter that triggered the WAF alert or error; if both triggered, report the higher-impact one as primary.
+IF payload has ; followed by a word → check if the word is an OS command (whoami, cat, ls, id) → Command Injection (CAPEC-88). If the word is SQL (SELECT, DROP) → SQL Injection (CAPEC-66).
+IF payload uses JSON keys beginning with `$` in login/search/filter input → NoSQL Injection (CAPEC-676), NOT SQLi.
+IF payload is inside XML search/query context and uses XPath/XQuery functions or path selectors → XPath/XQuery Injection (CAPEC-83/84), NOT XXE unless DOCTYPE/ENTITY is present.
+IF payload contains `%0d%0a` or CRLF followed by an HTTP header name → CRLF / HTTP Header Injection (CAPEC-105), NOT generic URL encoding.
+
+STEP 4 — ABSOLUTE NEVER RULES:
+
+NEVER classify as SQL Injection (CAPEC-66/7/108/110) when the payload contains ONLY HTML/JavaScript elements without any SQL keywords or operators.
+NEVER classify as XSS (CAPEC-63/591/592/588) when the payload contains ONLY SQL syntax without any HTML/JavaScript elements.
+NEVER classify as SSTI (CAPEC-101) when there is no template syntax in the payload and no template engine error in the response.
+NEVER classify `${jndi:...}` as SSTI solely because it uses `${...}` syntax.
+NEVER classify a JNDI LDAP callback URI as LDAP Injection unless the payload manipulates an LDAP filter/query.
+NEVER classify NoSQL JSON operators (`$gt`, `$ne`, `$where`) as SQL Injection unless SQL syntax is independently present and confirmed.
+NEVER classify as Command Injection (CAPEC-88) when the payload contains ONLY SQL or HTML content without OS command patterns.
+NEVER classify as SSRF (CAPEC-664) when the URL targets an external public host, not an internal/private/metadata address.
+NEVER classify as Path Traversal (CAPEC-126) when the payload does not contain ../ or equivalent encoded sequences.
+NEVER classify XPath/XQuery Injection as XXE unless DOCTYPE/ENTITY/external entity behavior is present.
+NEVER classify CRLF/Header Injection as generic URL encoding when decoded `%0d%0a` creates a new HTTP header or response line.
+NEVER let WAF rule IDs or WAF category names override your own payload analysis. WAF rules can be generic. Always verify the actual payload content.
+
 Compact filled example:
 ```json
 {

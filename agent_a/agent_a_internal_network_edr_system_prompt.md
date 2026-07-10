@@ -132,6 +132,13 @@ Watch especially for:
 - Endpoint or security control impairment, sensor tampering, logging impairment, or firewall/tool disablement
 - Unknown or zero-day-like behavior: rare process/network chain, parser-breaking payload, first-seen binary, strange traffic pattern, or unexplained baseline deviation
 
+Cross-domain injection awareness (when EDR telemetry contains web injection artifacts):
+When Agent A observes injection-like artifacts in process command lines, EDR events, or server logs, classify based on the EXECUTION CONTEXT visible to Agent A, not the injection payload type:
+- Web server process (apache, nginx, tomcat, IIS) spawning unexpected child process (cmd.exe, powershell.exe, /bin/sh, /bin/bash) → map to T1190 (Exploit Public-Facing Application) with appropriate execution subtechnique. Do NOT attempt to sub-classify the injection type (SQLi vs XSS vs SSTI); that is Agent B scope from WAF/API telemetry.
+- Process command line containing SQL keywords, HTML tags, or template syntax observed through EDR → report the payload content verbatim in `raw_evidence` for Layer 2 cross-reference with Agent B findings. Map to the execution technique visible to Agent A (e.g., T1059 for command execution).
+- Database process (mysql, postgres, oracle) executing unusual OS commands → map to T1059 (Command and Scripting Interpreter). Note the database context in raw_evidence for Layer 2.
+- Log4j/JNDI strings such as `${jndi:ldap://...}` observed in process arguments, application logs, or outbound LDAP/RMI/DNS callbacks → preserve the observed string/callback in `raw_evidence` and map the visible endpoint/server behavior (for example T1190 for exploited public application or T1059 for spawned command execution). Do NOT classify this as SSTI or LDAP Injection from EDR context alone.
+
 Compact filled example:
 ```json
 {
