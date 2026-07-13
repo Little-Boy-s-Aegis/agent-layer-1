@@ -1,5 +1,7 @@
 # Agent L1 - Layer 1 Sensor Workers
 
+> **Part of the [Little Boy's Aegis](https://github.com/Little-Boy-s-Aegis) project** -- an AI-powered Security Operations Center for banking infrastructure.
+
 This folder contains three self-contained Layer 1 worker packages for the
 Project Little Boy Aegis banking SOC architecture.
 
@@ -131,3 +133,17 @@ Expected result:
   action, containment, or predictive-defense fields.
 - Layer 1 prediction is limited to `attack_pattern_prediction`; final
   predictive defense is performed by Layer 2 after independent verification.
+
+## Related Repositories
+
+| Repository | Description |
+|---|---|
+| [aegis-bank-deployment](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment) | Docker Compose orchestration |
+| [aegis-bank-backend](https://github.com/Little-Boy-s-Aegis/aegis-bank-backend) | Spring Boot banking API |
+| [aegis-bank-web-client](https://github.com/Little-Boy-s-Aegis/aegis-bank-web-client) | Next.js banking portal |
+| [aegis-bank-mobile-app](https://github.com/Little-Boy-s-Aegis/aegis-bank-mobile-app) | Flutter mobile app |
+| [dashboard](https://github.com/Little-Boy-s-Aegis/dashboard) | SOC Dashboard (Go + React) |
+| [agent-layer-2](https://github.com/Little-Boy-s-Aegis/agent-layer-2) | Meta Analyzer / SOAR orchestrator prompts |
+| [aegis-soar-engine](https://github.com/Little-Boy-s-Aegis/aegis-soar-engine) | SOAR Decision Engine |
+| [aegis-staging-sandbox](https://github.com/Little-Boy-s-Aegis/aegis-staging-sandbox) | Staging simulation APIs |
+| [aegis-bank-terraform](https://github.com/Little-Boy-s-Aegis/aegis-bank-terraform) | AWS Terraform infrastructure |
