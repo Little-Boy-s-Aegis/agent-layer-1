@@ -11,6 +11,21 @@ to the best CAPEC and MITRE ATT&CK identifiers, predicts likely attack-pattern
 transitions for defensive verification, and emits a strict extended JSON object
 for the orchestrator stored in `../agent-l2`.
 
+## Architecture at a Glance
+
+```text
+clean telemetry
+      |
+      +--> Agent A: internal network / EDR --------+
+      +--> Agent B: eBanking / API / web / UEBA ---+--> one v4 JSON finding each
+      +--> Agent C: ATM / IAM / privileged access -+           |
+                                                                v
+                                                    Layer 2 verification and response
+```
+
+Workers do not call response tools or mutate infrastructure. Their only product
+is a masked, schema-valid observation that Layer 2 can independently verify.
+
 ## Runtime Contract
 
 Every Layer 1 worker must output exactly one JSON object matching the extended
@@ -78,6 +93,18 @@ customer-facing application behavior.
 `agent_c/` covers ATM, IAM, HSM, privileged identity, Active Directory, PAM,
 VPN, and adversarial misuse.
 
+### Per-worker artifact map
+
+| Artifact | Purpose |
+|---|---|
+| `*_system_prompt.md` | Worker role, decision rules, safety constraints, and output instructions |
+| `*_capec_attack_matrix.md` | Domain-specific CAPEC and ATT&CK mappings |
+| `layer1_standard_agent_output_schema.json` | Local Draft 2020-12-compatible output contract |
+| `attack_vector_prediction_reference.md` | Non-scoring attack-vector transition guidance |
+| `capec_attack_pattern_prediction_reference.md` | CAPEC transition reference |
+| `surface_context_matrix.md` | Banking surface and context vocabulary |
+| `edge_case_matrix.md` | Ambiguity, injection, missing-data, and no-threat handling |
+
 ## Reference Files
 
 Layer 1 keeps runtime artifacts inside the individual worker folders only.
@@ -105,6 +132,25 @@ them before using them. The authoritative scoring inputs live under
 If multiple Layer 1 workers report at the same time, do not merge or score them
 inside Layer 1. Send each extended-schema output as a separate finding. The
 orchestrator decides whether they describe the same attack.
+
+### Minimal validation workflow
+
+For each worker change, evaluate at least four fixtures: a clear threat, benign
+activity, insufficient evidence, and a prompt-injection attempt. Validate the
+returned object against that worker's local schema before publishing it to the
+Layer 2 topic. Preserve the original event timestamp and mask credentials,
+tokens, account identifiers, and unnecessary personal data in `raw_evidence`.
+
+## Versioning and Safety
+
+- All three schema copies must remain behaviorally compatible at the same
+  `schema_version`.
+- Breaking contract changes require a coordinated Layer 2 schema and prompt
+  update.
+- Reference updates must not introduce risk scores, action recommendations, or
+  containment language into Layer 1.
+- This repository contains prompt and reference artifacts only; it does not
+  provide a network service or package installation step.
 
 ## Validation
 
