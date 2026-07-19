@@ -1,9 +1,9 @@
 # Agent L1 - Layer 1 Sensor Workers
 
-[![Git Clones](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Little-Boy-s-Aegis/aegis-bank-deployment/main/agent-layer-1-clone-badge.json)](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment)
-[![Unique Cloners](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Little-Boy-s-Aegis/aegis-bank-deployment/main/agent-layer-1-uniques-badge.json)](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment)
-[![Release Downloads](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Little-Boy-s-Aegis/aegis-bank-deployment/main/downloads-badge.json)](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment/releases)
-[![Stars](https://img.shields.io/github/stars/Little-Boy-s-Aegis/agent-layer-1?style=flat&color=F59E0B&logo=github&label=stars)](https://github.com/Little-Boy-s-Aegis/agent-layer-1/stargazers)
+[![Git Clones](https://badgen.net/https/cdn.jsdelivr.net/gh/Little-Boy-s-Aegis/aegis-bank-deployment@main/agent-layer-1-clone-badge.json)](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment)
+[![Unique Cloners](https://badgen.net/https/cdn.jsdelivr.net/gh/Little-Boy-s-Aegis/aegis-bank-deployment@main/agent-layer-1-uniques-badge.json)](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment)
+[![Release Downloads](https://badgen.net/https/cdn.jsdelivr.net/gh/Little-Boy-s-Aegis/aegis-bank-deployment@main/downloads-badge.json)](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment/releases)
+[![Stars](https://badgen.net/github/stars/Little-Boy-s-Aegis/agent-layer-1?color=f59e0b)](https://github.com/Little-Boy-s-Aegis/agent-layer-1/stargazers)
 
 > **Part of the [Little Boy's Aegis](https://github.com/Little-Boy-s-Aegis) project** -- an AI-powered Security Operations Center for banking infrastructure.
 
